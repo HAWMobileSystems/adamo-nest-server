@@ -19,7 +19,6 @@ import { UserService } from './user.service';
 @ApiBearerAuth()
 export class UserController {
 
-
     constructor(private readonly userService: UserService) {}
     @Get()
 
