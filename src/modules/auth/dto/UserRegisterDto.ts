@@ -26,63 +26,63 @@ export class UserRegisterDto {
     @ApiModelProperty({ minLength: 6 })
     readonly password: string;
 
-    @Column()
-    @IsString()
-    @IsNotEmpty()
-    @ApiModelProperty()
-    username: string;
+    // @Column()
+    // @IsString()
+    // @IsNotEmpty()
+    // @ApiModelProperty()
+    // username: string;
 
-    @Column()
-    @IsString()
-    @IsNotEmpty()
-    @ApiModelProperty()
-    companyEmail: string;
+    // @Column()
+    // @IsString()
+    // @IsNotEmpty()
+    // @ApiModelProperty()
+    // companyEmail: string;
 
-    @Column()
-    @IsString()
-    @IsNotEmpty()
-    @ApiModelProperty()
-    companyName: string;
+    // @Column()
+    // @IsString()
+    // @IsNotEmpty()
+    // @ApiModelProperty()
+    // companyName: string;
 
-    @Column()
-    @IsPhoneNumber('ZZ')
-    @IsNotEmpty()
-    @ApiModelProperty()
-    phone: string;
+    // @Column()
+    // @IsPhoneNumber('ZZ')
+    // @IsNotEmpty()
+    // @ApiModelProperty()
+    // phone: string;
 
-    @Column()
-    @IsString()
-    @IsNotEmpty()
-    @ApiModelProperty()
-    industry: string;
+    // @Column()
+    // @IsString()
+    // @IsNotEmpty()
+    // @ApiModelProperty()
+    // industry: string;
 
-    @Column()
-    @IsString()
-    @IsNotEmpty()
-    @ApiModelProperty()
-    address: string;
+    // @Column()
+    // @IsString()
+    // @IsNotEmpty()
+    // @ApiModelProperty()
+    // address: string;
 
-    @Column()
-    @IsString()
-    @IsNotEmpty()
-    @ApiModelProperty()
-    country: string;
+    // @Column()
+    // @IsString()
+    // @IsNotEmpty()
+    // @ApiModelProperty()
+    // country: string;
 
-    @Column()
-    @IsString()
-    @IsNotEmpty()
-    @ApiModelProperty()
-    state: string;
+    // @Column()
+    // @IsString()
+    // @IsNotEmpty()
+    // @ApiModelProperty()
+    // state: string;
 
-    @Column()
-    @IsString()
-    @IsNotEmpty()
-    @ApiModelProperty()
-    city: string;
+    // @Column()
+    // @IsString()
+    // @IsNotEmpty()
+    // @ApiModelProperty()
+    // city: string;
 
-    @Column()
-    @IsString()
-    @IsNotEmpty()
-    @ApiModelProperty()
-    zipCode: string;
+    // @Column()
+    // @IsString()
+    // @IsNotEmpty()
+    // @ApiModelProperty()
+    // zipCode: string;
 }

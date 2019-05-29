@@ -10,6 +10,7 @@ import { AuthGuard } from '../../guards/auth.guard';
 import { RolesGuard } from '../../guards/roles.guard';
 import { AuthUserInterceptor } from '../../interceptors/auth-user-interceptor.service';
 import { UserEntity } from './user.entity';
+import { UserService } from './user.service';
 
 @Controller('users')
 @ApiUseTags('users')
@@ -17,6 +18,15 @@ import { UserEntity } from './user.entity';
 @UseInterceptors(AuthUserInterceptor)
 @ApiBearerAuth()
 export class UserController {
+
+
+    constructor(private readonly userService: UserService) {}
+    @Get()
+
+    @HttpCode(HttpStatus.OK)
+    async list() {
+        this.userService.list();
+    }
 
     @Get('admin')
     @Roles(RoleType.User)

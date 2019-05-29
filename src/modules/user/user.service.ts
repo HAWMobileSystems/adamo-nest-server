@@ -23,6 +23,9 @@ export class UserService {
         return this.userRepository.findOne(findData);
     }
 
+    list() {
+        return this.userRepository.find();
+    }
     /**
      * Find all users
      */
@@ -57,7 +60,8 @@ export class UserService {
             avatar = await this.awsS3Service.uploadImage(file);
         }
 
-        const user = this.userRepository.create({ ...userRegisterDto, avatar });
+        // const user = this.userRepository.create({ ...userRegisterDto, avatar });
+        const user = this.userRepository.create({ ...userRegisterDto });
 
         return this.userRepository.save(user);
 

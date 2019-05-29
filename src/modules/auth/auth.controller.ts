@@ -28,7 +28,6 @@ export class AuthController {
     @ApiOkResponse({ type: LoginPayloadDto, description: 'User info with access token' })
     async userLogin(@Body() userLoginDto: UserLoginDto): Promise<LoginPayloadDto> {
         const userEntity = await this.authService.validateUser(userLoginDto);
-
         const [user, token] = await Promise.all([userEntity.toDto(), this.authService.createToken(userEntity)]);
         return new LoginPayloadDto(user, token);
     }
@@ -37,7 +36,7 @@ export class AuthController {
     @HttpCode(HttpStatus.OK)
     @ApiOkResponse({ type: UserDto, description: 'Successfully Registered' })
     @ApiImplicitFile({ name: 'avatar', required: true })
-    @UseInterceptors(FileInterceptor('avatar'))
+    // @UseInterceptors(FileInterceptor('avatar'))
     async userRegister(
         @Body() userRegisterDto: UserRegisterDto,
         @UploadedFile() file: IFile,
