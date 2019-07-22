@@ -1,4 +1,4 @@
-# Awesome Nest v6 Boilerplate
+# ADAMO Nest Server
 
 > This is an ever-evolving, very opinionated architecture and dev environment for new node projects using [NestJS](https://nestjs.com). Questions, feedback, and for now, even bikeshedding are welcome. 😄
 
@@ -6,10 +6,10 @@
 
 ```bash
 # 1. Clone the repository.
-git clone https://github.com/NarHakobyan/awesome-nest-boilerplate.git my-new-project
+git clone https://github.com/HAWMobileSystems/adamo-nest-server.git adamo-nest-server
 
 # 2. Enter your newly-cloned folder.
-cd my-new-project
+cd adamo-nest-server
 
 # 3. Install dependencies. Make sure yarn is installed: https://yarnpkg.com/lang/en/docs/install
 yarn
@@ -23,5 +23,3 @@ start:dev
 ## Documentation
 
 This project includes a `docs` folder with more details on:
-
-1.  [Setup and development](https://narhakobyan.github.io/awesome-nest-boilerplate/docs/development.html#first-time-setup)
