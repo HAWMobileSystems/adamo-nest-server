@@ -1,20 +1,25 @@
 import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { ModelService } from './model.service';
-import { ModelController } from './model.controller';
-import { ModelModule } from './model.module';
-import { ModelRepository } from './model.repository';
+import { PermissionService } from './permission.service';
+import { PermissionController } from './permission.controller';
+import { PermissionRepository } from './permission.repository';
+import { AuthModule } from 'modules/auth/auth.module';
+import { RoleModule } from 'modules/role/role.module';
+import { ModelModule } from 'modules/model/model.module';
 
 @Module({
     imports: [
+        
+        forwardRef(() => AuthModule),
         forwardRef(() => ModelModule),
-        TypeOrmModule.forFeature([ModelRepository]),
+        forwardRef(() => RoleModule),
+        TypeOrmModule.forFeature([PermissionRepository]),
     ],
-    controllers: [ModelController],
-    exports: [ModelService],
+    controllers: [PermissionController],
+    exports: [PermissionService],
     providers: [
-        ModelService,
+        PermissionService,
     ],
 })
 export class PermissionModule {}

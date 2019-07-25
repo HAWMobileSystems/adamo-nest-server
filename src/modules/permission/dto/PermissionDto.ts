@@ -8,26 +8,23 @@ import { RoleType } from '../../../constants/role-type';
 
 export class PermissionDto extends AbstractDto {
     @ApiModelPropertyOptional()
-    permissionName: string;
+    modelID: string;
 
     @ApiModelPropertyOptional()
-    timestampLastChange: number;
+    userID: string;
 
     @ApiModelPropertyOptional()
-    permissionXML: string;
+    roleID: string;
 
     @ApiModelPropertyOptional()
-    id: string;
-
-    @ApiModelPropertyOptional()
-    public permissionVersion: number;
+    public permissionID: string;
 
     constructor(permission: PermissionEntity) {
         super(permission);
-        this.permissionName = permission.permissionName;
-        this.id = permission.id;
-        this.permissionVersion = permission.permissionVersion;
-        this.timestampLastChange= permission.timestampLastChange;
-        this.permissionXML = permission.permissionXML;
+        this.modelID = permission.modelID;
+        this.userID = permission.userID;
+        this.roleID = permission.roleID;
+        this.permissionID = permission.permissionID;
     }
 }
+ 

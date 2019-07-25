@@ -1,29 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { FindConditions, QueryRunner, SelectQueryBuilder, Repository } from 'typeorm';
 import { PermissionEntity } from './permission.entity';
-import { PermissionRegisterDto } from '../dto/PermissionRegisterDto';
-import { PermissionRepository } from './permission.repository';
+import { PermissionDto } from './dto/PermissionDto';
+// import { PermissionRepository } from './permission.repository';
 import { IFile } from '../../interfaces/IFile';
-import { ValidatorService } from '../../shared/services/validator.service';
-import { FileNotImageException } from '../../exceptions/file-not-image.exception';
-import { AwsS3Service } from '../../shared/services/aws-s3.service';
+import { InjectRepository } from '@nestjs/typeorm';
+import { PermissionRepository } from './permission.repository';
+import { ModelEntity } from 'modules/model/model.entity';
+import { UserEntity } from 'modules/user/user.entity';
 
 @Injectable()
 export class PermissionService {
-    
 
     constructor(
-        // @InjectRepository(Permission)
-        private readonly repository: Repository<PermissionEntity>
+        private readonly repository: PermissionRepository
     ) {
     }
 
-    list() {
-        return this.repository.find();
+    async list() {
+        return await this.repository.find();
     }
 
-    create(permission: PermissionEntity) {
-        return this.repository.insert(permission);
+    async create(permission: PermissionEntity) {
+        return await this.repository.save(permission);
     }
 
     delete(id: string) {
@@ -67,7 +66,10 @@ export class PermissionService {
         return queryBuilder.getOne();
     }
 
-    async createPermission(permissionRegisterDto: PermissionRegisterDto, file: IFile): Promise<PermissionEntity> {
+    async createPermissionForNewModel(model: ModelEntity, user: UserEntity) {
+        
+    }
+    async createPermission(permissionDto: PermissionDto, file: IFile): Promise<PermissionEntity> {
         let avatar: string;
         // if (file && !this.validatorService.isImage(file.mimetype)) {
         //     throw new FileNotImageException();
@@ -78,9 +80,9 @@ export class PermissionService {
         // }
 
         // // const permission = this.permissionRepository.create({ ...permissionRegisterDto, avatar });
-        // const permission = this.permissionRepository.create({ ...permissionRegisterDto });
+        const permission = this.repository.create({ ...permissionDto });
 
-        // return this.permissionRepository.save(permission);
+        return this.repository.save(permission);
 
     }
 }

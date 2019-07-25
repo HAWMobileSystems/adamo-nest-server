@@ -6,32 +6,30 @@ import { PermissionDto } from './dto/PermissionDto';
 
 import {Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
 import {ApiModelProperty} from "@nestjs/swagger";
+import { RoleType } from 'constants/role-type';
+import { RoleEntity } from 'modules/role/role.entity';
 
 
 @Entity({name: "permissions"})
 export class PermissionEntity extends AbstractEntity<PermissionDto>{
 
     @PrimaryGeneratedColumn("uuid")
-    public id: string;
+    public permissionID: string;
 
     @ApiModelProperty()
     @Column({nullable: false})
-    public permissionName: string;
+    public modelID: string;
 
     @ApiModelProperty()
     @Column({nullable: false})
-    public timestampLastChange: number;
+    public userID: string;
 
     @ApiModelProperty()
     @Column({nullable: false})
-    public permissionXML: string;
-
-    @ApiModelProperty()
-    @Column({nullable: false})
-    public permissionVersion: number;
-
+    public roleID: string;
+    
     public toString(): string {
-        return `${this.permissionName}`;
+        return `${this.permissionID}`;
     }
 
     dtoClass = PermissionDto;

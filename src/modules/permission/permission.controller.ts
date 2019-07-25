@@ -12,8 +12,8 @@ import { AuthUserInterceptor } from '../../interceptors/auth-user-interceptor.se
 import { PermissionEntity } from './permission.entity';
 import { PermissionService } from './permission.service';
 
-@Controller('users')
-@ApiUseTags('users')
+@Controller('permission')
+@ApiUseTags('permission')
 @UseGuards(AuthGuard, RolesGuard)
 @UseInterceptors(AuthUserInterceptor)
 @ApiBearerAuth()
