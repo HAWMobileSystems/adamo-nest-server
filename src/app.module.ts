@@ -9,6 +9,7 @@ import { RoleModule } from './modules/role/role.module';
 import { PermissionModule } from './modules/permission/permission.module';
 import { ModelModule } from './modules/model/model.module';
 import { UserModule } from './modules/user/user.module';
+import { RoleModule } from './modules/role/role.module';
 import { contextMiddleware } from './middlewares';
 import { MathModule } from './modules/math/math.module';
 import { SharedModule } from './shared.module';

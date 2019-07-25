@@ -12,7 +12,7 @@ export class RoleDto extends AbstractDto {
     public id: string;
 
     @ApiModelPropertyOptional()
-    public name: string;
+    public roleName: string;
 
     @ApiModelPropertyOptional()
     public canRead: boolean;
@@ -26,7 +26,7 @@ export class RoleDto extends AbstractDto {
     constructor(role: RoleEntity) {
         super(role);
         this.id = role.id;
-        this.name = role.name;
+        this.roleName = role.roleName;
         this.canRead = role.canRead;
         this.canWrite = role.canWrite;
         this.isAdmin = role.isAdmin;

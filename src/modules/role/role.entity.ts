@@ -13,25 +13,22 @@ export class RoleEntity extends AbstractEntity<RoleDto> {
 
     @ApiModelProperty()
     @Column({ nullable: false })
-    public name: string;
+    public roleName: string;
 
     @ApiModelProperty()
     @Column()
     public canRead: boolean;
 
-
     @ApiModelProperty()
     @Column({ nullable: false })
     public canWrite: boolean;
-
 
     @ApiModelProperty()
     @Column({ nullable: false })
     public isAdmin: boolean;
 
-
     public toString(): string {
-        return `${this.name}`;
+        return `${this.roleName}`;
     }
 
     dtoClass = RoleDto;
