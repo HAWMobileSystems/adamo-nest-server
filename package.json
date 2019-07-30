@@ -6,6 +6,7 @@
     "license": "MIT",
     "scripts": {
         "build": "tsc -p tsconfig.build.json",
+        "compodoc": "npx compodoc -p tsconfig.json",
         "format": "prettier --write \"src/**/*.ts\"",
         "start:hmr": "node dist/main",
         "start:dev": "ts-node -r tsconfig-paths/register src/main.ts",
@@ -16,6 +17,7 @@
         "webpack": "webpack --config webpack.config.js --progress",
         "migration:create": "ts-node node_modules/typeorm/cli.js migration:create -f ormconfig -d src/migrations -n",
         "schema:drop": "ts-node node_modules/typeorm/cli.js schema:drop -f ormconfig",
+        "schema:sync": "ts-node node_modules/typeorm/cli.js schema:sync -f ormconfig",
         "start:prod": "node dist/main.js",
         "lint": "tslint -p tsconfig.json -c tslint.json",
         "lint:fix": "tslint --fix",
@@ -26,7 +28,9 @@
         "test:e2e": "jest --config ./test/jest-e2e.json",
         "docs:dev": "vuepress dev -p 7070",
         "docs:build": "DEPLOY_ENV=gh-pages vuepress build",
-        "docs:deploy": "yarn docs:build && gh-pages -d .vuepress/dist"
+        "docs:deploy": "yarn docs:build && gh-pages -d .vuepress/dist",
+        "seed-old": "tsc && node src/database/seeders/database.seeder.js",
+        "seed": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed"
     },
     "dependencies": {
         "@nestjs/common": "^6.0.1",
@@ -63,11 +67,13 @@
         "rxjs": "^6.2.2",
         "swagger-ui-express": "^4.0.2",
         "typeorm": "^0.2.13",
+        "typeorm-seeding": "^1.0.0-rc.3",
         "typeorm-transactional-cls-hooked": "^0.1.7",
         "typescript": "^3.0.1",
         "uuid": "^3.3.2"
     },
     "devDependencies": {
+        "@compodoc/compodoc": "^1.1.10",
         "@nestjs/testing": "^6.0.1",
         "@types/bcrypt": "^3.0.0",
         "@types/compression": "^0.0.36",
@@ -121,6 +127,4 @@
         "coverageDirectory": "../coverage",
         "testEnvironment": "node"
     }
-    
-    
 }
