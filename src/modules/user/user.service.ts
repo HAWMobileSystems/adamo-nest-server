@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { FindConditions, QueryRunner, SelectQueryBuilder } from 'typeorm';
+import { FindConditions, QueryRunner, SelectQueryBuilder, UpdateResult, DeleteResult } from 'typeorm';
 import { UserEntity } from './user.entity';
 import { UserRegisterDto } from '../auth/dto/UserRegisterDto';
 import { UserRepository } from './user.repository';
@@ -7,6 +7,7 @@ import { IFile } from '../../interfaces/IFile';
 import { ValidatorService } from '../../shared/services/validator.service';
 import { FileNotImageException } from '../../exceptions/file-not-image.exception';
 import { AwsS3Service } from '../../shared/services/aws-s3.service';
+import { User } from 'aws-sdk/clients/appstream';
 
 @Injectable()
 export class UserService {
@@ -23,9 +24,24 @@ export class UserService {
         return this.userRepository.findOne(findData);
     }
 
-    list() {
-        return this.userRepository.find();
+    async list(): Promise<UserEntity[]>{
+        return await this.userRepository.find();
     }
+    async findAll(): Promise<UserEntity[]> {
+        return await this.userRepository.find();
+    }
+
+    async create(user: UserEntity): Promise<UserEntity> {
+        return await this.userRepository.save(user);
+    }
+
+    async update(user: UserEntity): Promise<UpdateResult> {
+        return await this.userRepository.update(user.id, user);
+    }
+    async delete(id): Promise<DeleteResult> {
+        return await this.userRepository.delete(id);
+    }
+
     /**
      * Find all users
      */
@@ -61,7 +77,7 @@ export class UserService {
         }
 
         // const user = this.userRepository.create({ ...userRegisterDto, avatar });
-        const user = this.userRepository.create({ ...userRegisterDto });
+        const user = this.userRepository.create( userRegisterDto );
 
         return this.userRepository.save(user);
 
