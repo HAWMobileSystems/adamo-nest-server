@@ -5,9 +5,11 @@ export function setupSwagger(app: INestApplication) {
   const options = new DocumentBuilder()
     .setTitle('API')
     .setVersion('0.0.1')
-    .addBearerAuth()
+    // .addBearerAuth()
+
+    .addBearerAuth('Authorization', 'header')
     .build();
 
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('documentation', app, document);
+  SwaggerModule.setup('docs', app, document);
 }
