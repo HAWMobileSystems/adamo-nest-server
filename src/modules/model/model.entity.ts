@@ -1,11 +1,9 @@
 
 import { AbstractEntity } from '../../common/abstract.entity';
 import { ModelDto } from './dto/ModelDto';
-// import { RoleType } from '../../constants/role-type';
-// import { PasswordTransformer } from './password.transformer';
-
 import {Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
 import {ApiModelProperty} from "@nestjs/swagger";
+import { Exclude } from 'class-transformer';
 
 
 @Entity({name: "models"})
@@ -15,25 +13,23 @@ export class ModelEntity extends AbstractEntity<ModelDto>{
     public id: string;
 
     @ApiModelProperty()
-    @Column({nullable: false})
+    @Column({unique: true, nullable: false})
     public modelName: string;
-
-    @ApiModelProperty()
-    @Column({nullable: false})
-    public timestampLastChange: number;
 
     @ApiModelProperty()
     @Column({nullable: false})
     public modelXML: string;
 
     @ApiModelProperty()
-    @Column({nullable: false})
+    @Column({unique: true, nullable: false})
     public modelVersion: number;
 
+    @Exclude()
     public toString(): string {
         return `${this.modelName}`;
     }
 
+    @Exclude()
     dtoClass = ModelDto;
 
 }

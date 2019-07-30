@@ -11,9 +11,6 @@ export class ModelDto extends AbstractDto {
     modelName: string;
 
     @ApiModelPropertyOptional()
-    timestampLastChange: number;
-
-    @ApiModelPropertyOptional()
     modelXML: string;
 
     @ApiModelPropertyOptional()
@@ -27,7 +24,6 @@ export class ModelDto extends AbstractDto {
         this.modelName = model.modelName;
         this.id = model.id;
         this.modelVersion = model.modelVersion;
-        this.timestampLastChange= model.timestampLastChange;
         this.modelXML = model.modelXML;
     }
 }
