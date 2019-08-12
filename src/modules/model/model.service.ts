@@ -1,86 +1,126 @@
-import { Injectable } from '@nestjs/common';
-import { FindConditions, QueryRunner, SelectQueryBuilder, Repository } from 'typeorm';
+import { Injectable, Post } from '@nestjs/common';
+import {
+    FindConditions,
+    QueryRunner,
+    SelectQueryBuilder,
+    Repository,
+} from 'typeorm';
 import { ModelEntity } from './model.entity';
-import { ModelRegisterDto } from '../auth/dto/ModelRegisterDto';
 import { ModelRepository } from './model.repository';
-import { IFile } from '../../interfaces/IFile';
-import { ValidatorService } from '../../shared/services/validator.service';
-import { FileNotImageException } from '../../exceptions/file-not-image.exception';
-import { AwsS3Service } from '../../shared/services/aws-s3.service';
+import { InjectRepository } from '@nestjs/typeorm';
 
+import { Logger } from '@nestjs/common';
+import { ModelDto } from './dto/ModelDto';
 @Injectable()
 export class ModelService {
     
-
+    async findModelById(id: string) {
+        throw new Error("Method not implemented.");
+    }
+    async findModelByIdAndVersion(id: string, version: number) {
+        return await this.repository.createQueryBuilder("models")
+            .where("models.id = :id", {id: id})
+            .andWhere("models.model_version = :version", {version: version})
+            .getOne()
+        throw new Error("Method not implemented.");
+    }
     constructor(
-        // @InjectRepository(Model)
-        private readonly repository: Repository<ModelEntity>
-    ) {
+        public readonly repository: ModelRepository,
+        // @InjectRepository(ModelEntity)
+        // private readonly repository: Repository<ModelEntity>,
+    ) {}
+
+    async create(model: ModelEntity): Promise<ModelEntity> {
+        Logger.log(`ModelService create ${model}`)
+        return await this.repository.save(model);
     }
 
-    list() {
-        return this.repository.find();
+    async findOneOrFail(id: string) {
+        return await this.repository.findOneOrFail(id);
+      };
+
+    async list() {
+        return await this.repository.find();
     }
 
-    create(model: Model) {
-        return this.repository.insert(model);
+    async getChangedModels() {
+        const dateNow = new Date();
+        const date7DaysAgo = new Date(dateNow.getDate()-7); 
+        return await this.repository.createQueryBuilder("models")
+            .where("models.updatedAt = :timestamp", { timestamp: date7DaysAgo})
+            .getMany();
     }
 
-    delete(id: string) {
-        return this.repository.delete(id);
-    }
+
+
+    // create(model: ModelEntity) {
+    //     return this.repository.insert(model);
+    // }
+
+    // delete(id: string) {
+    //     return this.repository.delete(id);
+    // }
+
+    // deleteAll(id: string) {
+    //     // this.repository.deleteAllVersions(id);
+    // }
     /**
      * Find single Model
      */
-    findModel(findData: FindConditions<ModelEntity>): Promise<ModelEntity> {
-        return this.repository.findOne(findData).then(response => response.);
-    }
+    // findModel(findData: FindConditions<ModelEntity>): Promise<ModelEntity> {
+    //     return this.repository.findOne(findData).then(response => response.);
+    // }
 
-    findModelWithPermission( options: Partial<{ modelname: string, email: string, permission: number }>): Promise<ModelEntity | undefined> {
-        return this.repository.findOneWithPermission()
+    // findModelWithPermission( options: Partial<{ modelname: string, email: string, permission: number }>): Promise<ModelEntity | undefined> {
+    //     // return this.repository.findOneWithPermission()
 
-    }
+    // }
 
-    findModelVersions(findData: FindConditions<ModelEntity>)
+
 
     /**
      * Find all models
      */
-    findModels(findData: FindConditions<ModelEntity>): Promise<ModelEntity[]> {
+    findModelVersions(
+        findData: FindConditions<ModelEntity>,
+    ): Promise<ModelEntity[]> {
         return this.repository.find(findData);
     }
 
-    createQueryBuilder(alias: string = 'model', queryRunner?: QueryRunner): SelectQueryBuilder<ModelEntity> {
+    createQueryBuilder(
+        alias: string = 'model',
+        queryRunner?: QueryRunner,
+    ): SelectQueryBuilder<ModelEntity> {
         return this.repository.createQueryBuilder(alias, queryRunner);
     }
 
-    async findByModelnameOrEmail(options: Partial<{ modelname: string, email: string }>): Promise<ModelEntity | undefined> {
+    async findByModelnameOrEmail(
+        options: Partial<{ modelname: string; email: string }>,
+    ): Promise<ModelEntity | undefined> {
         let queryBuilder = this.repository.createQueryBuilder('model');
 
         if (options.email) {
-            queryBuilder = queryBuilder.orWhere('model.email = :email', { email: options.email });
+            queryBuilder = queryBuilder.orWhere('model.email = :email', {
+                email: options.email,
+            });
         }
         if (options.modelname) {
-            queryBuilder = queryBuilder.orWhere('model.modelname = :modelname', { modelname: options.modelname });
+            queryBuilder = queryBuilder.orWhere(
+                'model.modelname = :modelname',
+                { modelname: options.modelname },
+            );
         }
 
         return queryBuilder.getOne();
     }
 
-    async createModel(modelRegisterDto: ModelRegisterDto, file: IFile): Promise<ModelEntity> {
-        let avatar: string;
-        if (file && !this.validatorService.isImage(file.mimetype)) {
-            throw new FileNotImageException();
-        }
+    //     async createModel(modelRegisterDto: ModelRegisterDto, file: IFile): Promise<ModelEntity> {
+    //         let avatar: string;
 
-        if (file) {
-            avatar = await this.awsS3Service.uploadImage(file);
-        }
+    //         // // const model = this.modelRepository.create({ ...modelRegisterDto, avatar });
+    //         // const model = this.modelRepository.create({ ...modelRegisterDto });
 
-        // const model = this.modelRepository.create({ ...modelRegisterDto, avatar });
-        const model = this.modelRepository.create({ ...modelRegisterDto });
+    //         // return this.modelRepository.save(model);
 
-        return this.modelRepository.save(model);
-
-    }
+    //     }
 }

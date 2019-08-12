@@ -1,4 +1,3 @@
-'use strict';
 
 import { ApiModelPropertyOptional } from '@nestjs/swagger';
 
@@ -9,9 +8,6 @@ import { RoleType } from '../../../constants/role-type';
 export class ModelDto extends AbstractDto {
     @ApiModelPropertyOptional()
     modelName: string;
-
-    @ApiModelPropertyOptional()
-    timestampLastChange: number;
 
     @ApiModelPropertyOptional()
     modelXML: string;
@@ -27,7 +23,6 @@ export class ModelDto extends AbstractDto {
         this.modelName = model.modelName;
         this.id = model.id;
         this.modelVersion = model.modelVersion;
-        this.timestampLastChange= model.timestampLastChange;
         this.modelXML = model.modelXML;
     }
 }
