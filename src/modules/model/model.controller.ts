@@ -31,9 +31,9 @@ import { AuthUserInterceptor } from '../../interceptors/auth-user-interceptor.se
 import { ModelService } from './model.service';
 import { ModelEntity } from './model.entity';
 import { Logger } from '@nestjs/common';
-import { PermissionService } from 'modules/permission/permission.service';
-import { UserService } from 'modules/user/user.service';
-import { ModelDto } from 'modules/models/dto/ModelDto';
+import { PermissionService } from '../permission/permission.service';
+import { UserService } from '../user/user.service';
+import { ModelDto } from './dto/ModelDto';
 
 @Controller('model')
 @ApiUseTags('model')
@@ -61,6 +61,17 @@ export class ModelController {
     @ApiResponse({ status: 401, description: 'Unauthorized. Mostly because user is not logged in' })
     async listModels() {
         return await this.modelService.list();
+    }
+
+    @Get('all/:id')
+    @ApiResponse({
+        status: 200,
+        description: 'The record has been successfully created.',
+    })
+    @ApiResponse({ status: 403, description: 'Forbidden.' })
+    @ApiResponse({ status: 401, description: 'Unauthorized. Mostly because user is not logged in' })
+    async listModelsByUser(@Param('id') id: string) {
+        return await this.modelService.findModelbyUserPermission(id);
     }
 
     // @Get()

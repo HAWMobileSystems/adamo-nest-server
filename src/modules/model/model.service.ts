@@ -11,33 +11,64 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { Logger } from '@nestjs/common';
 import { ModelDto } from './dto/ModelDto';
+import { ModelWithUserPermissionDto } from './dto/ModelWithUserPermissionDto';
 @Injectable()
 export class ModelService {
-    
+    /*
+    'SELECT m.mid AS mid, m.modelname AS modelname, m.lastchange AS lastchange, m.modelxml AS modelxml, m.version AS version, r.read AS read, r.write as write ' +
+    'FROM model m ' +
+    'LEFT JOIN permission p ON p.mid = m.mid ' +
+    'LEFT JOIN role r ON r.rid = p.rid ' +
+    'WHERE uid = $1 ' +
+    'ORDER BY modelname ASC, version DESC', [req.session.user.id])
+    */
+    async findModelbyUserPermission(userid: string) : Promise<ModelWithUserPermissionDto[]> {
+        /*
+         */
+
+        return await this.repository.query(` 
+        SELECT model.id::text, model.model_name, model.model_XML, model.model_version, role.can_read, role.can_write
+        FROM models model
+        LEFT JOIN permissions permission ON model.id = permission.model_id 
+        LEFT JOIN roles role ON role.id = permission.role_id
+        WHERE permission.user_id = '${userid}'  
+        ORDER BY model.model_name ASC, model.model_version DESC
+        `);
+        // return await this.repository.find({
+        //     // select: ['id'],
+        //     relations: ["permission", "role"],
+        //     where: [{ userID: userid }],
+
+        //     order: {
+        //         modelName: "ASC",
+        //         version: "DESC"
+        //     }
+        // });
+    }
+
     async findModelById(id: string) {
-        throw new Error("Method not implemented.");
+        throw new Error('Method not implemented.');
     }
     async findModelByIdAndVersion(id: string, version: number) {
-        return await this.repository.createQueryBuilder("models")
-            .where("models.id = :id", {id: id})
-            .andWhere("models.model_version = :version", {version: version})
-            .getOne()
-        throw new Error("Method not implemented.");
+        return await this.repository
+            .createQueryBuilder('models')
+            .where('models.id = :id', { id: id })
+            .andWhere('models.model_version = :version', { version: version })
+            .getOne();
+        throw new Error('Method not implemented.');
     }
     constructor(
-        public readonly repository: ModelRepository,
-        // @InjectRepository(ModelEntity)
-        // private readonly repository: Repository<ModelEntity>,
+        public readonly repository: ModelRepository, // @InjectRepository(ModelEntity) // private readonly repository: Repository<ModelEntity>,
     ) {}
 
     async create(model: ModelEntity): Promise<ModelEntity> {
-        Logger.log(`ModelService create ${model}`)
+        Logger.log(`ModelService create ${model}`);
         return await this.repository.save(model);
     }
 
     async findOneOrFail(id: string) {
         return await this.repository.findOneOrFail(id);
-      };
+    }
 
     async list() {
         return await this.repository.find();
@@ -45,13 +76,33 @@ export class ModelService {
 
     async getChangedModels() {
         const dateNow = new Date();
-        const date7DaysAgo = new Date(dateNow.getDate()-7); 
-        return await this.repository.createQueryBuilder("models")
-            .where("models.updatedAt = :timestamp", { timestamp: date7DaysAgo})
+        const date7DaysAgo = new Date(dateNow.getDate() - 7);
+        return await this.repository
+            .createQueryBuilder('models')
+            .where('models.updatedAt >= :timestamp', { timestamp: date7DaysAgo })
             .getMany();
     }
 
+    async update(model: ModelEntity) {
+        return this.repository.save(model);
+    }
 
+
+    async deleteAllVersions(id: string) {
+        this.repository.delete(id)
+
+        // Delete Partialmodel
+        // Delete Permission
+
+    }
+
+    async deleteVersion(id: string) {
+        this.repository.delete(id)
+
+        // Delete Partialmodel
+        // Delete Permission
+
+    }
 
     // create(model: ModelEntity) {
     //     return this.repository.insert(model);
@@ -75,8 +126,6 @@ export class ModelService {
     //     // return this.repository.findOneWithPermission()
 
     // }
-
-
 
     /**
      * Find all models
