@@ -11,6 +11,48 @@ import { UserEntity } from 'modules/user/user.entity';
 
 @Injectable()
 export class PermissionService {
+    async getPermissionByUserAndModel(userID: string, modelID:string) {
+        return await this.repository.query(
+            `
+            SELECT * 
+            FROM permissions
+            LEFT JOIN roles ON permissions.role_id = roles.id 
+            WHERE user_id = '${userID}' AND model_id = '${modelID}'
+            LIMIT 1
+            `
+        )
+        // return this.repository.findOne (
+        //     {
+        //         join: {
+        //             alias: "roles",
+        //             leftJoinAndSelect: {
+        //                 roles: "roles.id",
+        //             }
+        //         },
+        //         where: {
+        //             user_id: userID, 
+        //             model_id: modelID
+        //         }
+        //     }
+        // )
+
+        // return this.repository.createQueryBuilder('permissions')
+        // // .select()
+        // .from(PermissionEntity, "permission")
+        // .leftJoinAndSelect("permission.roleID", "roles")
+        // .where("permission.userID = :uid", { uid: userID })
+        // .andWhere("permission.modelID = :mid", { mid: modelID })
+        // .getOne()
+        
+        // return await this.repository.find(
+
+
+        //     {
+        //         where: 
+        //     }
+        // )
+
+    }
 
     constructor(
         private readonly repository: PermissionRepository
