@@ -33,10 +33,7 @@ export class CreateBruce implements Seeder {
             .into(UserEntity)
             .values([
                 {
-                    email: 'daniel.hilpoltsteiner@haw-landshut.de',
-                    password: '12345678',
-                },{
-                    email: 'markus.schmidtner@haw-landshut.de',
+                    email: 'demo@demo.de',
                     password: '12345678',
                 },
             ])

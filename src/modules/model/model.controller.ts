@@ -33,7 +33,7 @@ import { ModelEntity } from './model.entity';
 import { Logger } from '@nestjs/common';
 import { PermissionService } from 'modules/permission/permission.service';
 import { UserService } from 'modules/user/user.service';
-import { ModelDto } from 'modules/models/dto/ModelDto';
+import { ModelDto } from 'modules/model/dto/ModelDto';
 
 @Controller('model')
 @ApiUseTags('model')
