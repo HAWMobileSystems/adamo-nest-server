@@ -1,12 +1,12 @@
 import { Seeder, Factory } from 'typeorm-seeding';
 import { ModelEntity } from '../../modules/model/model.entity';
 import { Connection, getRepository, getConnection } from 'typeorm';
-import { ModelDto } from 'modules/model/dto/ModelDto';
+import { ModelDto } from '../../modules/model/dto/ModelDto';
 import { PermissionEntity } from '../../modules/permission/permission.entity';
 // import { UserLoginDto } from 'modul es/auth/dto/UserLoginDto';
 import { UserEntity } from '../../modules/user/user.entity';
 import { RoleRepository } from '../../modules/role/role.repository';
-import { PermissionRepository } from 'modules/permission/permission.repository';
+import { PermissionRepository } from '../../modules/permission/permission.repository';
 import { Logger } from '@nestjs/common';
 import { RoleEntity } from '../../modules/role/role.entity';
 
