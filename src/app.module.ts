@@ -5,7 +5,7 @@ import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 
 import { ConfigService } from './shared/services/config.service';
 import { AuthModule } from './modules/auth/auth.module';
-import { RoleModule } from './modules/role/role.module';
+
 import { PermissionModule } from './modules/permission/permission.module';
 import { ModelModule } from './modules/model/model.module';
 import { UserModule } from './modules/user/user.module';

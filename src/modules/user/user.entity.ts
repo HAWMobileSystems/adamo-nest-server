@@ -4,7 +4,8 @@ import { AbstractEntity } from '../../common/abstract.entity';
 import { UserDto } from './dto/UserDto';
 import { RoleType } from '../../constants/role-type';
 import { PasswordTransformer } from './password.transformer';
-import { PermissionEntity } from 'modules/permission/permission.entity';
+import { PermissionEntity } from '../permission/permission.entity';
+// import { PermissionEntity } from '../permission/permission.entity';
 import { Exclude } from 'class-transformer';
 
 @Entity({ name: 'users' })

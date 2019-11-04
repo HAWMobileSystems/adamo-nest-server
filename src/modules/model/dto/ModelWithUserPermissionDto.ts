@@ -5,13 +5,11 @@ import { ApiModelPropertyOptional } from '@nestjs/swagger';
 import { ModelEntity } from '../model.entity';
 import { AbstractDto } from '../../../common/dto/AbstractDto';
 import { RoleType } from '../../../constants/role-type';
+import { RoleEntity } from '../../role/role.entity';
 
-export class ModelDto extends AbstractDto {
+export class ModelWithUserPermissionDto extends AbstractDto {
     @ApiModelPropertyOptional()
     modelName: string;
-
-    // @ApiModelPropertyOptional()
-    // timestampLastChange: number;
 
     @ApiModelPropertyOptional()
     modelXML: string;
@@ -22,12 +20,20 @@ export class ModelDto extends AbstractDto {
     @ApiModelPropertyOptional()
     public modelVersion: number;
 
-    constructor(model: ModelEntity) {
+    @ApiModelPropertyOptional()
+    public canRead: boolean;
+
+    @ApiModelPropertyOptional()
+    public canWrite: boolean;
+
+    constructor(model: ModelEntity, role: RoleEntity) {
         super(model);
         this.modelName = model.modelName;
         this.id = model.id;
         this.modelVersion = model.modelVersion;
-        // this.timestampLastChange= model.timestampLastChange;
         this.modelXML = model.modelXML;
+        this.canRead = role.canRead;
+        this.canWrite = role.canWrite;
+
     }
 }
