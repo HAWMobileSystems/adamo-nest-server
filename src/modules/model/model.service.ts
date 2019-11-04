@@ -23,16 +23,13 @@ export class ModelService {
     'ORDER BY modelname ASC, version DESC', [req.session.user.id])
     */
     async findModelbyUserPermission(userid: string) : Promise<ModelWithUserPermissionDto[]> {
-        /*
-         */
-
         return await this.repository.query(` 
-        SELECT model.id::text, model.model_name, model.model_XML, model.model_version, role.can_read, role.can_write
-        FROM models model
-        LEFT JOIN permissions permission ON model.id = permission.model_id 
-        LEFT JOIN roles role ON role.id = permission.role_id
-        WHERE permission.user_id = '${userid}'  
-        ORDER BY model.model_name ASC, model.model_version DESC
+            SELECT model.id::text, model.model_name, model.model_XML, model.model_version, role.can_read, role.can_write
+            FROM models model
+            LEFT JOIN permissions permission ON model.id = permission.model_id 
+            LEFT JOIN roles role ON role.id = permission.role_id
+            WHERE permission.user_id = '${userid}'  
+            ORDER BY model.model_name ASC, model.model_version DESC
         `);
         // return await this.repository.find({
         //     // select: ['id'],

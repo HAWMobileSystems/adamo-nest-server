@@ -1,7 +1,7 @@
 import { Repository, Connection } from 'typeorm';
 import { EntityRepository } from 'typeorm/decorator/EntityRepository';
 import { ModelEntity } from './model.entity';
-// import { PermissionEntity } from 'modules/permission/permission.entity';
+// import { PermissionEntity } from '../permission/permission.entity';
 
 @EntityRepository(ModelEntity)
 export class ModelRepository extends Repository<ModelEntity> {

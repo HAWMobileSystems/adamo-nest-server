@@ -5,9 +5,9 @@ import { ModelService } from './model.service';
 import { ModelController } from './model.controller';
 import { AuthModule } from '../auth/auth.module';
 import { ModelRepository } from './model.repository';
-import { UserModule } from 'modules/user/user.module';
-import { PermissionModule } from 'modules/permission/permission.module';
-import { RoleModule } from 'modules/role/role.module';
+import { UserModule } from '../user/user.module';
+import { PermissionModule } from '../permission/permission.module';
+import { RoleModule } from '../role/role.module';
 
 @Module({
     imports: [
