@@ -5,6 +5,7 @@ import { RoleDto } from './dto/RoleDto';
 
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiModelProperty } from '@nestjs/swagger';
+import { Exclude } from 'class-transformer';
 
 @Entity({ name: 'roles' })
 export class RoleEntity extends AbstractEntity<RoleDto> {
@@ -27,9 +28,11 @@ export class RoleEntity extends AbstractEntity<RoleDto> {
     @Column({ nullable: false })
     public isAdmin: boolean;
 
+    @Exclude()
     public toString(): string {
         return `${this.roleName}`;
     }
-
+    
+    @Exclude()
     dtoClass = RoleDto;
 }
