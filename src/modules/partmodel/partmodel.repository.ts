@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm';
 import { EntityRepository } from 'typeorm/decorator/EntityRepository';
-import { ModelEntity } from './partmodel.entity';
+import { PartModelEntity } from './partmodel.entity';
 
-@EntityRepository(ModelEntity)
+@EntityRepository(PartModelEntity)
 export class PartModelRepository extends Repository<PartModelEntity> {}

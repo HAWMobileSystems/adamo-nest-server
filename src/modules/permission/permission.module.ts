@@ -4,9 +4,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PermissionService } from './permission.service';
 import { PermissionController } from './permission.controller';
 import { PermissionRepository } from './permission.repository';
-import { AuthModule } from 'modules/auth/auth.module';
-import { RoleModule } from 'modules/role/role.module';
-import { ModelModule } from 'modules/model/model.module';
+import { AuthModule } from '../auth/auth.module';
+import { RoleModule } from '../role/role.module';
+import { ModelModule } from '../model/model.module';
 
 @Module({
     imports: [
