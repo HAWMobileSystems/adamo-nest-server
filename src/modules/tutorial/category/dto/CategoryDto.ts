@@ -4,14 +4,14 @@ import { AbstractDto } from '../../../../common/dto/AbstractDto';
 
 export class CategoryDto extends AbstractDto {
     @ApiModelPropertyOptional()
-    public id: string
+    public category_id: string
 
     @ApiModelPropertyOptional()
-    public name: string
+    public category_name: string
 
     constructor(category: CategoryEntity) {
         super(category);
-        this.id = category.id;
-        this.name = category.name;
+        this.category_id = category.category_id;
+        this.category_name = category.category_name;
     }
 }

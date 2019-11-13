@@ -6,25 +6,25 @@ import { Modelling_RulesEntity } from "../../modelling_rules/modelling_rules.ent
 
 export class Modelling_QuestionDto extends AbstractDto {
     @ApiModelPropertyOptional()
-    public id: string;
+    public mod_qs_id: string;
 
     // @ApiModelPropertyOptional()
     // timestampLastChange: number;
 
     @ApiModelPropertyOptional()
-    public question_text: string;
+    public mod_qs_question_text: string;
 
     @ApiModelPropertyOptional()
-    public categories: CategoryEntity;
+    public mod_qs_categories: string;
 
     @ApiModelPropertyOptional()
-    public custom_ruleset: Modelling_RulesEntity;
+    public mod_qs_custom_ruleset: string;
 
     constructor(modelling: Modelling_QuestionEntity) {
         super(modelling);
-        this.id = modelling.id;
-        this.question_text = modelling.question_text;
-        this.categories = modelling.categories;
-        this.custom_ruleset = modelling.custom_ruleset;
+        this.mod_qs_id = modelling.id;
+        this.mod_qs_question_text = modelling.mod_qs_question_text;
+        this.mod_qs_categories = modelling.mod_qs_categories;
+        this.mod_qs_custom_ruleset = modelling.mod_qs_custom_ruleset;
     }
 }

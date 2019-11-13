@@ -5,7 +5,7 @@ import { AbstractDto } from '../../../../common/dto/AbstractDto';
 
 export class IntroDto extends AbstractDto {
     @ApiModelPropertyOptional()
-    public id: string;
+    public intro_id: string;
 
     // @ApiModelPropertyOptional()
     // timestampLastChange: number;
@@ -14,16 +14,16 @@ export class IntroDto extends AbstractDto {
     public intro_text: string;
 
     @ApiModelPropertyOptional()
-    public categories: CategoryEntity;
+    public intro_categories: string;
 
     @ApiModelPropertyOptional()
-    public next_id: string;
+    public intro_next_id: string;
 
     constructor(intro: IntroEntity) {
         super(intro);
         this.id = intro.id;
         this.intro_text = intro.intro_text;
-        this.categories = intro.categories;
-        this.next_id = intro.next_id;
+        this.intro_categories = intro.intro_categories;
+        this.intro_next_id = intro.intro_next_id;
     }
 }

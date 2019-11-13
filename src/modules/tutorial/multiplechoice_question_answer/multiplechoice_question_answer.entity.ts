@@ -9,7 +9,7 @@ import { Multiplechoice_QuestionEntity } from "../multiplechoice_question/multip
 export class Multiplechoice_Question_AnswerEntity extends AbstractEntity<MultipleChoice_Question_AnswerDto>{
 
     @PrimaryGeneratedColumn('uuid')
-    @OneToMany(type => Tg_Multiplechoice_AnsweredEntity, mult_qs_an => mult_qs_an.id)
+    @OneToMany(type => Tg_Multiplechoice_AnsweredEntity, mult_qs_an => mult_qs_an.tg_multiplechoice_answered_id)
     public multiplechoice_question_answer_id: string;
    
     @ApiModelProperty()

@@ -5,10 +5,10 @@ import { Tg_Multiplechoice_AnsweredEntity } from './../../tg_multiplechoice_answ
 import { TestEntity } from './../../test/test.entity';
 export class Tg_MultiplechoiceDto extends AbstractDto {
     @ApiModelPropertyOptional()
-    public tg_multiplechoice_unique_id: Tg_Multiplechoice_AnsweredEntity;
+    public tg_multiplechoice_unique_id: string;
 
     @ApiModelPropertyOptional()
-    public tg_multiplechoice_id: TestEntity;
+    public tg_multiplechoice_id: string;
 
     @ApiModelPropertyOptional()
     public tg_multiplechoice_multiplechoice_id: string;

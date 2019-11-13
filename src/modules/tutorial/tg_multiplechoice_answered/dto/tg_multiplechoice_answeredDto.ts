@@ -7,7 +7,7 @@ export class Tg_Multiplechoice_AnsweredDto extends AbstractDto {
     public tg_multiplechoice_answered_id: string;
 
     @ApiModelPropertyOptional()
-    public tg_multiplechoice_answered_answer_id: Multiplechoice_Question_AnswerEntity;
+    public tg_multiplechoice_answered_answer_id: string;
     /**
      * String or ENTITY ?
      * @ApiModelPropertyOptional()

@@ -10,7 +10,7 @@ export class MultipleChoice_Question_AnswerDto extends AbstractDto {
     public multiplechoice_question_answer_id: string;
 
     @ApiModelPropertyOptional()
-    public multiplechoice_question_answer_question_id: Multiplechoice_QuestionEntity;
+    public multiplechoice_question_answer_question_id: string;
 
     @ApiModelPropertyOptional()
     public multiplechoice_question_answer_text: string;

@@ -9,19 +9,20 @@ import { ApiModelProperty } from "@nestjs/swagger";
 export class IntroEntity extends AbstractEntity<IntroDto>{
 
     @PrimaryGeneratedColumn('uuid')
-    public id: string;
+    public intro_id: string;
 
     @ApiModelProperty()
     @Column()
     public intro_text: string;
 
     @ApiModelProperty()
-    @OneToMany(type => CategoryEntity, category => category.id)
-    public categories: CategoryEntity;
+    @Column()
+    @ManyToOne(type => CategoryEntity, category => category.category_id)
+    public intro_categories: string;
 
     @ApiModelProperty()
     @Column()
-    public next_id: string;
+    public intro_next_id: string;
 
     dtoClass = IntroDto;
 }

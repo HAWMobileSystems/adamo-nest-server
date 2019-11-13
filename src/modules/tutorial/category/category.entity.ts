@@ -1,15 +1,18 @@
 import { Entity, Column,PrimaryGeneratedColumn } from "typeorm";
 import { AbstractEntity } from '../../../common/abstract.entity';
 import { CategoryDto } from './dto/CategoryDto'
+import { ApiModelProperty } from "@nestjs/swagger";
+
 
 @Entity({name:'category'})
 export class CategoryEntity extends AbstractEntity<CategoryDto>{
 
     @PrimaryGeneratedColumn('uuid')
-    public id: string
+    public category_id: string
 
+    @ApiModelProperty()
     @Column()
-    public name: string    
+    public category_name: string    
     
     dtoClass = CategoryDto;  
 }

@@ -8,7 +8,7 @@ export class Tg_ModellingDto extends AbstractDto {
     public tg_modelling_id: string;
 
     @ApiModelPropertyOptional()
-    public tg_modelling_question_id: Modelling_QuestionEntity;
+    public tg_modelling_question_id: string;
 
     @ApiModelPropertyOptional()
     public tg_modelling_xml_providet: string;

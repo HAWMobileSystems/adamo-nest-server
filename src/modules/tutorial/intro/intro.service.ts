@@ -21,7 +21,7 @@ export class IntroService {
     }
 
     async update(intro: IntroEntity): Promise<UpdateResult> {
-        return await this.repository.update(intro.id, intro);
+        return await this.repository.update(intro.intro_id, intro);
     }
 
     async delete(id: string) {

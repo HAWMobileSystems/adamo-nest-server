@@ -12,7 +12,7 @@ export class Multiplechoice_QuestionDto extends AbstractDto {
     public multiplechoice_question_text: string;
 
     @ApiModelPropertyOptional()
-    public multiplechoice_question_categories: CategoryEntity;
+    public multiplechoice_question_categories: string;
 
     constructor(mc_question: Multiplechoice_QuestionEntity) {
         super(mc_question);

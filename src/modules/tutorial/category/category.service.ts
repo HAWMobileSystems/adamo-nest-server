@@ -21,7 +21,7 @@ export class CategoryService {
     }
 
     async update(intro: CategoryEntity): Promise<UpdateResult> {
-        return await this.repository.update(intro.id, intro);
+        return await this.repository.update(intro.category_id, intro);
     }
 
     async delete(id: string) {

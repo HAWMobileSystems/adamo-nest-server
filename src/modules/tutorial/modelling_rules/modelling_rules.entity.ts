@@ -10,7 +10,7 @@ import { Modelling_QuestionEntity } from "../modelling_question/modelling_questi
 export class Modelling_RulesEntity extends AbstractEntity<Modelling_RulesDto>{
 
     @PrimaryGeneratedColumn('uuid')
-    @OneToMany(type => Modelling_QuestionEntity, mod_qs => mod_qs.id)
+    @OneToMany(type => Modelling_QuestionEntity, mod_qs => mod_qs.mod_qs_id)
     public modelling_rule_id: string;
 
     @ApiModelProperty()

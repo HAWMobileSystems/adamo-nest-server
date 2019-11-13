@@ -23,13 +23,14 @@ export class TestEntity extends AbstractEntity<TestDto>{
     public test_solved_test_id: string;
 
     @ApiModelProperty()
+    @Column()
     @ManyToOne(type => UserEntity, user => user.id)
     public test_user_id: string;
    
     @ApiModelProperty()
     @Column()
-    @OneToMany(type => CategoryEntity, category => category.id)
-    public test_categorie: String;
+    @OneToMany(type => CategoryEntity, category => category.category_id)
+    public test_categorie: string;
 
     @ApiModelProperty()
     @Column()

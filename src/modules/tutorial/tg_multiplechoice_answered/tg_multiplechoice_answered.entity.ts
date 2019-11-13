@@ -4,7 +4,7 @@ import { type } from "os";
 import { ApiModelProperty } from "@nestjs/swagger";
 import { Tg_Multiplechoice_AnsweredDto } from "./dto/tg_multiplechoice_answeredDto";
 import { Multiplechoice_Question_AnswerEntity } from "../multiplechoice_question_answer/multiplechoice_question_answer.entity";
-@Entity({name:'tg_multiplechoice'})
+@Entity({name:'tg_multiplechoice_answered'})
 export class Tg_Multiplechoice_AnsweredEntity extends AbstractEntity<Tg_Multiplechoice_AnsweredDto>{
 
     @ApiModelProperty()
@@ -17,6 +17,7 @@ export class Tg_Multiplechoice_AnsweredEntity extends AbstractEntity<Tg_Multiple
     public tg_multiplechoice_answered_answer_id: string;
 
     @ApiModelProperty()
+    @Column()
     public tg_multiplechoice_answered_answerd: boolean;
 
     dtoClass = Tg_Multiplechoice_AnsweredDto;

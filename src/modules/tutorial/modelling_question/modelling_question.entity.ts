@@ -9,21 +9,21 @@ import { Modelling_RulesEntity } from "../modelling_rules/modelling_rules.entity
 export class Modelling_QuestionEntity extends AbstractEntity<Modelling_QuestionDto>{
 
     @PrimaryGeneratedColumn('uuid')
-    public id: string;
+    public mod_qs_id: string;
 
     @ApiModelProperty()
     @Column()
-    public question_text: string;
+    public mod_qs_question_text: string;
 
     @ApiModelProperty()
     @Column()
-    @OneToMany(type => CategoryEntity, category => category.id)
-    public categories: string;
+    @OneToMany(type => CategoryEntity, category => category.category_id)
+    public mod_qs_categories: string;
 
     @ApiModelProperty()
     @Column()
-    @OneToMany(type => Modelling_RulesEntity, modelling_rule => modelling_rule.id)
-    public custom_ruleset: string;
+    @OneToMany(type => Modelling_RulesEntity, modelling_rule => modelling_rule.modelling_rule_id)
+    public mod_qs_custom_ruleset: string;
 
     dtoClass = Modelling_QuestionDto;
 }

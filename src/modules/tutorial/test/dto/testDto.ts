@@ -15,7 +15,7 @@ export class TestDto extends AbstractDto {
     public test_solved_test_id: string;
 
     @ApiModelPropertyOptional()
-    public test_categorie: CategoryEntity;
+    public test_categorie: string;
 
     @ApiModelPropertyOptional()
     public test_tg_identifier: tg;

@@ -8,7 +8,7 @@ export class Tg_IntroDto extends AbstractDto {
     public tg_intro_id: string;
 
     @ApiModelPropertyOptional()
-    public tg_intro_intro_id: IntroEntity;
+    public tg_intro_intro_id: string;
 
     @ApiModelPropertyOptional()
     public tg_intro_last_clicked_id: string;

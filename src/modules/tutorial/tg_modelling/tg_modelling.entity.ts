@@ -19,7 +19,7 @@ export class Tg_ModellingEntity extends AbstractEntity<Tg_ModellingDto>{
    
     @ApiModelProperty()
     @Column()
-    @OneToMany(type => Modelling_QuestionEntity, intro => intro.id)
+    @OneToMany(type => Modelling_QuestionEntity, intro => intro.mod_qs_id)
     public tg_modelling_question_id: string;
 
     /**

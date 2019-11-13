@@ -28,7 +28,7 @@ export class Tg_MultiplechoiceService {
         return await this.repository.delete(id);
     }
    
-    createQueryBuilder(alias: string = 'tg_modelling', queryRunner?: QueryRunner): SelectQueryBuilder<Tg_MultiplechoiceEntity> {
+    createQueryBuilder(alias: string = 'tg_multiplechoice', queryRunner?: QueryRunner): SelectQueryBuilder<Tg_MultiplechoiceEntity> {
         return this.repository.createQueryBuilder(alias, queryRunner);
     }
 
