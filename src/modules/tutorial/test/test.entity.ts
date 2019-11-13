@@ -18,6 +18,7 @@ export class TestEntity extends AbstractEntity<TestDto>{
     public test_id: string;
    
     @ApiModelProperty()
+    @Column()
     @OneToMany(type => Multiplechoice_QuestionEntity, multiplechoice_question_entitiy => multiplechoice_question_entitiy.multiplechoice_question_id)
     public test_solved_test_id: string;
 
@@ -26,8 +27,9 @@ export class TestEntity extends AbstractEntity<TestDto>{
     public test_user_id: string;
    
     @ApiModelProperty()
+    @Column()
     @OneToMany(type => CategoryEntity, category => category.id)
-    public test_categorie: CategoryEntity;
+    public test_categorie: String;
 
     @ApiModelProperty()
     @Column()

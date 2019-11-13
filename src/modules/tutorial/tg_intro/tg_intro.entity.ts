@@ -15,10 +15,12 @@ export class Tg_IntroEntity extends AbstractEntity<Tg_IntroDto>{
     public tg_intro_id: string;
    
     @ApiModelProperty()
+    @Column()
     @OneToMany(type => IntroEntity, intro => intro.id)
-    public tg_intro_intro_id: IntroEntity;
+    public tg_intro_intro_id: string;
 
     @ApiModelProperty()
+    @Column()
     public tg_intro_last_clicked_id: string;
 
     dtoClass = Tg_IntroDto;

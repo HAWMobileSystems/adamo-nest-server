@@ -12,8 +12,9 @@ export class Tg_Multiplechoice_AnsweredEntity extends AbstractEntity<Tg_Multiple
     public tg_multiplechoice_answered_id: string;
    
     @ApiModelProperty()
+    @Column()
     @ManyToOne(type => Multiplechoice_Question_AnswerEntity, test => test.multiplechoice_question_answer_id)
-    public tg_multiplechoice_answered_answer_id: Multiplechoice_Question_AnswerEntity;
+    public tg_multiplechoice_answered_answer_id: string;
 
     @ApiModelProperty()
     public tg_multiplechoice_answered_answerd: boolean;

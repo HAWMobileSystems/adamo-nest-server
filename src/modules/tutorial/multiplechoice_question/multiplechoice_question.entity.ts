@@ -18,8 +18,9 @@ export class Multiplechoice_QuestionEntity extends AbstractEntity<Multiplechoice
     public multiplechoice_question_text: string;
 
     @ApiModelProperty()
+    @Column()
     @OneToMany(type => CategoryEntity, category => category.id)
-    public multiplechoice_question_categories: CategoryEntity;
+    public multiplechoice_question_categories: string;
 
 
     dtoClass = Multiplechoice_QuestionDto;

@@ -11,8 +11,9 @@ import { Tg_MultiplechoiceDto } from './dto/tg_multiplechoiceDto';
 export class Tg_MultiplechoiceEntity extends AbstractEntity<Tg_MultiplechoiceDto>{
 
     @ApiModelProperty()
+    @Column()
     @OneToMany(type => Tg_Multiplechoice_AnsweredEntity, test => test.tg_multiplechoice_answered_id)
-    public tg_multiplechoice_unique_id: Tg_Multiplechoice_AnsweredEntity;
+    public tg_multiplechoice_unique_id: string;
     /**
      *     STRING OR ENTITY ?
     @ApiModelProperty()
@@ -24,10 +25,12 @@ export class Tg_MultiplechoiceEntity extends AbstractEntity<Tg_MultiplechoiceDto
     public tg_multiplechoice_id: string;
      */
     @ApiModelProperty()
+    @Column()
     @OneToMany(type => TestEntity, intro => intro.test_id)
-    public tg_multiplechoice_id: TestEntity;
+    public tg_multiplechoice_id: string;
 
     @ApiModelProperty()
+    @Column()
     @ManyToOne( type => Multiplechoice_QuestionEntity, mc => mc.multiplechoice_question_id)
     public tg_multiplechoice_multiplechoice_id: string;
 

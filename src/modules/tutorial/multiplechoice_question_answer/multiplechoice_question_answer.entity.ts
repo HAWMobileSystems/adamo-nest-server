@@ -13,8 +13,9 @@ export class Multiplechoice_Question_AnswerEntity extends AbstractEntity<Multipl
     public multiplechoice_question_answer_id: string;
    
     @ApiModelProperty()
+    @Column()
     @OneToMany(type => Multiplechoice_QuestionEntity, multiplechoice_question_entitiy => multiplechoice_question_entitiy.multiplechoice_question_id)
-    public multiplechoice_question_answer_question_id: Multiplechoice_QuestionEntity;
+    public multiplechoice_question_answer_question_id: string;
 
     @ApiModelProperty()
     @Column()

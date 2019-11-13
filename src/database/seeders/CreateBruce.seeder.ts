@@ -29,17 +29,18 @@ export class CreateBruce implements Seeder {
         // return bruce;
 
         // const connection = await factory.getConnection();
-        await connection
-            .createQueryBuilder()
-            .insert()
-            .into(UserEntity)
-            .values([
-                {
-                    email: 'demo@demo.dee3',
-                    password: '1234567891',
-                },
-            ])
-            .execute();
+       
+        // await connection
+        //    .createQueryBuilder()
+        //    .insert()
+        //    .into(UserEntity)
+        //    .values([
+        //        {
+        //            email: 'demo@demo.dee3eas3',
+        //            password: '123456789111',
+        //       },
+        //    ])
+        //    .execute();
         
     }
 

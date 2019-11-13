@@ -16,12 +16,14 @@ export class Modelling_QuestionEntity extends AbstractEntity<Modelling_QuestionD
     public question_text: string;
 
     @ApiModelProperty()
+    @Column()
     @OneToMany(type => CategoryEntity, category => category.id)
-    public categories: CategoryEntity;
+    public categories: string;
 
     @ApiModelProperty()
+    @Column()
     @OneToMany(type => Modelling_RulesEntity, modelling_rule => modelling_rule.id)
-    public custom_ruleset: Modelling_RulesEntity;
+    public custom_ruleset: string;
 
     dtoClass = Modelling_QuestionDto;
 }

@@ -14,6 +14,7 @@ export class Modelling_Question_RulesEntity extends AbstractEntity<Modelling_Que
     public modelling_question_id: string;
 
     @ApiModelProperty()
+    @Column()
     @OneToMany(type => Modelling_RulesEntity, mod_rule => mod_rule.id)
     public modelling_rule_id: string;
 
