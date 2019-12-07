@@ -39,6 +39,21 @@ export class IntroService {
         .getMany();
         return result;
     }
+
+    async getRandomByLvl(lvl: string){
+        const getCategory_id = await getRepository(CategoryEntity)
+        .createQueryBuilder("category")
+        .where("category.category_name = :category_name",{category_name:lvl})
+        .getOne();
+
+        const result = await this.repository.createQueryBuilder('intro')
+        .where("intro.intro_categories = :intro_categories",{intro_categories:getCategory_id.category_id})
+        .getMany();
+
+        return result[Math.floor(Math.random()*result.length)];
+    }
+
+
     async create(intro: IntroEntity) {
         return await this.repository.save(intro);
     }
