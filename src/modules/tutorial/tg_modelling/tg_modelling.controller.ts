@@ -22,7 +22,7 @@ export class Tg_ModellingController {_
     constructor(private readonly tg_modellingService: Tg_ModellingService) {}
     /**
      * 
-     */
+     
     @Get()
     listRoles() {
         return this.tg_modellingService.find();
@@ -33,7 +33,7 @@ export class Tg_ModellingController {_
      * 
      * @param id 
      * @param userData 
-     */
+     
     @Put(':id/update')
     async update(@Param('id') id, @Body() testData: Tg_ModellingEntity): Promise<any> {
         // userData.id = Number(id);
@@ -47,7 +47,7 @@ export class Tg_ModellingController {_
     /**
      * 
      * @param entity 
-     */
+     
     @Post()
     create(@Body() entity: Tg_ModellingEntity) {
         this.tg_modellingService.create(entity);
@@ -58,5 +58,5 @@ export class Tg_ModellingController {_
       return this.tg_modellingService.delete(id);
       // Maybe deleting all role entries in Permissions with this role and set them back to Default ist an valid option? TODO
     }  
-
+**/
 }

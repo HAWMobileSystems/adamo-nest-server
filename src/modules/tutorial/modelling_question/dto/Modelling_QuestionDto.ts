@@ -22,7 +22,7 @@ export class Modelling_QuestionDto extends AbstractDto {
 
     constructor(modelling: Modelling_QuestionEntity) {
         super(modelling);
-        this.mod_qs_id = modelling.id;
+        this.mod_qs_id = modelling.mod_qs_id;
         this.mod_qs_question_text = modelling.mod_qs_question_text;
         this.mod_qs_categories = modelling.mod_qs_categories;
         this.mod_qs_custom_ruleset = modelling.mod_qs_custom_ruleset;

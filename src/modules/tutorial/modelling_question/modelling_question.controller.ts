@@ -23,7 +23,7 @@ export class Modelling_QuestionController {
     constructor(private readonly modelling_QuestionService: Modelling_QuestionService) {}
     /**
      * 
-     */
+     
     @Get()
     listRoles() {
         return this.modelling_QuestionService.find();
@@ -34,7 +34,7 @@ export class Modelling_QuestionController {
      * 
      * @param id 
      * @param userData 
-     */
+     
     @Put(':id/update')
     async update(@Param('id') id, @Body() modelling_QuestionData: Modelling_QuestionEntity): Promise<any> {
         // userData.id = Number(id);
@@ -47,7 +47,7 @@ export class Modelling_QuestionController {
     /**
      * 
      * @param entity 
-     */
+     
     @Post()
     create(@Body() entity: Modelling_QuestionEntity) {
         this.modelling_QuestionService.create(entity);
@@ -58,5 +58,5 @@ export class Modelling_QuestionController {
       return this.modelling_QuestionService.delete(id);
       // Maybe deleting all role entries in Permissions with this role and set them back to Default ist an valid option? TODO
     }  
-
+*/
 }

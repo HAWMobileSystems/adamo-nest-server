@@ -1,0 +1,7 @@
+{
+	intro_text: "As already stated, a Sequence Flow is used to show the order of Flow elements in a business process diagram. When connecting Flow elements with Sequence Flows, certain rules need to be followed as presented on the next table (Figure 4), obtained from the BPMN 2.0 specification",
+    intro_categories: "Beginner",
+    intro_next_id:"currentlyLastIntroPage",
+    intro_is_first:false,
+    intro_currently_last_intropage:true
+}

@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { FindConditions, QueryRunner, SelectQueryBuilder, Repository, UpdateResult } from 'typeorm';
+import { FindConditions, QueryRunner, SelectQueryBuilder, Repository, UpdateResult, getRepository } from 'typeorm';
 import { IntroEntity } from './intro.entity';
 import { IntroRepository } from './intro.repository';
+import { CategoryEntity } from '../category/category.entity';
 
 @Injectable()
 export class IntroService {
@@ -12,10 +13,29 @@ export class IntroService {
     ) {
     }
 
-    async find(): Promise<IntroEntity[]> {
-        return await this.repository.find();
+    async find(): Promise<any[]> {
+        let result = await this.repository.find()
+        console.log(result);
+        return result
+       // return await this.repository.find();
     }
 
+    async getCategory(catName: String){
+        const getCategory_id = await getRepository(CategoryEntity)
+        .createQueryBuilder("category")
+        .where("category.category_name = :category_name",{category_name:catName})
+        .getOne();
+
+        let result = await this.repository.createQueryBuilder('intro')
+        .where("intro.intro_categories = :intro_categories",{intro_categories:getCategory_id.category_id})
+        .getMany();
+
+        return result;
+    }
+
+    async getNextIntroById(){
+        
+    }
     async create(intro: IntroEntity) {
         return await this.repository.save(intro);
     }

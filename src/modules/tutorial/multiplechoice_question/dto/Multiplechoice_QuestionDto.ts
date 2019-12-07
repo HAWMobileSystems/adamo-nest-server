@@ -19,6 +19,7 @@ export class Multiplechoice_QuestionDto extends AbstractDto {
         this.multiplechoice_question_id = mc_question.multiplechoice_question_id;
         this.multiplechoice_question_text = mc_question.multiplechoice_question_text;
         this.multiplechoice_question_categories = mc_question.multiplechoice_question_categories;
-
     }
+
+    
 }

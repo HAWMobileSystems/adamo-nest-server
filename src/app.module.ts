@@ -14,6 +14,9 @@ import { CategoryModule } from './modules/tutorial/category/category.module';
 import { contextMiddleware } from './middlewares';
 import { MathModule } from './modules/math/math.module';
 import { SharedModule } from './shared.module';
+import { Tg_Multiplechoice_AnsweredModule } from 'modules/tutorial/tg_multiplechoice_answered/tg_multiplechoice_answered.module';
+import { Tg_IntroModule } from 'modules/tutorial/tg_intro/tg_intro.module';
+import { Multiplechoice_Question_AnswerModule } from 'modules/tutorial/multiplechoice_question_answer/multiplechoice_question_answer.module';
 
 @Module({
     imports: [
@@ -24,6 +27,7 @@ import { SharedModule } from './shared.module';
         ModelModule, 
         RoleModule, 
         IntroModule,
+        Multiplechoice_Question_AnswerModule,
         CategoryModule,
         TypeOrmModule.forRootAsync({
             imports: [SharedModule],

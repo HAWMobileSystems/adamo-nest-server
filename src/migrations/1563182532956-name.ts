@@ -6,7 +6,7 @@ export class name1563182532956 implements MigrationInterface {
             `CREATE TABLE "partmodel" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "model_name" character varying NOT NULL, "model_xml" character varying NOT NULL, "model_version" integer NOT NULL, CONSTRAINT "PK_e9fb229b5a0126657d9bf614c6e" PRIMARY KEY ("id"))`,
         );
         await queryRunner.query(
-            `CREATE TABLE "models" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "model_name" character varying NOT NULL, "model_xml" character varying NOT NULL, "model_version" integer NOT NULL, CONSTRAINT "PK_ef9ed7160ea69013636466bf2d5" PRIMARY KEY ("id"))`,
+            `CREATE TABLE "models" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "modelName" character varying NOT NULL, "model_xml" character varying NOT NULL, "model_version" integer NOT NULL, CONSTRAINT "PK_ef9ed7160ea69013636466bf2d5" PRIMARY KEY ("id"))`,
         );
         await queryRunner.query(
             `CREATE TABLE "permissions" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "permission_name" character varying NOT NULL, "permission_xml" character varying NOT NULL, "permission_version" integer NOT NULL, CONSTRAINT "PK_920331560282b8bd21bb02290df" PRIMARY KEY ("id"))`,

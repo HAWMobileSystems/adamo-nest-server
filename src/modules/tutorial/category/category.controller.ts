@@ -23,7 +23,7 @@ export class CategoryController {
     constructor(private readonly categoryService: CategoryService) {}
     /**
      * 
-     */
+     
     @Get()
     listRoles() {
         return this.categoryService.find();
@@ -32,31 +32,31 @@ export class CategoryController {
      /**
      * We use this also for password?
      * 
-     * @param id 
-     * @param userData 
-     */
+     * //param category_id 
+     * //param userData 
+     
     @Put(':id/update')
-    async update(@Param('id') id, @Body() introData: CategoryEntity): Promise<any> {
+    async update(@Param('id') category_id, @Body() introData: CategoryEntity): Promise<any> {
         // userData.id = Number(id);
         // Set the roleData.id because it is missing in Data from Client?!
-        introData.id = id;
-        console.log('Update #' + introData.id)
+        introData.id = category_id;
+        console.log('Update #' + introData.category_id)
         return this.categoryService.update(introData);
     }  
 
     /**
      * 
-     * @param entity 
-     */
+     * //param entity 
+     
     @Post()
     create(@Body() entity: CategoryEntity) {
         this.categoryService.create(entity);
     }
 
     @Delete(':id/delete')
-    async delete(@Param('id') id): Promise<any> {
+    async delete(@Param('category_id') id): Promise<any> {
       return this.categoryService.delete(id);
       // Maybe deleting all role entries in Permissions with this role and set them back to Default ist an valid option? TODO
     }  
-
+    */
 }

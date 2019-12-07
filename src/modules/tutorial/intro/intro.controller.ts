@@ -24,17 +24,23 @@ export class IntroController {
     /**
      * 
      */
-    @Get()
-    listRoles() {
-        return this.introService.find();
+    @Get('beginner')
+    listBeginner() : Promise<any[]> {
+        return this.introService.getCategory('Beginner');
+    }
+    
+    @Get('advanced')
+    listAdvanced() : Promise<any[]> {
+        return this.introService.getCategory('Advanced');
     }
 
      /**
      * We use this also for password?
      * 
-     * @param id 
-     * @param userData 
+     * //param id 
+     * //param userData 
      */
+    /**
     @Put(':id/update')
     async update(@Param('id') id, @Body() introData: IntroEntity): Promise<any> {
         // userData.id = Number(id);
@@ -46,8 +52,8 @@ export class IntroController {
 
     /**
      * 
-     * @param entity 
-     */
+     * //param entity 
+     
     @Post()
     create(@Body() entity: IntroEntity) {
         this.introService.create(entity);
@@ -58,5 +64,5 @@ export class IntroController {
       return this.introService.delete(id);
       // Maybe deleting all role entries in Permissions with this role and set them back to Default ist an valid option? TODO
     }  
-
+    */
 }

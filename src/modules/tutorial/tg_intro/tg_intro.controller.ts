@@ -23,7 +23,7 @@ export class Tg_IntroController {_
     constructor(private readonly tg_introService: Tg_IntroService) {}
     /**
      * 
-     */
+     
     @Get()
     listRoles() {
         return this.tg_introService.find();
@@ -34,7 +34,7 @@ export class Tg_IntroController {_
      * 
      * @param id 
      * @param userData 
-     */
+     
     @Put(':id/update')
     async update(@Param('id') id, @Body() testData: Tg_IntroEntity): Promise<any> {
         // userData.id = Number(id);
@@ -48,7 +48,7 @@ export class Tg_IntroController {_
     /**
      * 
      * @param entity 
-     */
+     
     @Post()
     create(@Body() entity: Tg_IntroEntity) {
         this.tg_introService.create(entity);
@@ -59,5 +59,5 @@ export class Tg_IntroController {_
       return this.tg_introService.delete(id);
       // Maybe deleting all role entries in Permissions with this role and set them back to Default ist an valid option? TODO
     }  
-
+*/
 }

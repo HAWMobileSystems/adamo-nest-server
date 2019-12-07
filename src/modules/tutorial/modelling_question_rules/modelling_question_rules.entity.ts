@@ -6,11 +6,12 @@ import { type } from "os";
 import { ApiModelProperty } from "@nestjs/swagger";
 import { Modelling_QuestionEntity } from "../modelling_question/modelling_question.entity";
 import { Modelling_RulesEntity } from "../modelling_rules/modelling_rules.entity";
+import { Exclude } from "class-transformer";
 @Entity({name:'modelling_question_rules'})
 export class Modelling_Question_RulesEntity extends AbstractEntity<Modelling_Question_RulesDto>{
 
     @PrimaryGeneratedColumn('uuid')
-    @ManyToOne(type => Modelling_QuestionEntity, mod_qs => mod_qs.mod_qs_id)
+    @OneToMany(type => Modelling_QuestionEntity, mod_qs => mod_qs.mod_qs_id)
     public modelling_question_id: string;
 
     @ApiModelProperty()
@@ -18,5 +19,6 @@ export class Modelling_Question_RulesEntity extends AbstractEntity<Modelling_Que
     @OneToMany(type => Modelling_RulesEntity, mod_rule => mod_rule.modelling_rule_id)
     public modelling_rule_id: string;
 
+    @Exclude()
     dtoClass = Modelling_Question_RulesDto;
 }

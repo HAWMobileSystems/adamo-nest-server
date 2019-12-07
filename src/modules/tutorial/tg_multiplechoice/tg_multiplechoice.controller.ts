@@ -22,7 +22,7 @@ export class Tg_MultiplechoiceController {_
     constructor(private readonly tg_multiplechoiceService: Tg_MultiplechoiceService) {}
     /**
      * 
-     */
+     
     @Get()
     listRoles() {
         return this.tg_multiplechoiceService.find();
@@ -33,7 +33,7 @@ export class Tg_MultiplechoiceController {_
      * 
      * @param id 
      * @param userData 
-     */
+     
     @Put(':id/update')
     async update(@Param('id') id, @Body() testData: Tg_MultiplechoiceEntity): Promise<any> {
         // userData.id = Number(id);
@@ -47,7 +47,7 @@ export class Tg_MultiplechoiceController {_
     /**
      * 
      * @param entity 
-     */
+     
     @Post()
     create(@Body() entity: Tg_MultiplechoiceEntity) {
         this.tg_multiplechoiceService.create(entity);
@@ -58,5 +58,5 @@ export class Tg_MultiplechoiceController {_
       return this.tg_multiplechoiceService.delete(id);
       // Maybe deleting all role entries in Permissions with this role and set them back to Default ist an valid option? TODO
     }  
-
+*/
 }

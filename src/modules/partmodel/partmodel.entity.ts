@@ -3,6 +3,7 @@ import { AbstractEntity } from '../../common/abstract.entity';
 import { PartModelDto } from './dto/PartModelDto';
 import {Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
 import {ApiModelProperty} from "@nestjs/swagger";
+import { Exclude } from 'class-transformer';
 
 
 @Entity({name: "models"})
@@ -31,6 +32,7 @@ export class PartModelEntity extends AbstractEntity<PartModelDto>{
         return `${this.modelName}`;
     }
 
+    @Exclude()
     dtoClass = PartModelDto;
 
 }

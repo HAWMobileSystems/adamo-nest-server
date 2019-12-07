@@ -1,14 +1,12 @@
 import { CategoryEntity } from "../../category/category.entity"
 import { ApiModelPropertyOptional } from '@nestjs/swagger';
 import { AbstractDto } from '../../../../common/dto/AbstractDto';
-import { Multiplechoice_QuestionEntity } from './../../multiplechoice_question/multiplechoice_question.entity';
 import { Multiplechoice_Question_AnswerEntity } from "../multiplechoice_question_answer.entity";
 
-export class MultipleChoice_Question_AnswerDto extends AbstractDto {
-
+export class Multiplechoice_Question_AnswerDto extends AbstractDto {
     @ApiModelPropertyOptional()
     public multiplechoice_question_answer_id: string;
-
+    
     @ApiModelPropertyOptional()
     public multiplechoice_question_answer_question_id: string;
 
@@ -18,7 +16,10 @@ export class MultipleChoice_Question_AnswerDto extends AbstractDto {
     @ApiModelPropertyOptional()
     public multiplechoice_question_answer_true: boolean;
 
+
     constructor(mc_question: Multiplechoice_Question_AnswerEntity) {
+        console.log("IIIIIIIIIIIIIIDTOIIIIIIIIIIIIIIII");
+        console.log(mc_question);
         super(mc_question);
         this.multiplechoice_question_answer_id = mc_question.multiplechoice_question_answer_id;
         this.multiplechoice_question_answer_question_id = mc_question.multiplechoice_question_answer_question_id;
