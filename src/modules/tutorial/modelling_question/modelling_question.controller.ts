@@ -21,6 +21,11 @@ import { Modelling_QuestionEntity } from './modelling_question.entity';
 @ApiBearerAuth()
 export class Modelling_QuestionController {
     constructor(private readonly modelling_QuestionService: Modelling_QuestionService) {}
+
+    @Get('randomByLeveL/beginner')
+    getRandomBeginner(): Promise<any>{
+        return this.modelling_QuestionService.getRandomByLvl('Beginner');
+    }
     /**
      * 
      

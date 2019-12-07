@@ -44,48 +44,12 @@ export default class SeedTutorial implements Seeder {
         .createQueryBuilder("category")
         .where("category.category_name = :category_name",{category_name:'Beginner'})
         .getOne();
-        console.log("Grabbing Category ID");
-
-
-        const seedMult_Qs = await connection
-        .createQueryBuilder()
-        .insert()
-        .into(Multiplechoice_QuestionEntity)
-        .values([
-            {
-                multiplechoice_question_text: "Erste Sinnvolle MC Question",
-                multiplechoice_question_categories:getCategory_id.category_id,
-            },
-            {
-                multiplechoice_question_text: "Zweite Sinnvolle MC Question",
-                multiplechoice_question_categories:getCategory_id.category_id,  
-            }
-        ])
-        .execute();
-
-        console.log("Seeding first Multiplechoice Question");
-
-        console.log("Seeding Modelling QUestion");
-
+        
         const mult_qs_id = await getRepository(Multiplechoice_QuestionEntity)
         .createQueryBuilder("multiplechoice_question")
         .where("multiplechoice_question.multiplechoice_question_text = :multiplechoice_question_text",{multiplechoice_question_text:'Erste Sinnvolle MC Question'})
         .getOne();
 
-        console.log("Grabbing Multiplechoice Qs Text");
-
-        const seedQsRule = await connection
-        .createQueryBuilder()
-        .insert()
-        .into(Modelling_Question_RulesEntity)
-        .values([
-            {
-                modelling_question_id: mult_qs_id.multiplechoice_question_id,
-                modelling_rule_id: seedrule_id.modelling_rule_id,
-            }
-        ])
-        .execute();     
-        console.log("Mult Choice qs Seeded");
        
         const seedqsrule_id = await getRepository(Modelling_Question_RulesEntity)
         .createQueryBuilder("modelling_question_rules")
