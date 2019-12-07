@@ -33,8 +33,11 @@ export class IntroService {
         return result;
     }
 
-    async getNextIntroById(){
-        
+    async getNextIntroById(next_id: string){
+        let result = await this.repository.createQueryBuilder('intro')
+        .where("intro.intro_id = :intro_id",{intro_id:next_id})
+        .getMany();
+        return result;
     }
     async create(intro: IntroEntity) {
         return await this.repository.save(intro);

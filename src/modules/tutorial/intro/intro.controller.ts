@@ -34,6 +34,15 @@ export class IntroController {
         return this.introService.getCategory('Advanced');
     }
 
+    @Get('professional')
+    listProfessional() : Promise<any[]> {
+        return this.introService.getCategory('Professional');
+    }
+
+    @Get(":id")
+    listNext(@Param('id') id) : Promise<any[]> {
+        return this.introService.getNextIntroById(id);
+    }
      /**
      * We use this also for password?
      * 
