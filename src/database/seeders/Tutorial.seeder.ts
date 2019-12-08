@@ -23,16 +23,6 @@ export default class SeedTutorial implements Seeder {
     public async run(factory: Factory, connection: Connection): Promise<any> {
         
     
-        const seedRule = await connection
-        .createQueryBuilder()
-        .insert()
-        .into(Modelling_RulesEntity)
-        .values([
-           {
-            modelling_rule_text: "Standart Regeln für BPMN",
-            },
-        ])
-        .execute();
         console.log("Seeding Rules \n");
         const seedrule_id = await getRepository(Modelling_RulesEntity)
         .createQueryBuilder("modelling_rules")
@@ -49,29 +39,10 @@ export default class SeedTutorial implements Seeder {
         .createQueryBuilder("multiplechoice_question")
         .where("multiplechoice_question.multiplechoice_question_text = :multiplechoice_question_text",{multiplechoice_question_text:'Erste Sinnvolle MC Question'})
         .getOne();
-
-       
-        const seedqsrule_id = await getRepository(Modelling_Question_RulesEntity)
-        .createQueryBuilder("modelling_question_rules")
-        .where("modelling_question_rules.modelling_rule_id = :modelling_rule_id",{modelling_rule_id: seedrule_id.modelling_rule_id})
-        .getOne();
         
         console.log("Grabbing Question Specific Rule");
      
-        const otherdata = await connection
-        .createQueryBuilder()
-        .insert()
-        .into(Modelling_QuestionEntity)
-        .values([
-            {
-                mod_qs_categories: getCategory_id.category_id,
-                mod_qs_question_text:"This is the first Question",
-                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
-            },
-        ])
-        .execute();
-
-
+  
         const mult_qs_ID = mult_qs_id.multiplechoice_question_id;
         const random_ID = '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed';
         
@@ -102,19 +73,7 @@ export default class SeedTutorial implements Seeder {
         .getOne();
         console.log("Grabbing User");
 
-       const seedTest = await connection
-       .createQueryBuilder()
-       .insert()
-       .into(TestEntity)
-       .values([
-           {
-            test_solved_test_id: mult_qs_id.multiplechoice_question_id,
-            test_user_id: user.id,
-            test_categorie: getCategory_id.category_id,
-            test_tg_identifier: tg.beginner,
-           }
-       ])
-       .execute();
+
        console.log("Seeding Test");
 
        const intro_id = await getRepository(IntroEntity)
@@ -136,24 +95,7 @@ export default class SeedTutorial implements Seeder {
        ])
        .execute();
        console.log("Seeding Test_Intro")
-       const mod_qs = await getRepository(Modelling_QuestionEntity)
-       .createQueryBuilder("modelling_question")
-       .where("modelling_question.mod_qs_question_text = :mod_qs_question_text",{mod_qs_question_text:'This is the first Question'})
-       .getOne();
-       console.log("Grabbing Modelling_Question")
 
-       const seedTg_Mod = await connection
-       .createQueryBuilder()
-       .insert()
-       .into(Tg_ModellingEntity)
-       .values([
-           {
-            tg_modelling_question_id: mod_qs.mod_qs_id,
-            tg_modelling_xml_providet: "<xml>This XML is used to Validate a BPMN Model</xml>",
-            tg_modelling_validation_score: "98%",
-           }
-       ])
-       .execute();
        console.log("Seeding Test Modelling")
        const test_id = await getRepository(TestEntity)
        .createQueryBuilder("test")

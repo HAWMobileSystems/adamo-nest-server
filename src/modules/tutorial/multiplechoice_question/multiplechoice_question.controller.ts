@@ -28,8 +28,19 @@ export class Multiplechoice_QuestionController {
     @Get()
     listRoles() {
         return this.multiplechoice_questionService.find();
+    }*/
+    @Get('randomByLeveL/beginner/:user')
+    getRandomBeginner(@Param('user') user): Promise<any>{
+        return this.multiplechoice_questionService.getRandomByLvl(user,'Beginner');
     }
-
+    @Get('randomByLeveL/advanced/:user')
+    getRandomAdvanced(@Param('user') user): Promise<any>{
+        return this.multiplechoice_questionService.getRandomByLvl(user,'Advanced');
+    }
+    @Get('randomByLeveL/professional/:user')
+    getRandomProfessional(@Param('user') user): Promise<any>{
+        return this.multiplechoice_questionService.getRandomByLvl(user,'Professional');
+    }
      /**
      * We use this also for password?
      * 

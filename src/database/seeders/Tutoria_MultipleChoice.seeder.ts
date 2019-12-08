@@ -44,6 +44,25 @@ export default class SeedMultipleChoiceQuestion implements Seeder {
             }
         ])
         .execute();
+        
+        const user = await getRepository(UserEntity)
+        .createQueryBuilder("users")
+        .getOne();
+
+        const seedTest = await connection
+        .createQueryBuilder()
+        .insert()
+        .into(TestEntity)
+        .values([
+            {
+             test_solved_test_id: seedMult_Qs.identifiers[0].id,
+             test_user_id: user.id,
+             test_categorie: getCategory_id.category_id,
+             test_tg_identifier: tg.beginner,
+            }
+        ])
+        .execute();
+
 
     }
 }

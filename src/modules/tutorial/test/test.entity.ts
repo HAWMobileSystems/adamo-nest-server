@@ -9,6 +9,7 @@ import { TestDto } from "./dto/testDto";
 import { Tg_IntroEntity } from "../tg_intro/tg_intro.entity";
 import { Tg_MultiplechoiceEntity } from "../tg_multiplechoice/tg_multiplechoice.entity";
 import { Exclude } from "class-transformer";
+import { Tg_ModellingEntity } from "../tg_modelling/tg_modelling.entity";
 enum tg{
     beginner,
     advanced,
@@ -24,6 +25,7 @@ export class TestEntity extends AbstractEntity<TestDto>{
     @Column()
     @OneToMany(type => Tg_IntroEntity, tg_i => tg_i.tg_intro_id)
     @OneToMany(type => Tg_MultiplechoiceEntity, tg_mc => tg_mc.tg_multiplechoice_id)
+    @OneToMany(type => Tg_ModellingEntity, tg_mod => tg_mod.tg_modelling_id)
     public test_solved_test_id: string;
 
     @ApiModelProperty()

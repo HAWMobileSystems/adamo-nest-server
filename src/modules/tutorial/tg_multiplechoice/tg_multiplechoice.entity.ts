@@ -21,8 +21,7 @@ export class Tg_MultiplechoiceEntity extends AbstractEntity<Tg_MultiplechoiceDto
     public tg_multiplechoice_id: string;
      */
     @ApiModelProperty()
-    @Column()
-    @OneToMany(type => TestEntity, intro => intro.test_id)
+    @PrimaryGeneratedColumn('uuid')
     public tg_multiplechoice_id: string;
 
     @ApiModelProperty()

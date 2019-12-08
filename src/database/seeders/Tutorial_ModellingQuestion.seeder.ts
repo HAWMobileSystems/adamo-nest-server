@@ -108,5 +108,47 @@ export default class SeedModellignQuestion implements Seeder {
         ])
         .execute();
 
+
+        const mod_qs = await getRepository(Modelling_QuestionEntity)
+        .createQueryBuilder("modelling_question")
+        .where("modelling_question.mod_qs_question_text = :mod_qs_question_text",{mod_qs_question_text:'This is the first Question'})
+        .getOne();
+        console.log("Grabbing Modelling_Question")
+        console.log(otherdata);
+        console.log(otherdata.identifiers[0]);
+
+
+
+        const seedTg_Mod = await connection
+        .createQueryBuilder()
+        .insert()
+        .into(Tg_ModellingEntity)
+        .values([
+            {
+             tg_modelling_question_id: otherdata.identifiers[0].mod_qs_id,
+             tg_modelling_xml_providet: "<xml>This XML is used to Validate a BPMN Model</xml>",
+             tg_modelling_validation_score: "98%",
+            }
+        ])
+        .execute();
+        const user = await getRepository(UserEntity)
+        .createQueryBuilder("users")
+        .getOne();
+        console.log("Grabbing User");
+        console.log(seedTg_Mod)
+       const seedTest = await connection
+       .createQueryBuilder()
+       .insert()
+       .into(TestEntity)
+       .values([
+           {
+            test_solved_test_id: seedTg_Mod.identifiers[0].tg_modelling_id,
+            test_user_id: user.id,
+            test_categorie: getCategory_id.category_id,
+            test_tg_identifier: tg.beginner,
+           }
+       ])
+       .execute();
+
     }
 }

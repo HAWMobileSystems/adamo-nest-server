@@ -1,9 +1,8 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class tutorial1575735800154 implements MigrationInterface {
+export class tutorial1575750346827 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<any> {
-
         await queryRunner.query(`DROP TABLE "users"`);
         await queryRunner.query(`DROP TYPE "users_role_enum"`);
         await queryRunner.query(`DROP TABLE "roles"`);
@@ -22,25 +21,25 @@ export class tutorial1575735800154 implements MigrationInterface {
         await queryRunner.query(`CREATE TABLE "multiplechoice_question_answer" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "multiplechoice_question_answer_id" uuid NOT NULL DEFAULT uuid_generate_v4(), "multiplechoice_question_answer_question_id" character varying NOT NULL, "multiplechoice_question_answer_text" character varying NOT NULL, "multiplechoice_question_answer_true" boolean NOT NULL, CONSTRAINT "PK_70593a7cecd84fc5221e2461f96" PRIMARY KEY ("id", "multiplechoice_question_answer_id"))`);
         await queryRunner.query(`CREATE TYPE "users_role_enum" AS ENUM('USER', 'ADMIN')`);
         await queryRunner.query(`CREATE TABLE "users" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "first_name" character varying, "last_name" character varying, "username" character varying, "role" "users_role_enum" NOT NULL DEFAULT 'USER', "email" character varying, "password" character varying, CONSTRAINT "UQ_fe0bb3f6520ee0469504521e710" UNIQUE ("username"), CONSTRAINT "UQ_97672ac88f789774dd47f7c8be3" UNIQUE ("email"), CONSTRAINT "PK_a3ffb1c0c8416b9fc6f907b7433" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TABLE "tg_multiplechoice_answered" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "tg_multiplechoice_answered_answer_id" character varying NOT NULL, "tg_multiplechoice_answered_answerd" boolean NOT NULL, "tg_multiplechoice_answered_id_id" uuid, "tg_multiplechoice_answered_id_tg_multiplechoice_unique_id" uuid, CONSTRAINT "PK_3a8d2ff8ba692480e6e1fca1596" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TABLE "tg_multiplechoice" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "tg_multiplechoice_unique_id" uuid NOT NULL DEFAULT uuid_generate_v4(), "tg_multiplechoice_id" character varying NOT NULL, "tg_multiplechoice_multiplechoice_id" character varying NOT NULL, CONSTRAINT "PK_1dbe4b3c68614a269b6da409325" PRIMARY KEY ("id", "tg_multiplechoice_unique_id"))`);
-        await queryRunner.query(`CREATE TABLE "test" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "test_id" uuid NOT NULL DEFAULT uuid_generate_v4(), "test_solved_test_id" character varying NOT NULL, "test_user_id" character varying NOT NULL, "test_categorie" character varying NOT NULL, "test_tg_identifier" integer NOT NULL, "test_user_id_id" uuid, CONSTRAINT "PK_94272108dacdd24e4a5724f0206" PRIMARY KEY ("id", "test_id"))`);
+        await queryRunner.query(`CREATE TABLE "tg_multiplechoice_answered" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "tg_multiplechoice_answered_answer_id" character varying NOT NULL, "tg_multiplechoice_answered_answerd" boolean NOT NULL, "tg_multiplechoice_answered_id_id" uuid, "tg_multiplechoice_answered_id_tg_multiplechoice_unique_id" uuid, "tg_multiplechoice_answered_id_tg_multiplechoice_id" uuid, CONSTRAINT "PK_3a8d2ff8ba692480e6e1fca1596" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "tg_multiplechoice" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "tg_multiplechoice_unique_id" uuid NOT NULL DEFAULT uuid_generate_v4(), "tg_multiplechoice_id" uuid NOT NULL DEFAULT uuid_generate_v4(), "tg_multiplechoice_multiplechoice_id" character varying NOT NULL, CONSTRAINT "PK_610d11dbdae1689923bdfd22fea" PRIMARY KEY ("id", "tg_multiplechoice_unique_id", "tg_multiplechoice_id"))`);
         await queryRunner.query(`CREATE TABLE "tg_modelling" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "tg_modelling_id" uuid NOT NULL DEFAULT uuid_generate_v4(), "tg_modelling_question_id" character varying NOT NULL, "tg_modelling_xml_providet" character varying NOT NULL, "tg_modelling_validation_score" character varying NOT NULL, CONSTRAINT "PK_c38d193bec59fbc2d41dc2cee86" PRIMARY KEY ("id", "tg_modelling_id"))`);
+        await queryRunner.query(`CREATE TABLE "test" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "test_id" uuid NOT NULL DEFAULT uuid_generate_v4(), "test_solved_test_id" character varying NOT NULL, "test_user_id" character varying NOT NULL, "test_categorie" character varying NOT NULL, "test_tg_identifier" integer NOT NULL, "test_user_id_id" uuid, CONSTRAINT "PK_94272108dacdd24e4a5724f0206" PRIMARY KEY ("id", "test_id"))`);
         await queryRunner.query(`ALTER TABLE "models" DROP CONSTRAINT "UQ_28d23f5ebf773368621b7cfa91d"`);
         await queryRunner.query(`ALTER TABLE "models" DROP CONSTRAINT "UQ_a6a29626d324b33c46efbb9c50b"`);
         await queryRunner.query(`ALTER TABLE "intro" ADD CONSTRAINT "FK_7a07bd1a9c1a734742529c7643b" FOREIGN KEY ("intro_id_id", "intro_id_tg_intro_id") REFERENCES "tg_intro"("id","tg_intro_id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "tg_multiplechoice_answered" ADD CONSTRAINT "FK_d2df7781484db5869eb5b3bc979" FOREIGN KEY ("tg_multiplechoice_answered_id_id", "tg_multiplechoice_answered_id_tg_multiplechoice_unique_id") REFERENCES "tg_multiplechoice"("id","tg_multiplechoice_unique_id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "tg_multiplechoice_answered" ADD CONSTRAINT "FK_2e512f87b1cb91ec62fa69c6057" FOREIGN KEY ("tg_multiplechoice_answered_id_id", "tg_multiplechoice_answered_id_tg_multiplechoice_unique_id", "tg_multiplechoice_answered_id_tg_multiplechoice_id") REFERENCES "tg_multiplechoice"("id","tg_multiplechoice_unique_id","tg_multiplechoice_id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "test" ADD CONSTRAINT "FK_930bcc88be2e8b612ff7b34fd79" FOREIGN KEY ("test_user_id_id") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
     }
 
     public async down(queryRunner: QueryRunner): Promise<any> {
         await queryRunner.query(`ALTER TABLE "test" DROP CONSTRAINT "FK_930bcc88be2e8b612ff7b34fd79"`);
-        await queryRunner.query(`ALTER TABLE "tg_multiplechoice_answered" DROP CONSTRAINT "FK_d2df7781484db5869eb5b3bc979"`);
+        await queryRunner.query(`ALTER TABLE "tg_multiplechoice_answered" DROP CONSTRAINT "FK_2e512f87b1cb91ec62fa69c6057"`);
         await queryRunner.query(`ALTER TABLE "intro" DROP CONSTRAINT "FK_7a07bd1a9c1a734742529c7643b"`);
         await queryRunner.query(`ALTER TABLE "models" ADD CONSTRAINT "UQ_a6a29626d324b33c46efbb9c50b" UNIQUE ("model_version")`);
         await queryRunner.query(`ALTER TABLE "models" ADD CONSTRAINT "UQ_28d23f5ebf773368621b7cfa91d" UNIQUE ("model_name")`);
-        await queryRunner.query(`DROP TABLE "tg_modelling"`);
         await queryRunner.query(`DROP TABLE "test"`);
+        await queryRunner.query(`DROP TABLE "tg_modelling"`);
         await queryRunner.query(`DROP TABLE "tg_multiplechoice"`);
         await queryRunner.query(`DROP TABLE "tg_multiplechoice_answered"`);
         await queryRunner.query(`DROP TABLE "users"`);

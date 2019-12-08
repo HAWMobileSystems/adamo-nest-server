@@ -22,9 +22,17 @@ import { Modelling_QuestionEntity } from './modelling_question.entity';
 export class Modelling_QuestionController {
     constructor(private readonly modelling_QuestionService: Modelling_QuestionService) {}
 
-    @Get('randomByLeveL/beginner')
-    getRandomBeginner(): Promise<any>{
-        return this.modelling_QuestionService.getRandomByLvl('Beginner');
+    @Get('randomByLeveL/beginner/:user')
+    getRandomBeginner(@Param('user') user): Promise<any>{
+        return this.modelling_QuestionService.getRandomByLvl(user,'Beginner');
+    }
+    @Get('randomByLeveL/advanced/:user')
+    getRandomAdvanced(@Param('user') user): Promise<any>{
+        return this.modelling_QuestionService.getRandomByLvl(user,'Advanced');
+    }
+    @Get('randomByLeveL/professional/:user')
+    getRandomProfessional(@Param('user') user): Promise<any>{
+        return this.modelling_QuestionService.getRandomByLvl(user,'Professional');
     }
     /**
      * 
