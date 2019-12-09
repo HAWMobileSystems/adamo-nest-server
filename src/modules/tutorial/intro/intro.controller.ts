@@ -39,9 +39,18 @@ export class IntroController {
         return this.introService.getCategory('Professional');
     }
 
-    @Get(":id")
-    listNext(@Param('id') id) : Promise<any[]> {
-        return this.introService.getNextIntroById(id);
+    @Get("next/:id")
+    listNext(@Param('id') id) : Promise<any> {
+        return this.introService.getIntroById(id);
+    }
+    
+    @Get('prev/:id')
+    listPrev(@Param('id') id): Promise<any>{
+        return this.introService.getPrevIntroByCurrentID(id);
+    }
+    @Get('firstByLvl/:id')
+    getFirst(@Param('id') id): Promise<any>{
+        return this.introService.getFirstIntroByLevel(id);
     }
 
     //@Get('randomByLeveL/:lvl')

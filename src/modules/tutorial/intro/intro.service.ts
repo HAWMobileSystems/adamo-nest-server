@@ -33,10 +33,30 @@ export class IntroService {
         return result;
     }
 
-    async getNextIntroById(next_id: string){
+    async getFirstIntroByLevel(lvl: string){
+        const getCategory_id = await getRepository(CategoryEntity)
+        .createQueryBuilder("category")
+        .where("category.category_name = :category_name",{category_name:lvl})
+        .getOne();
+
+        let result = await this.repository.createQueryBuilder('intro')
+        .where("intro.intro_categories = :intro_categories",{intro_categories:getCategory_id.category_id})
+        .andWhere("intro.intro_is_first =:intro_is_first",{intro_is_first:true})
+        .getOne();
+        return result;
+    }
+
+    async getIntroById(next_id: string){
         let result = await this.repository.createQueryBuilder('intro')
         .where("intro.intro_id = :intro_id",{intro_id:next_id})
-        .getMany();
+        .getOne();
+        return result;
+    }
+
+    async getPrevIntroByCurrentID(id: string){
+        let result = await this.repository.createQueryBuilder('intro')
+        .where("intro.intro_next_id = :intro_next_id",{intro_next_id:id})
+        .getOne();
         return result;
     }
 
