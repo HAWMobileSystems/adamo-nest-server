@@ -20,9 +20,9 @@ export default class SeedIntro implements Seeder {
         .where("category.category_name = :category_name",{category_name:'Advanced'})
         .getOne();
 
-        const catBeginer = getCategory_id_b.category_id;
+        
         const catAdvanced = getCategory_id_a.category_id;
-
+        const catBeginer = getCategory_id_b.category_id;
         
         console.log("Seeding Text 1/40");
         const data1 = await connection
@@ -585,6 +585,10 @@ export default class SeedIntro implements Seeder {
         ])
         .execute();
         console.log("Seeding Text 37/40");
+        /**
+         * Here starts lvl Beginner!
+         */
+        
         const data37 = await connection
         .createQueryBuilder()
         .insert()
@@ -645,6 +649,7 @@ export default class SeedIntro implements Seeder {
         ])
         .execute();
         console.log("Seeding Intro Completed");
+        
 
     }
 }
