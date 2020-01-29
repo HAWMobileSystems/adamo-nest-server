@@ -31,9 +31,9 @@ import { AuthUserInterceptor } from '../../interceptors/auth-user-interceptor.se
 import { ModelService } from './model.service';
 import { ModelEntity } from './model.entity';
 import { Logger } from '@nestjs/common';
-import { PermissionService } from '../permission/permission.service';
-import { UserService } from '../user/user.service';
-import { ModelDto } from './dto/ModelDto';
+import { PermissionService } from 'modules/permission/permission.service';
+import { UserService } from 'modules/user/user.service';
+import { ModelDto } from 'modules/model/dto/ModelDto';
 
 @Controller('model')
 @ApiUseTags('model')
