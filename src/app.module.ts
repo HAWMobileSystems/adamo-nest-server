@@ -19,6 +19,7 @@ import { Tg_IntroModule } from 'modules/tutorial/tg_intro/tg_intro.module';
 import { Multiplechoice_Question_AnswerModule } from 'modules/tutorial/multiplechoice_question_answer/multiplechoice_question_answer.module';
 import { Multiplechoice_QuestionModule } from 'modules/tutorial/multiplechoice_question/multiplechoice_question.module';
 import { Modelling_QuestionModule } from 'modules/tutorial/modelling_question/modelling_question.module';
+import { RoleModule } from 'modules/role/role.module';
 
 @Module({
     imports: [
