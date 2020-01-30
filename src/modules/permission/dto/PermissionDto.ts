@@ -5,26 +5,28 @@ import { ApiModelPropertyOptional } from '@nestjs/swagger';
 import { PermissionEntity } from '../permission.entity';
 import { AbstractDto } from '../../../common/dto/AbstractDto';
 import { RoleType } from '../../../constants/role-type';
+import { ModelEntity } from 'modules/model/model.entity';
+import { UserEntity } from 'modules/user/user.entity';
+import { RoleEntity } from 'modules/role/role.entity';
 
 export class PermissionDto extends AbstractDto {
     @ApiModelPropertyOptional()
-    modelID: string;
+    model: ModelEntity;
 
     @ApiModelPropertyOptional()
-    userID: string;
+    user: UserEntity;
 
     @ApiModelPropertyOptional()
-    roleID: string;
+    role: RoleEntity;
 
-    @ApiModelPropertyOptional()
-    public permissionID: string;
+    // @ApiModelPropertyOptional()
+    // public permissionID: string;
 
     constructor(permission: PermissionEntity) {
         super(permission);
-        this.modelID = permission.modelID;
-        this.userID = permission.userID;
-        this.roleID = permission.roleID;
-        this.permissionID = permission.permissionID;
+        this.model = permission.model;
+        this.user = permission.user;
+        this.role = permission.role;
     }
 }
  
