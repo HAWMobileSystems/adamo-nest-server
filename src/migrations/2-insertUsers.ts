@@ -1,9 +1,11 @@
 import { MigrationInterface, QueryRunner, getRepository, getConnection } from 'typeorm';
 import { UserEntity } from 'modules/user/user.entity';
+import { RoleType } from 'constants/role-type';
 
-export class test1565611653967 implements MigrationInterface {
+export class InsertUsers1565611653967 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<any> {
-        await getConnection()
+        console.log('insertUsers')
+        await queryRunner.manager
             .createQueryBuilder()
             .insert()
             .into(UserEntity)
@@ -11,9 +13,18 @@ export class test1565611653967 implements MigrationInterface {
                 {
                     email: 'daniel.hilpoltsteiner@haw-landshut.de',
                     password: '12345678',
+                    role: RoleType.Admin
                 },{
                     email: 'markus.schmidtner@haw-landshut.de',
                     password: '12345678',
+                    role: RoleType.Admin
+                },{
+                    email: 'demo@demo.de',
+                    password: '12345678',
+                },{
+                    email: 'admin@demo.de',
+                    password: '12345678',
+                    role: RoleType.Admin
                 },
             ])
             .execute();

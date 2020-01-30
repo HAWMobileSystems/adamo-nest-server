@@ -1,9 +1,10 @@
 import { MigrationInterface, QueryRunner, getRepository, getConnection } from 'typeorm';
 import { RoleEntity } from 'modules/role/role.entity';
 
-export class test1565611653967 implements MigrationInterface {
+export class InsertRoles1565611653967 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<any> {
-        await getConnection()
+  
+        await queryRunner.manager
             .createQueryBuilder()
             .insert()
             .into(RoleEntity)
