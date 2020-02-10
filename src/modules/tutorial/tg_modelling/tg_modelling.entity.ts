@@ -9,6 +9,8 @@ import { IntroEntity } from "./../intro/intro.entity";
 import { Tg_ModellingDto } from "./dto/tg_modellingDto";
 import { Modelling_QuestionEntity } from "../modelling_question/modelling_question.entity";
 import { Exclude } from "class-transformer";
+import { DateTime } from "aws-sdk/clients/devicefarm";
+import { Timestamp } from "rxjs";
 
 
 @Entity({name:'tg_modelling'})
@@ -37,6 +39,10 @@ export class Tg_ModellingEntity extends AbstractEntity<Tg_ModellingDto>{
     @ApiModelProperty()
     @Column()
     public tg_modelling_validation_score: string;
+
+    @ApiModelProperty()
+    @Column()
+    public tg_modelling_editing_begin: number;
 
     @Exclude()
     dtoClass = Tg_ModellingDto;

@@ -21,22 +21,17 @@ export class IntroDto extends AbstractDto {
     public intro_categories: string;
 
     @ApiModelPropertyOptional()
-    public intro_next_id: string;
+    public intro_identifier: string;
 
     @ApiModelPropertyOptional()
-    public intro_is_first: boolean;
-
-    @ApiModelPropertyOptional()
-    public intro_currently_last_intropage: boolean;
+    public intro_intro_svg_intro_page: string;
 
     constructor(intro: IntroEntity) {
         super(intro);
         this.intro_id = intro.intro_id;
         this.intro_text = intro.intro_text;
         this.intro_categories = intro.intro_categories;
-        this.intro_next_id = intro.intro_next_id;
-        this.intro_is_first = intro.intro_is_first;
-        this.intro_currently_last_intropage = intro.intro_currently_last_intropage;
+        this.intro_identifier = intro.intro_identifier;
         console.log(intro)
     }
 }

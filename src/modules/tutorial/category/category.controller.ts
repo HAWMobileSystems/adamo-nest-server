@@ -21,6 +21,12 @@ import { CategoryEntity } from './category.entity';
 @ApiBearerAuth()
 export class CategoryController {
     constructor(private readonly categoryService: CategoryService) {}
+   
+    @Get('startview')
+    async getStartView(@Param('userID') userID):Promise<any>{
+        return this.categoryService.getStartView('a15f4371-016b-4acf-bd41-53c32a132d2d');
+    }
+    
     /**
      * 
      

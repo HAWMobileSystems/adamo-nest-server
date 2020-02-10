@@ -15,7 +15,8 @@
         "baseUrl": "./src"
     },
     "include": [
-        "src/**/*"
+        "src/**/*",
+        "loader.d.ts"
     ],
     "exclude": [
         "node_modules",

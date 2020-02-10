@@ -118,7 +118,6 @@ export default class SeedModellignQuestion implements Seeder {
         console.log(otherdata.identifiers[0]);
 
 
-
         const seedTg_Mod = await connection
         .createQueryBuilder()
         .insert()
@@ -128,6 +127,7 @@ export default class SeedModellignQuestion implements Seeder {
              tg_modelling_question_id: otherdata.identifiers[0].mod_qs_id,
              tg_modelling_xml_providet: "<xml>This XML is used to Validate a BPMN Model</xml>",
              tg_modelling_validation_score: "98%",
+             tg_modelling_editing_begin:123,
             }
         ])
         .execute();

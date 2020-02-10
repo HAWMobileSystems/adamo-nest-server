@@ -7,6 +7,7 @@ import { ApiModelProperty } from "@nestjs/swagger";
 import { Tg_IntroEntity } from "../tg_intro/tg_intro.entity";
 import { Exclude } from "class-transformer";
 
+
 @Entity({name:'intro'})
 export class IntroEntity extends AbstractEntity<IntroDto>{
 
@@ -25,15 +26,7 @@ export class IntroEntity extends AbstractEntity<IntroDto>{
 
     @ApiModelProperty()
     @Column()
-    public intro_next_id: string;
-
-    @ApiModelProperty()
-    @Column()
-    public intro_is_first: boolean;
-
-    @ApiModelProperty()
-    @Column()
-    public intro_currently_last_intropage: boolean;
+    public intro_identifier: string;
 
     @Exclude()
     dtoClass = IntroDto;

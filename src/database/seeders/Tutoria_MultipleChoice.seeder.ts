@@ -41,7 +41,12 @@ export default class SeedMultipleChoiceQuestion implements Seeder {
             {
                 multiplechoice_question_text: "Zweite Sinnvolle MC Question",
                 multiplechoice_question_categories:getCategory_id.category_id,  
+            },
+            { 
+                multiplechoice_question_text: "CHOOSEN MC Question",
+                multiplechoice_question_categories:getCategory_id.category_id,
             }
+            
         ])
         .execute();
         
@@ -63,6 +68,66 @@ export default class SeedMultipleChoiceQuestion implements Seeder {
         ])
         .execute();
 
+        const seedTest2 = await connection
+        .createQueryBuilder()
+        .insert()
+        .into(TestEntity)
+        .values([
+            {
+             test_solved_test_id: seedMult_Qs.identifiers[2].id,
+             test_user_id: user.id,
+             test_categorie: getCategory_id.category_id,
+             test_tg_identifier: tg.beginner,
+            }
+        ])
+        .execute();
+        console.log("##############");
+        console.log("##############");
+        console.log("##############");
+        console.log("##############");
+        console.log("##############");
+        console.log("##############");
+        console.log("##############");
+        console.log("##############");
+        console.log("##############");
+        console.log("##############");
+        console.log("##############");
+        console.log("##############");
+        console.log("##############");
+        console.log("##############");
+        console.log("##############");
+        console.log("##############");
+        console.log("##############");
+        console.log("##############");
+        console.log(seedMult_Qs)
+        console.log(seedMult_Qs.identifiers[2].id)
+        console.log(seedMult_Qs.identifiers[2].multiplechoice_question_id)
+        const seedTest3 = await connection
+        .createQueryBuilder()
+        .insert()
+        .into(Tg_MultiplechoiceEntity)
+        .values([
+            {
+                tg_multiplechoice_id:seedMult_Qs.identifiers[2].id,
+                tg_multiplechoice_multiplechoice_id:seedMult_Qs.identifiers[2].multiplechoice_question_id
+            }
+        ])
+        .execute();
+
+        const seedTest4 = await connection
+        .createQueryBuilder()
+        .insert()
+        .into(Tg_Multiplechoice_AnsweredEntity)
+        .values([
+            {
+                tg_multiplechoice_answered_answer_id: seedMult_Qs.identifiers[2].id,
+                tg_multiplechoice_answered_answerd:true,
+                tg_multiplechoice_answered_id : seedMult_Qs.identifiers[2].multiplechoice_question_id
+            }
+        ])
+        .execute();
+
+        
 
     }
 }

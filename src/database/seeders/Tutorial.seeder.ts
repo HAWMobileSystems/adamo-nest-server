@@ -78,22 +78,21 @@ export default class SeedTutorial implements Seeder {
 
        const intro_id = await getRepository(IntroEntity)
        .createQueryBuilder("intro")
-       .where("intro.intro_is_first = :intro_is_first",{intro_is_first:true})
-       .andWhere("intro.intro_categories = :intro_categories",{intro_categories:getCategory_id.category_id})
+       .where("intro.intro_categories = :intro_categories",{intro_categories:getCategory_id.category_id})
        .getOne();
        console.log("Grabbing Intro")
 
-       const seedTg_Intro = await connection
-       .createQueryBuilder()
-       .insert()
-       .into(Tg_IntroEntity)
-       .values([
-           {
-            tg_intro_intro_id: intro_id.intro_id,
-            tg_intro_last_clicked_id: "thisone",
-           }
-       ])
-       .execute();
+    //    const seedTg_Intro = await connection
+    //    .createQueryBuilder()
+    //    .insert()
+    //    .into(Tg_IntroEntity)
+    //    .values([
+    //        {
+    //         tg_intro_intro_id: intro_id.intro_id,
+    //         tg_intro_last_clicked_id: "thisone",
+    //        }
+    //    ])
+    //    .execute();
        console.log("Seeding Test_Intro")
 
        console.log("Seeding Test Modelling")
@@ -116,25 +115,25 @@ export default class SeedTutorial implements Seeder {
        ])
        .execute();
 
-       const tg_mult_answ = await getRepository(Tg_Multiplechoice_AnsweredEntity)
-       .createQueryBuilder("tg_multiplechoice_answered")
-       .where("tg_multiplechoice_answered.tg_multiplechoice_answered_answer_id = :tg_multiplechoice_answered_answer_id",{tg_multiplechoice_answered_answer_id:mult_qs_id.multiplechoice_question_id})
-       .getOne();
+    //    const tg_mult_answ = await getRepository(Tg_Multiplechoice_AnsweredEntity)
+    //    .createQueryBuilder("tg_multiplechoice_answered")
+    //    .where("tg_multiplechoice_answered.tg_multiplechoice_answered_answer_id = :tg_multiplechoice_answered_answer_id",{tg_multiplechoice_answered_answer_id:mult_qs_id.multiplechoice_question_id})
+    //    .getOne();
 
 
 
 
-       const seedTg_Mult = await connection
-       .createQueryBuilder()
-       .insert()
-       .into(Tg_MultiplechoiceEntity)
-       .values([
-           {
-            tg_multiplechoice_unique_id:tg_mult_answ.tg_multiplechoice_answered_answer_id, 
-            tg_multiplechoice_id: test_id.test_id,
-            tg_multiplechoice_multiplechoice_id: mult_qs_id.multiplechoice_question_id,
-           }
-       ])
-       .execute();
+    //    const seedTg_Mult = await connection
+    //    .createQueryBuilder()
+    //    .insert()
+    //    .into(Tg_MultiplechoiceEntity)
+    //    .values([
+    //        {
+    //         tg_multiplechoice_unique_id:tg_mult_answ.tg_multiplechoice_answered_answer_id, 
+    //         tg_multiplechoice_id: test_id.test_id,
+    //         tg_multiplechoice_multiplechoice_id: mult_qs_id.multiplechoice_question_id,
+    //        }
+    //    ])
+    //    .execute();
     }
 }
