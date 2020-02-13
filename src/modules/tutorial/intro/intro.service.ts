@@ -3,9 +3,153 @@ import { FindConditions, QueryRunner, SelectQueryBuilder, Repository, UpdateResu
 import { IntroEntity } from './intro.entity';
 import { IntroRepository } from './intro.repository';
 import { CategoryEntity } from '../category/category.entity';
+import { Modelling_QuestionEntity } from '../modelling_question/modelling_question.entity';
+import { Tg_ModellingEntity } from '../tg_modelling/tg_modelling.entity';
+import { TestEntity } from '../test/test.entity';
 
 @Injectable()
 export class IntroService {
+
+
+    async getAllQsByCatAndUser(user_id: string) {
+        //Retrieve all Categorys
+        const category_IDs = await getRepository(CategoryEntity)
+        .createQueryBuilder("category")
+        .getMany();
+
+        let cat_ids_array = []
+        category_IDs.forEach(e=>{
+            cat_ids_array.push(e.category_id)
+        })
+        console.log(cat_ids_array)
+        const all_QS_Answered = await getRepository(Tg_ModellingEntity)
+        .createQueryBuilder("tg_modelling")
+        .select("cat_table.category_name","catName")
+        .addSelect("mod_qs_table.mod_qs_id","id")
+        .addSelect("mod_qs_table.mod_qs_question_description","name")
+        .addSelect("tg_modelling.tg_modelling_validation_score","score")
+        .innerJoin(TestEntity,'test_table', 'tg_modelling.tg_modelling_id::VARCHAR = test_table.test_solved_test_id ')
+        .innerJoin(Modelling_QuestionEntity,'mod_qs_table','tg_modelling.tg_modelling_question_id  = mod_qs_table.mod_qs_id::VARCHAR')
+        .innerJoin(CategoryEntity,'cat_table', 'mod_qs_table.mod_qs_categories = cat_table.category_id::VARCHAR')
+        .where('test_table.test_user_id = :test_user_id',{test_user_id:user_id})
+        .andWhere("mod_qs_table.mod_qs_categories IN (:...mod_qs_categories)",{mod_qs_categories:cat_ids_array})
+        .getRawMany();
+        
+        const all_QS = await getRepository(Modelling_QuestionEntity)
+        .createQueryBuilder("modelling_question")
+        .select("cat_table.category_name","catName")
+        .addSelect("modelling_question.mod_qs_id","id")
+        .addSelect("modelling_question.mod_qs_question_description","name")
+        .addSelect("0","score")
+        .innerJoin(CategoryEntity,'cat_table', 'modelling_question.mod_qs_categories = cat_table.category_id::VARCHAR')
+        .getRawMany();
+
+        all_QS.forEach(each_QS=>{
+            all_QS_Answered.forEach(each_QS_Answered =>{
+                if(each_QS.id == each_QS_Answered.id){
+                    each_QS.score = each_QS_Answered.score;
+                }
+            })
+        })
+
+        return all_QS
+    }
+
+    // async getAllQsByCatAndUser_OLD(user_id: string) {
+    //     //Retrieve all Categorys
+    //     const category_IDs = await getRepository(CategoryEntity)
+    //     .createQueryBuilder("category")
+    //     .getMany();
+    //     //console.log(category_IDs)
+    //     //Get each corresponding modelling task
+    //     const allQsByCat = await Promise.resolve(this.getALlQsByCategory(category_IDs))
+    //     console.log(allQsByCat)
+    //     const filterQsBySolved = await this.getAllSolvedByQs(allQsByCat)
+    //     const filterQsByUser = await this.filterByUser(filterQsBySolved)
+    //     const maxValidationScore = await this.getMaxValidationScore(filterQsByUser)
+    //     console.log(maxValidationScore)
+
+    //     return maxValidationScore;
+    // }
+    // async getALlQsByCategory(category_IDs){
+    //     console.log("Function: getALlQsByCategory Param:")
+    //     console.log(category_IDs)
+    //     let return_Array = []
+    //     await category_IDs.forEach(async cat => {
+    //         //Iterrate over each ModQs Entity
+    //         console.log("Here")
+    //         let response = await Promise.resolve(this.getQSPerCat(cat))
+    //         console.log(response)
+    //         //Get all QS solved by User
+    //         return_Array.push(response)
+    //     });
+    //     console.log(return_Array)
+    //     return return_Array
+    // }
+    // async getQSPerCat(cat){
+    //     const qsPerLevel = await getRepository(Modelling_QuestionEntity)
+    //     .createQueryBuilder("modelling_question")
+    //     .where("modelling_question.mod_qs_categories = :mod_qs_categories",{mod_qs_categories:cat.category_id})
+    //     .getMany();
+    //     return qsPerLevel
+    // }
+    // getAllSolvedByQs(corresponding_Mods){
+    //     console.log("Function: getAllSolvedByQs Param:")
+    //     console.log(corresponding_Mods)
+
+    //     let filteredBySolvedQS = []
+    //     corresponding_Mods.forEach(async function (mod){
+    //         let name = mod.mod_qs_question_text;
+    //         //small_Map.push(name);
+    //         let id   = mod.mod_qs_id;
+    //         //small_Map.push(id);
+    //         //Get all Matching Tests
+    //         const corresponding_Tests = await getRepository(Tg_ModellingEntity)
+    //         .createQueryBuilder("tg_modelling")
+    //         .where("tg_modelling.tg_modelling_question_id = :tg_modelling_question_id",{tg_modelling_question_id:mod.mod_qs_id})
+    //         .getMany();
+    //         console.log("Corr_Test")
+    //         console.log(corresponding_Tests)  
+    //         filteredBySolvedQS.push(corresponding_Tests)                           
+    //     });
+    //     console.log(filteredBySolvedQS)
+    //     return filteredBySolvedQS
+    // }
+    // filterByUser(corresponding_Tests){
+    //     let result_array = []
+    //     //console.log("Function: filterByUser Param:")
+    //     //console.log(corresponding_Tests)
+    //     corresponding_Tests.forEach(async function(tests){
+    //         //console.log(tests)
+    //         const all_Solved_By_User = await getRepository(TestEntity)
+    //         .createQueryBuilder("test")
+    //         .where("test.test_solved_test_id  =:test_solved_test_id",{test_solved_test_id:tests.tg_modelling_id})
+    //         .getMany()
+    //         result_array.push(all_Solved_By_User);
+    //     })
+    //     return result_array
+    // }
+    // getMaxValidationScore(all_Solved_By_User){
+    //     let result_array = []
+    //    // console.log("Function: getMaxValidationScore Param:")
+    //    // console.log(all_Solved_By_User)
+    //     all_Solved_By_User.forEach(async function(final){
+    //         const final_Tests = await getRepository(Tg_ModellingEntity)
+    //         .createQueryBuilder("tg_modelling")
+    //         .where("tg_modelling.tg_modelling_question_id = :tg_modelling_question_id",{tg_modelling_question_id:final.test_solved_test_id})
+    //         .andWhere("MAX(tg_modelling_validation_score)")
+    //         .getRawOne();
+    //         result_array.push(final_Tests);
+    //     }) 
+    //     return result_array; 
+    // }
+
+
+
+
+
+
+
     
     constructor(
         // @InjectRepository(Role)

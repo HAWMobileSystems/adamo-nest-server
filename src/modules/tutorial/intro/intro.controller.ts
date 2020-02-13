@@ -15,6 +15,7 @@ import { ApiBearerAuth, ApiUseTags } from '@nestjs/swagger';
 
 import { IntroService } from './intro.service';
 import { IntroEntity } from './intro.entity';
+import { Modelling_QuestionEntity } from '../modelling_question/modelling_question.entity';
 
 @Controller('intro')
 @ApiUseTags('intro')
@@ -24,6 +25,11 @@ export class IntroController {
     /**
      * 
      */
+    @Get('startview/:id')
+    listAllQsByCatAndUser(@Param('id') id): Promise<any[]> {
+        return this.introService.getAllQsByCatAndUser(id);
+    }
+
     @Get('beginner')
     listBeginner() : Promise<any[]> {
         return this.introService.getCategory('Beginner');

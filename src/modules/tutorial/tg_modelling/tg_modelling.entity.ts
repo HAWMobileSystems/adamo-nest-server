@@ -38,7 +38,7 @@ export class Tg_ModellingEntity extends AbstractEntity<Tg_ModellingDto>{
 
     @ApiModelProperty()
     @Column()
-    public tg_modelling_validation_score: string;
+    public tg_modelling_validation_score: number;
 
     @ApiModelProperty()
     @Column()

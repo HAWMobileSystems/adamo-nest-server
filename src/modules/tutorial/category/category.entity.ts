@@ -2,6 +2,7 @@ import { Entity, Column,PrimaryGeneratedColumn } from "typeorm";
 import { AbstractEntity } from '../../../common/abstract.entity';
 import { CategoryDto } from './dto/CategoryDto'
 import { ApiModelProperty } from "@nestjs/swagger";
+import { Exclude } from "class-transformer";
 
 
 @Entity({name:'category'})
@@ -14,5 +15,6 @@ export class CategoryEntity extends AbstractEntity<CategoryDto>{
     @Column()
     public category_name: string    
     
+    @Exclude()
     dtoClass = CategoryDto;  
 }

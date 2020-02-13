@@ -20,6 +20,11 @@ export class Modelling_QuestionEntity extends AbstractEntity<Modelling_QuestionD
 
     @ApiModelProperty()
     @Column()
+    public mod_qs_question_description: string;
+
+
+    @ApiModelProperty()
+    @Column()
     @OneToMany(type => CategoryEntity, category => category.category_id)
     public mod_qs_categories: string;
 

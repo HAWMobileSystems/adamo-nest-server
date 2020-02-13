@@ -33,6 +33,12 @@ export default class SeedModellignQuestion implements Seeder {
         .where("category.category_name = :category_name",{category_name:'Advanced'})
         .getOne();
         console.log("Grabbing Advanced Category ID");
+
+        const getCategory_id_prof = await getRepository(CategoryEntity)
+        .createQueryBuilder("category")
+        .where("category.category_name = :category_name",{category_name:'Professional'})
+        .getOne();
+        console.log("Grabbing Advanced Category ID");
     
         const seedRule = await connection
         .createQueryBuilder()
@@ -88,34 +94,76 @@ export default class SeedModellignQuestion implements Seeder {
             {
                 mod_qs_categories: getCategory_id.category_id,
                 mod_qs_question_text:"This is the first Beginner Question",
+                mod_qs_question_description:"Learn to create a Basic Beginner Diagramm(1/3)",
                 mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
             },
             {
                 mod_qs_categories: getCategory_id.category_id,
                 mod_qs_question_text:"This is the second Beginner Question",
+                mod_qs_question_description:"Learn to create a Basic Beginner Diagramm(2/3)",
                 mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
             },
             {
                 mod_qs_categories: getCategory_id.category_id,
                 mod_qs_question_text:"This is the third Beginner Question",
+                mod_qs_question_description:"Learn to create a Basic Beginner Diagramm(3/3)",
                 mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
             },
             {
                 mod_qs_categories: getCategory_id_adv.category_id,
                 mod_qs_question_text:"This is the first Advanced Question",
+                mod_qs_question_description:"Learn to create a Basic Advanced Diagramm(1/3)",
+                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+            },
+            {
+                mod_qs_categories: getCategory_id_adv.category_id,
+                mod_qs_question_text:"This is the second Advanced Question",
+                mod_qs_question_description:"Learn to create a Basic Advanced Diagramm(2/3)",
+                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+            },
+            {
+                mod_qs_categories: getCategory_id_adv.category_id,
+                mod_qs_question_text:"This is the third Advanced Question",
+                mod_qs_question_description:"Learn to create a Basic Advanced Diagramm(3/3)",
+                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+            },
+            {
+                mod_qs_categories: getCategory_id_prof.category_id,
+                mod_qs_question_text:"This is the first Professional Question",
+                mod_qs_question_description:"Learn to create a Basic Professional Diagramm(1/3)",
+                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+            },
+            {
+                mod_qs_categories: getCategory_id_prof.category_id,
+                mod_qs_question_text:"This is the second Professional Question",
+                mod_qs_question_description:"Learn to create a Basic Professional Diagramm(2/3)",
+                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+            },
+            {
+                mod_qs_categories: getCategory_id_prof.category_id,
+                mod_qs_question_text:"This is the third Professional Question",
+                mod_qs_question_description:"Learn to create a Basic Professional Diagramm(3/3)",
                 mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
             },
         ])
         .execute();
 
 
-        const mod_qs = await getRepository(Modelling_QuestionEntity)
-        .createQueryBuilder("modelling_question")
-        .where("modelling_question.mod_qs_question_text = :mod_qs_question_text",{mod_qs_question_text:'This is the first Question'})
-        .getOne();
-        console.log("Grabbing Modelling_Question")
-        console.log(otherdata);
-        console.log(otherdata.identifiers[0]);
+        // const mod_qs_prof = await getRepository(Modelling_QuestionEntity)
+        // .createQueryBuilder("modelling_question")
+        // .where("modelling_question.mod_qs_question_text = :mod_qs_question_text",{mod_qs_question_text:'This is the third Professional Question'})
+        // .getOne();
+        // const mod_qs_adv = await getRepository(Modelling_QuestionEntity)
+        // .createQueryBuilder("modelling_question")
+        // .where("modelling_question.mod_qs_question_text = :mod_qs_question_text",{mod_qs_question_text:'This is the second Advanced Question'})
+        // .getOne();
+        // const mod_qs_beg = await getRepository(Modelling_QuestionEntity)
+        // .createQueryBuilder("modelling_question")
+        // .where("modelling_question.mod_qs_question_text = :mod_qs_question_text",{mod_qs_question_text:'This is the second Beginner Question'})
+        // .getOne();
+        // console.log("Grabbing Modelling_Question")
+        // console.log(otherdata);
+        // console.log(otherdata.identifiers[0]);
 
 
         const seedTg_Mod = await connection
@@ -124,11 +172,23 @@ export default class SeedModellignQuestion implements Seeder {
         .into(Tg_ModellingEntity)
         .values([
             {
-             tg_modelling_question_id: otherdata.identifiers[0].mod_qs_id,
+             tg_modelling_question_id: otherdata.identifiers[8].mod_qs_id,
              tg_modelling_xml_providet: "<xml>This XML is used to Validate a BPMN Model</xml>",
-             tg_modelling_validation_score: "98%",
+             tg_modelling_validation_score: 98,
              tg_modelling_editing_begin:123,
-            }
+            },
+            {
+                tg_modelling_question_id: otherdata.identifiers[5].mod_qs_id,
+                tg_modelling_xml_providet: "<xml>This XML is used to Validate a BPMN Model</xml>",
+                tg_modelling_validation_score: 55,
+                tg_modelling_editing_begin:12343,
+               },
+               {
+                tg_modelling_question_id: otherdata.identifiers[2].mod_qs_id,
+                tg_modelling_xml_providet: "<xml>This XML is used to Validate a BPMN Model</xml>",
+                tg_modelling_validation_score: 30,
+                tg_modelling_editing_begin:1435,
+               },
         ])
         .execute();
         const user = await getRepository(UserEntity)
@@ -144,9 +204,21 @@ export default class SeedModellignQuestion implements Seeder {
            {
             test_solved_test_id: seedTg_Mod.identifiers[0].tg_modelling_id,
             test_user_id: user.id,
+            test_categorie: getCategory_id_prof.category_id,
+            test_tg_identifier: tg.professional,
+           },
+           {
+            test_solved_test_id: seedTg_Mod.identifiers[1].tg_modelling_id,
+            test_user_id: user.id,
+            test_categorie: getCategory_id_adv.category_id,
+            test_tg_identifier: tg.advanced,
+           },
+           {
+            test_solved_test_id: seedTg_Mod.identifiers[2].tg_modelling_id,
+            test_user_id: user.id,
             test_categorie: getCategory_id.category_id,
             test_tg_identifier: tg.beginner,
-           }
+           },
        ])
        .execute();
 
