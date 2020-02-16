@@ -22,7 +22,7 @@ export class Tg_IntroEntity extends AbstractEntity<Tg_IntroDto>{
 
     @ApiModelProperty()
     @Column()
-    public tg_intro_last_clicked_id: string;
+    public tg_intro_is_finished: boolean;
 
     @Exclude()
     dtoClass = Tg_IntroDto;

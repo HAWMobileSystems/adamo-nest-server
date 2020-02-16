@@ -11,12 +11,12 @@ export class Tg_IntroDto extends AbstractDto {
     public tg_intro_intro_id: string;
 
     @ApiModelPropertyOptional()
-    public tg_intro_last_clicked_id: string;
+    public tg_intro_is_finished: boolean;
 
     constructor(test: Tg_IntroEntity) {
         super(test);
         this.tg_intro_id = test.tg_intro_id;
         this.tg_intro_intro_id = test.tg_intro_intro_id;
-        this.tg_intro_last_clicked_id = test.tg_intro_last_clicked_id;
+        this.tg_intro_is_finished = test.tg_intro_is_finished;
     }
 }
