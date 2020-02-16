@@ -6,6 +6,8 @@ import { CategoryEntity } from '../category/category.entity';
 import { Modelling_QuestionEntity } from '../modelling_question/modelling_question.entity';
 import { Tg_ModellingEntity } from '../tg_modelling/tg_modelling.entity';
 import { TestEntity } from '../test/test.entity';
+import { Tg_IntroEntity } from '../tg_intro/tg_intro.entity';
+import { Multiplechoice_QuestionEntity } from '../multiplechoice_question/multiplechoice_question.entity';
 
 @Injectable()
 export class IntroService {
@@ -21,6 +23,11 @@ export class IntroService {
         category_IDs.forEach(e=>{
             cat_ids_array.push(e.category_id)
         })
+        //get for each intro finished status
+        //const all_Intros_solved = await getRepository(Tg_IntroEntity)
+        //.createQueryBuilder('tg_intro')
+        
+
         console.log(cat_ids_array)
         const all_QS_Answered = await getRepository(Tg_ModellingEntity)
         .createQueryBuilder("tg_modelling")
@@ -44,13 +51,34 @@ export class IntroService {
         .innerJoin(CategoryEntity,'cat_table', 'modelling_question.mod_qs_categories = cat_table.category_id::VARCHAR')
         .getRawMany();
 
+
+
+        // const all_Mult_QS = await getRepository(Multiplechoice_QuestionEntity)
+        // .createQueryBuilder("multiplechoice_question")
+        // .select("cat_table.category_name","catName")
+        // .addSelect("multiplechoice_question.mod_qs_id","id")
+        // .addSelect("multiplechoice_question.mod_qs_question_description","name")
+        // .addSelect("0","score")
+        // .innerJoin(CategoryEntity,'cat_table', 'modelling_question.mod_qs_categories = cat_table.category_id::VARCHAR')
+        // .getRawMany();
+
+
+        const intro_status = await getRepository(Tg_IntroEntity)
+        .createQueryBuilder("tg_intro")
+        .select("cat_table.category_name","catName")
+        .addSelect("tg_intro.tg_intro_is_finished","fin")
+        .innerJoin(TestEntity,'test_table', 'tg_intro.tg_intro_id::VARCHAR = test_table.test_solved_test_id ')
+        .innerJoin(CategoryEntity,'cat_table', 'test_table.test_categorie = cat_table.category_id::VARCHAR')
+        .where('test_table.test_user_id = :test_user_id',{test_user_id:user_id})
+        .getRawMany()
+        console.log(intro_status)
+
         const returnMap:Map<String,Map<String,any[]>> = new Map<String,Map<String,any[]>>()
 
         category_IDs.forEach(e=>{
             let arr:Map<String,any[]> = new Map<String,any[]>();
             let smallArr = []
             all_QS.forEach(each_QS=>{
-                let smallArr = []
                 if(each_QS.catName == e.category_name){
                     smallArr.push(each_QS.id)
                     smallArr.push(each_QS.name)
@@ -65,22 +93,32 @@ export class IntroService {
                 })
                 
             })
+            let intro_arr = []
+            intro_status.forEach(each_intro =>{
+                if(each_intro.catName == e.category_name){
+                    intro_arr.push(each_intro.fin)
+                }
+                    
+            })
+            let mult_qs_arr = []
+            arr.set("intro_status",intro_arr)
+            arr.set("mult_qs_res",mult_qs_arr)
             arr.set("modellingtasks",smallArr)
             returnMap.set("catName:"+e.category_name,arr)
         })
         console.log(returnMap)
 
 
-        all_QS.forEach(each_QS=>{
-            all_QS_Answered.forEach(each_QS_Answered =>{
-                if(each_QS.id == each_QS_Answered.id){
-                    each_QS.score = each_QS_Answered.score;
-                }
-            })
-        })
+        // all_QS.forEach(each_QS=>{
+        //     all_QS_Answered.forEach(each_QS_Answered =>{
+        //         if(each_QS.id == each_QS_Answered.id){
+        //             each_QS.score = each_QS_Answered.score;
+        //         }
+        //     })
+        // })
         
 
-        return all_QS
+        return returnMap
     }
 
     // async getAllQsByCatAndUser_OLD(user_id: string) {

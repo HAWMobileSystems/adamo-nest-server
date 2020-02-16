@@ -17,8 +17,8 @@ export class Tg_IntroEntity extends AbstractEntity<Tg_IntroDto>{
    
     @ApiModelProperty()
     @Column()
-    @OneToMany(type => IntroEntity, intro => intro.intro_id)
-    public tg_intro_intro_id: string;
+    @OneToMany(type => CategoryEntity, intro => intro.category_id)
+    public tg_intro_intro_category: string;
 
     @ApiModelProperty()
     @Column()

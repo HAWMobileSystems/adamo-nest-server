@@ -82,18 +82,29 @@ export default class SeedTutorial implements Seeder {
        .getOne();
        console.log("Grabbing Intro")
 
-    //    const seedTg_Intro = await connection
-    //    .createQueryBuilder()
-    //    .insert()
-    //    .into(Tg_IntroEntity)
-    //    .values([
-    //        {
-    //         tg_intro_intro_id: intro_id.intro_id,
-    //         tg_intro_last_clicked_id: "thisone",
-    //        }
-    //    ])
-    //    .execute();
+       const seedTg_Intro = await connection
+       .createQueryBuilder()
+       .insert()
+       .into(Tg_IntroEntity)
+       .values([
+           {
+            tg_intro_intro_category:getCategory_id.category_id,
+            tg_intro_is_finished:true,
+           }
+       ])
+       .execute();
        console.log("Seeding Test_Intro")
+       const test_seed = await connection
+       .createQueryBuilder()
+       .insert()
+       .into(TestEntity)
+       .values([{
+           test_categorie:getCategory_id.category_id,
+           test_solved_test_id:seedTg_Intro.identifiers[0].tg_intro_id,
+           test_user_id:user.id,
+           test_tg_identifier:tg.beginner
+       }])
+       .execute()
 
        console.log("Seeding Test Modelling")
        const test_id = await getRepository(TestEntity)
