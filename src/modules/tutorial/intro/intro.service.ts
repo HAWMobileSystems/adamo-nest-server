@@ -44,6 +44,33 @@ export class IntroService {
         .innerJoin(CategoryEntity,'cat_table', 'modelling_question.mod_qs_categories = cat_table.category_id::VARCHAR')
         .getRawMany();
 
+        const returnMap:Map<String,Map<String,any[]>> = new Map<String,Map<String,any[]>>()
+
+        category_IDs.forEach(e=>{
+            let arr:Map<String,any[]> = new Map<String,any[]>();
+            let smallArr = []
+            all_QS.forEach(each_QS=>{
+                let smallArr = []
+                if(each_QS.catName == e.category_name){
+                    smallArr.push(each_QS.id)
+                    smallArr.push(each_QS.name)
+                    smallArr.push(each_QS.score)
+                }
+                all_QS_Answered.forEach(each_QS_Answered =>{
+                    if(each_QS.id == each_QS_Answered.id){
+                        each_QS.score = each_QS_Answered.score;
+                        smallArr.pop()
+                        smallArr.push(each_QS_Answered.score)
+                    }
+                })
+                
+            })
+            arr.set("modellingtasks",smallArr)
+            returnMap.set("catName:"+e.category_name,arr)
+        })
+        console.log(returnMap)
+
+
         all_QS.forEach(each_QS=>{
             all_QS_Answered.forEach(each_QS_Answered =>{
                 if(each_QS.id == each_QS_Answered.id){
@@ -51,6 +78,7 @@ export class IntroService {
                 }
             })
         })
+        
 
         return all_QS
     }
@@ -144,7 +172,19 @@ export class IntroService {
     //     return result_array; 
     // }
 
-
+    async getPage(lvl:string, id:number){
+        //Grab LVL
+        const getCategory_id = await getRepository(CategoryEntity)
+        .createQueryBuilder("category")
+        .where("category.category_name = :category_name",{category_name:lvl})
+        .getOne();
+        //Get Page by ID
+        let result = await this.repository.createQueryBuilder('intro')
+        .where("intro.intro_categories = :intro_categories",{intro_categories:getCategory_id.category_id})
+        .andWhere("intro.intro_identifier =:intro_identifier",{intro_identifier:id})
+        .getOne();
+        return result;
+    }
 
 
 

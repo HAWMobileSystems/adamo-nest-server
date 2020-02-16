@@ -30,20 +30,27 @@ export class IntroController {
         return this.introService.getAllQsByCatAndUser(id);
     }
 
-    @Get('beginner')
-    listBeginner() : Promise<any[]> {
-        return this.introService.getCategory('Beginner');
-    }
-    
-    @Get('advanced')
-    listAdvanced() : Promise<any[]> {
-        return this.introService.getCategory('Advanced');
+
+    @Get('/:lvl/:pageid')
+    listLvl(@Param('lvl')lvl,@Param('pageid')id){
+        return this.introService.getPage(lvl,id);
     }
 
-    @Get('professional')
-    listProfessional() : Promise<any[]> {
-        return this.introService.getCategory('Professional');
-    }
+
+    // @Get('beginner/:id')
+    // listBeginner(@Param('id') id){
+    //     return this.introService.getPage('Beginner',id);
+    // }
+    
+    // @Get('advanced/:id')
+    // listAdvanced(@Param('id') id){
+    //     return this.introService.getPage('Advanced',id);
+    // }
+
+    // @Get('professional/:id')
+    // listProfessional(@Param('id') id){
+    //     return this.introService.getPage('Professional',id);
+    // }
     /** 
     @Get("next/:id")
     listNext(@Param('id') id) : Promise<any> {
