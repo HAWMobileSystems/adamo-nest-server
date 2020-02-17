@@ -26,7 +26,7 @@ export class IntroController {
      * 
      */
     @Get('startview/:id')
-    listAllQsByCatAndUser(@Param('id') id): Promise<any[]> {
+    listAllQsByCatAndUser(@Param('id') id): Promise<any> {
         return this.introService.getAllQsByCatAndUser(id);
     }
 

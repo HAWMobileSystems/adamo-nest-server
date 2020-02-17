@@ -15,7 +15,7 @@ export class Tg_ModellingDto extends AbstractDto {
     public tg_modelling_xml_providet: string;
 
     @ApiModelPropertyOptional()
-    public tg_modelling_validation_score: string;
+    public tg_modelling_validation_score: number;
 
     @ApiModelPropertyOptional()
     public tg_modelling_editing_begin: number;

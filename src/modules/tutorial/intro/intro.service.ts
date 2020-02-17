@@ -42,6 +42,9 @@ export class IntroService {
         .andWhere("mod_qs_table.mod_qs_categories IN (:...mod_qs_categories)",{mod_qs_categories:cat_ids_array})
         .getRawMany();
         
+
+        console.log(all_QS_Answered)
+
         const all_QS = await getRepository(Modelling_QuestionEntity)
         .createQueryBuilder("modelling_question")
         .select("cat_table.category_name","catName")
@@ -76,13 +79,17 @@ export class IntroService {
         const returnMap:Map<String,Map<String,any[]>> = new Map<String,Map<String,any[]>>()
 
         category_IDs.forEach(e=>{
-            let arr:Map<String,any[]> = new Map<String,any[]>();
+            let arr:Map<String,any> = new Map<String,any>();
             let smallArr = []
             all_QS.forEach(each_QS=>{
+                let smth: Map<String,any> = new Map<String,any>();
                 if(each_QS.catName == e.category_name){
-                    smallArr.push(each_QS.id)
-                    smallArr.push(each_QS.name)
-                    smallArr.push(each_QS.score)
+                    smth.set("id",each_QS.id)
+                    smth.set("catName",each_QS.name)
+                    smth.set("score",each_QS.score)
+                    // smallArr.push()
+                    // smallArr.push()
+                    // smallArr.push(each_QS.score)
                 }
                 all_QS_Answered.forEach(each_QS_Answered =>{
                     if(each_QS.id == each_QS_Answered.id){
@@ -91,6 +98,7 @@ export class IntroService {
                         smallArr.push(each_QS_Answered.score)
                     }
                 })
+                
                 
             })
             let intro_arr = []

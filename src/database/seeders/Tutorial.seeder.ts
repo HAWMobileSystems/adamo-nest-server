@@ -32,7 +32,7 @@ export default class SeedTutorial implements Seeder {
 
         const getCategory_id = await getRepository(CategoryEntity)
         .createQueryBuilder("category")
-        .where("category.category_name = :category_name",{category_name:'Beginner'})
+        .where("category.category_name = :category_name",{category_name:'Advanced'})
         .getOne();
         
         const mult_qs_id = await getRepository(Multiplechoice_QuestionEntity)
@@ -81,13 +81,14 @@ export default class SeedTutorial implements Seeder {
        .where("intro.intro_categories = :intro_categories",{intro_categories:getCategory_id.category_id})
        .getOne();
        console.log("Grabbing Intro")
-
+       console.log(intro_id)
        const seedTg_Intro = await connection
        .createQueryBuilder()
        .insert()
        .into(Tg_IntroEntity)
        .values([
            {
+            tg_intro_intro_id:intro_id.intro_id,
             tg_intro_intro_category:getCategory_id.category_id,
             tg_intro_is_finished:true,
            }

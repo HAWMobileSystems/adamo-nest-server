@@ -18,5 +18,6 @@ export class Tg_IntroDto extends AbstractDto {
         this.tg_intro_id = test.tg_intro_id;
         this.tg_intro_intro_id = test.tg_intro_intro_category;
         this.tg_intro_is_finished = test.tg_intro_is_finished;
+        this.tg_intro_intro_id = test.tg_intro_intro_id;
     }
 }

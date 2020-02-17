@@ -23,6 +23,10 @@ export class Tg_IntroEntity extends AbstractEntity<Tg_IntroDto>{
     @ApiModelProperty()
     @Column()
     public tg_intro_is_finished: boolean;
+   
+    @ApiModelProperty()
+    @Column()
+    public tg_intro_intro_id: string;
 
     @Exclude()
     dtoClass = Tg_IntroDto;
