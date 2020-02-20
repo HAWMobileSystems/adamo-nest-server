@@ -27,7 +27,11 @@ export default class SeedMultipleChoiceQuestion implements Seeder {
         .where("category.category_name = :category_name",{category_name:'Beginner'})
         .getOne();
         console.log("Grabbing Category ID");
-
+        const getCategory_id_adv = await getRepository(CategoryEntity)
+        .createQueryBuilder("category")
+        .where("category.category_name = :category_name",{category_name:'Advanced'})
+        .getOne();
+        console.log("Grabbing Category ID");
 
         const seedMult_Qs = await connection
         .createQueryBuilder()
@@ -37,14 +41,32 @@ export default class SeedMultipleChoiceQuestion implements Seeder {
             {
                 multiplechoice_question_text: "Erste Sinnvolle MC Question",
                 multiplechoice_question_categories:getCategory_id.category_id,
+                multiplechoice_question_description: "Short Description Qs 1"
             },
             {
                 multiplechoice_question_text: "Zweite Sinnvolle MC Question",
-                multiplechoice_question_categories:getCategory_id.category_id,  
+                multiplechoice_question_categories:getCategory_id.category_id, 
+                multiplechoice_question_description: "Short Description Qs 2" 
             },
             { 
                 multiplechoice_question_text: "CHOOSEN MC Question",
                 multiplechoice_question_categories:getCategory_id.category_id,
+                multiplechoice_question_description: "Short Description Qs 3"
+            },
+            {
+                multiplechoice_question_text: "Erste Sinnvolle MC QuestionADV",
+                multiplechoice_question_categories:getCategory_id_adv.category_id,
+                multiplechoice_question_description: "Short Description Qs 1ADV"
+            },
+            {
+                multiplechoice_question_text: "Zweite Sinnvolle MC Question ADV",
+                multiplechoice_question_categories:getCategory_id_adv.category_id, 
+                multiplechoice_question_description: "Short Description Qs 2ADV" 
+            },
+            { 
+                multiplechoice_question_text: "CHOOSEN MC Question ADV",
+                multiplechoice_question_categories:getCategory_id_adv.category_id,
+                multiplechoice_question_description: "Short Description Qs 3ADV"
             }
             
         ])

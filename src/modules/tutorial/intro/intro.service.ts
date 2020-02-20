@@ -8,6 +8,9 @@ import { Tg_ModellingEntity } from '../tg_modelling/tg_modelling.entity';
 import { TestEntity } from '../test/test.entity';
 import { Tg_IntroEntity } from '../tg_intro/tg_intro.entity';
 import { Multiplechoice_QuestionEntity } from '../multiplechoice_question/multiplechoice_question.entity';
+import { Tg_MultiplechoiceEntity } from '../tg_multiplechoice/tg_multiplechoice.entity';
+import { Multiplechoice_QuestionDto } from '../multiplechoice_question/dto/Multiplechoice_QuestionDto';
+import { Tg_Multiplechoice_AnsweredEntity } from '../tg_multiplechoice_answered/tg_multiplechoice_answered.entity';
 
 @Injectable()
 export class IntroService {
@@ -22,11 +25,7 @@ export class IntroService {
         let cat_ids_array = []
         category_IDs.forEach(e=>{
             cat_ids_array.push(e.category_id)
-        })
-        //get for each intro finished status
-        //const all_Intros_solved = await getRepository(Tg_IntroEntity)
-        //.createQueryBuilder('tg_intro')
-        
+        })     
 
         console.log(cat_ids_array)
         const all_QS_Answered = await getRepository(Tg_ModellingEntity)
@@ -41,10 +40,9 @@ export class IntroService {
         .where('test_table.test_user_id = :test_user_id',{test_user_id:user_id})
         .andWhere("mod_qs_table.mod_qs_categories IN (:...mod_qs_categories)",{mod_qs_categories:cat_ids_array})
         .getRawMany();
-        
 
         console.log(all_QS_Answered)
-
+      
         const all_QS = await getRepository(Modelling_QuestionEntity)
         .createQueryBuilder("modelling_question")
         .select("cat_table.category_name","catName")
@@ -53,19 +51,21 @@ export class IntroService {
         .addSelect("0","score")
         .innerJoin(CategoryEntity,'cat_table', 'modelling_question.mod_qs_categories = cat_table.category_id::VARCHAR')
         .getRawMany();
-
-
-
-        // const all_Mult_QS = await getRepository(Multiplechoice_QuestionEntity)
-        // .createQueryBuilder("multiplechoice_question")
-        // .select("cat_table.category_name","catName")
-        // .addSelect("multiplechoice_question.mod_qs_id","id")
-        // .addSelect("multiplechoice_question.mod_qs_question_description","name")
-        // .addSelect("0","score")
-        // .innerJoin(CategoryEntity,'cat_table', 'modelling_question.mod_qs_categories = cat_table.category_id::VARCHAR')
-        // .getRawMany();
-
-
+        console.log("Parsing Results")
+        const returnArray = new returnAsArray();
+        all_QS.forEach(e=>{
+            let ele = new parseReturn(e.catName,e.id,e.name)
+            returnArray.append(ele)
+        })
+        console.log("Adding Score")
+        all_QS_Answered.forEach(e=>{
+            returnArray.array.forEach(array_ele=>{
+                if(e.id == array_ele.id){
+                    array_ele.setScore(e.score)
+                }
+            })
+        })
+        console.log("Adding tutorial finished")
         const intro_status = await getRepository(Tg_IntroEntity)
         .createQueryBuilder("tg_intro")
         .select("cat_table.category_name","catName")
@@ -74,149 +74,93 @@ export class IntroService {
         .innerJoin(CategoryEntity,'cat_table', 'test_table.test_categorie = cat_table.category_id::VARCHAR')
         .where('test_table.test_user_id = :test_user_id',{test_user_id:user_id})
         .getRawMany()
-        console.log(intro_status)
+        console.log("intro_status")
+        console.log(returnArray)
 
-        const returnMap:Map<String,Map<String,any[]>> = new Map<String,Map<String,any[]>>()
+        const count_All_Mult_Qs = await getRepository(Multiplechoice_QuestionEntity)
+        .createQueryBuilder("multiplechoice_question")
+        .select("multiplechoice_question.multiplechoice_question_id","id")
+        .addSelect("multiplechoice_question.multiplechoice_question_categories","cat_id")
+        .where("multiplechoice_question.multiplechoice_question_categories IN (:...multiplechoice_question_categories)",{multiplechoice_question_categories:cat_ids_array})
+        .getRawMany();
+        let countBeginner = 0
+        let countAdvanced = 0
+        let countProfessi = 0
 
-        category_IDs.forEach(e=>{
-            let arr:Map<String,any> = new Map<String,any>();
-            let smallArr = []
-            all_QS.forEach(each_QS=>{
-                let smth: Map<String,any> = new Map<String,any>();
-                if(each_QS.catName == e.category_name){
-                    smth.set("id",each_QS.id)
-                    smth.set("catName",each_QS.name)
-                    smth.set("score",each_QS.score)
-                    // smallArr.push()
-                    // smallArr.push()
-                    // smallArr.push(each_QS.score)
-                }
-                all_QS_Answered.forEach(each_QS_Answered =>{
-                    if(each_QS.id == each_QS_Answered.id){
-                        each_QS.score = each_QS_Answered.score;
-                        smallArr.pop()
-                        smallArr.push(each_QS_Answered.score)
+        count_All_Mult_Qs.forEach(ele=>{
+            category_IDs.forEach(e=>{
+                if(ele.cat_id == e.category_id){
+                    let name = e.category_name
+                    switch(name){
+                        case "Beginner":{
+                            let count_b = countBeginner
+                            count_b = count_b+1
+                            countBeginner = count_b
+                            break;
+                        }
+                        case "Advanced":{
+                            let count_a = countAdvanced
+                            count_a = count_a+1
+                            countAdvanced = count_a
+                            break;                       
+                        }
+                        case "Professional":{
+                            let count_p = countProfessi
+                            count_p = count_p+1
+                            countProfessi = count_p
+                            break;
+                        }
                     }
-                })
-                
-                
-            })
-            let intro_arr = []
-            intro_status.forEach(each_intro =>{
-                if(each_intro.catName == e.category_name){
-                    intro_arr.push(each_intro.fin)
                 }
-                    
             })
-            let mult_qs_arr = []
-            arr.set("intro_status",intro_arr)
-            arr.set("mult_qs_res",mult_qs_arr)
-            arr.set("modellingtasks",smallArr)
-            returnMap.set("catName:"+e.category_name,arr)
+        })   
+        console.log("Set Intro Status")
+        returnArray.array.forEach(array_ele=>{
+            intro_status.forEach(ele=>{
+                if(array_ele.catName == ele.catName){
+                    array_ele.setIntro(ele.fin)
+                }
+            })
         })
-        console.log(returnMap)
+        console.log("Set MC Status")
+        returnArray.array.forEach(array_ele=>{
+            switch(array_ele.catName){
+                case "Beginner":{
+                    let score = "0/"+countBeginner
+                    array_ele.setMcTest(score)
+                    break;
+                }
+                case "Advanced":{
+                    let score = "0/"+countAdvanced
+                    array_ele.setMcTest(score)
+                    break;
+                }
+                case "Professional":{
+                    let score = "0/"+countProfessi
+                    array_ele.setMcTest(score)
+                    break;
+                }
+            }
+        })
+        console.log(returnArray.array)
 
-
-        // all_QS.forEach(each_QS=>{
-        //     all_QS_Answered.forEach(each_QS_Answered =>{
-        //         if(each_QS.id == each_QS_Answered.id){
-        //             each_QS.score = each_QS_Answered.score;
-        //         }
-        //     })
-        // })
+        // const all_Mult_QS_Answered = await getRepository(Tg_MultiplechoiceEntity)
+        // .createQueryBuilder("tg_multiplechoice")
+        // .select("cat_table.category_name","catName")
+        // .addSelect("multiplechoice_question.multiplechoice_question_id","id")
+        // .addSelect("tg_mult_ans.tg_modelling_validation_score","score")
+        // .innerJoin(TestEntity,'test_table', 'tg_modelling.tg_modelling_id::VARCHAR = test_table.test_solved_test_id ')
+        // .innerJoin(Multiplechoice_QuestionEntity,'multiplechoice_question','tg_modelling.tg_modelling_question_id  = mod_qs_table.mod_qs_id::VARCHAR')
+        // .innerJoin(Tg_Multiplechoice_AnsweredEntity,'tg_mult_ans','tg_mult_ans.tg_multiplechoice_answered_id = tg_multiplechoice.tg_multiplechoice_id ')
+        // .innerJoin(CategoryEntity,'cat_table', 'mod_qs_table.mod_qs_categories = cat_table.category_id::VARCHAR')
+        // .where('test_table.test_user_id = :test_user_id',{test_user_id:user_id})
+        // .andWhere("mod_qs_table.mod_qs_categories IN (:...mod_qs_categories)",{mod_qs_categories:cat_ids_array})
+        // .getRawMany();
         
 
-        return returnMap
+        return returnArray.array
     }
 
-    // async getAllQsByCatAndUser_OLD(user_id: string) {
-    //     //Retrieve all Categorys
-    //     const category_IDs = await getRepository(CategoryEntity)
-    //     .createQueryBuilder("category")
-    //     .getMany();
-    //     //console.log(category_IDs)
-    //     //Get each corresponding modelling task
-    //     const allQsByCat = await Promise.resolve(this.getALlQsByCategory(category_IDs))
-    //     console.log(allQsByCat)
-    //     const filterQsBySolved = await this.getAllSolvedByQs(allQsByCat)
-    //     const filterQsByUser = await this.filterByUser(filterQsBySolved)
-    //     const maxValidationScore = await this.getMaxValidationScore(filterQsByUser)
-    //     console.log(maxValidationScore)
-
-    //     return maxValidationScore;
-    // }
-    // async getALlQsByCategory(category_IDs){
-    //     console.log("Function: getALlQsByCategory Param:")
-    //     console.log(category_IDs)
-    //     let return_Array = []
-    //     await category_IDs.forEach(async cat => {
-    //         //Iterrate over each ModQs Entity
-    //         console.log("Here")
-    //         let response = await Promise.resolve(this.getQSPerCat(cat))
-    //         console.log(response)
-    //         //Get all QS solved by User
-    //         return_Array.push(response)
-    //     });
-    //     console.log(return_Array)
-    //     return return_Array
-    // }
-    // async getQSPerCat(cat){
-    //     const qsPerLevel = await getRepository(Modelling_QuestionEntity)
-    //     .createQueryBuilder("modelling_question")
-    //     .where("modelling_question.mod_qs_categories = :mod_qs_categories",{mod_qs_categories:cat.category_id})
-    //     .getMany();
-    //     return qsPerLevel
-    // }
-    // getAllSolvedByQs(corresponding_Mods){
-    //     console.log("Function: getAllSolvedByQs Param:")
-    //     console.log(corresponding_Mods)
-
-    //     let filteredBySolvedQS = []
-    //     corresponding_Mods.forEach(async function (mod){
-    //         let name = mod.mod_qs_question_text;
-    //         //small_Map.push(name);
-    //         let id   = mod.mod_qs_id;
-    //         //small_Map.push(id);
-    //         //Get all Matching Tests
-    //         const corresponding_Tests = await getRepository(Tg_ModellingEntity)
-    //         .createQueryBuilder("tg_modelling")
-    //         .where("tg_modelling.tg_modelling_question_id = :tg_modelling_question_id",{tg_modelling_question_id:mod.mod_qs_id})
-    //         .getMany();
-    //         console.log("Corr_Test")
-    //         console.log(corresponding_Tests)  
-    //         filteredBySolvedQS.push(corresponding_Tests)                           
-    //     });
-    //     console.log(filteredBySolvedQS)
-    //     return filteredBySolvedQS
-    // }
-    // filterByUser(corresponding_Tests){
-    //     let result_array = []
-    //     //console.log("Function: filterByUser Param:")
-    //     //console.log(corresponding_Tests)
-    //     corresponding_Tests.forEach(async function(tests){
-    //         //console.log(tests)
-    //         const all_Solved_By_User = await getRepository(TestEntity)
-    //         .createQueryBuilder("test")
-    //         .where("test.test_solved_test_id  =:test_solved_test_id",{test_solved_test_id:tests.tg_modelling_id})
-    //         .getMany()
-    //         result_array.push(all_Solved_By_User);
-    //     })
-    //     return result_array
-    // }
-    // getMaxValidationScore(all_Solved_By_User){
-    //     let result_array = []
-    //    // console.log("Function: getMaxValidationScore Param:")
-    //    // console.log(all_Solved_By_User)
-    //     all_Solved_By_User.forEach(async function(final){
-    //         const final_Tests = await getRepository(Tg_ModellingEntity)
-    //         .createQueryBuilder("tg_modelling")
-    //         .where("tg_modelling.tg_modelling_question_id = :tg_modelling_question_id",{tg_modelling_question_id:final.test_solved_test_id})
-    //         .andWhere("MAX(tg_modelling_validation_score)")
-    //         .getRawOne();
-    //         result_array.push(final_Tests);
-    //     }) 
-    //     return result_array; 
-    // }
 
     async getPage(lvl:string, id:number){
         //Grab LVL
@@ -318,6 +262,44 @@ export class IntroService {
    
     createQueryBuilder(alias: string = 'intro', queryRunner?: QueryRunner): SelectQueryBuilder<IntroEntity> {
         return this.repository.createQueryBuilder(alias, queryRunner);
+    }
+
+}
+class parseReturn{
+    catName:String
+    id:String
+    name:String
+    score:Number
+    intro:Boolean
+    mctest:String   
+    constructor(catName:String,id:String,name:String){
+        this.catName = catName
+        this.id = id
+        this.name = name 
+        this.score = 0
+        this.intro = false
+        this.mctest = "0/0"
+    }
+    public setIntro(value:Boolean){
+        this.intro = value
+    }
+    public setScore(value:Number){
+        this.score = value
+    }
+    public setMcTest(value:String){
+        this.mctest = value
+    }
+}
+class returnAsArray{
+    array:parseReturn[]
+    constructor(){
+        this.array = []
+    }
+    public append(value:parseReturn){
+        this.array.push(value)
+    }
+    public getArray(){
+        return this.array;
     }
 
 }
