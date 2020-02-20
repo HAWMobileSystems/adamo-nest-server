@@ -43,6 +43,16 @@ export default class SeedIntroAdvanced implements Seeder {
                 intro_categories: catAdvanced,
                 intro_identifier:'1',
            },
+           {
+            intro_text: `
+            <div>
+            <h1>Überschrift level2</h1>
+            <p>Some text as description</p>
+            <p>maybe a picture</p>
+            </div>`,
+            intro_categories: catAdvanced,
+            intro_identifier:'2',
+       },
         ])
         .execute();
     }

@@ -26,7 +26,33 @@ export default class SeedIntroBeginner implements Seeder {
 
         //console.log("Assignactual ID to variable");
         const catBeginer = getCategory_id_b.category_id;
-
+        const md1 = await connection
+        .createQueryBuilder()
+        .insert()
+        .into(IntroEntity)
+        .values([
+            {
+                intro_text: `
+                <div>
+                <h1>Überschrift dieses Beginner levels</h1>
+                <p>Some text as description</p>
+                <p>maybe a picture</p>
+                </div>`,
+                intro_categories: catBeginer,
+                intro_identifier:'1',
+           },
+           {
+            intro_text: `
+            <div>
+            <h1>Überschrift level2 Beginner</h1>
+            <p>Some text as description</p>
+            <p>maybe a picture</p>
+            </div>`,
+            intro_categories: catBeginer,
+            intro_identifier:'2',
+       },
+        ])
+        .execute();
 
         //console.log("GET Text from File");
        // const someTextContent = require('./seedFiles/introBeginner/');

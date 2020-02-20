@@ -19,7 +19,7 @@ export default class SeedIntroProf implements Seeder {
         //console.log("Assignactual ID to variable");
         const catProf = getCategory_id.category_id;
         //console.log("Create SVG picture Variable");
-        const getPic1Text = "<svg viewBox=\"0 0 1226 1481\" ><path d=\"M0 1394V87C0 46.3 13.3 19.8 40 7.5 66.7-4.8 98.7.3 136 23l1034 634c37.3 22.7 56 50.3 56 83s-18.7 60.3-56 83L136 1458c-37.3 22.7-69.3 27.8-96 15.5-26.7-12.3-40-38.8-40-79.5z\" fill=\"#FFFFFF\"/></svg>"       
+        //const getPic1Text = "<svg viewBox=\"0 0 1226 1481\" ><path d=\"M0 1394V87C0 46.3 13.3 19.8 40 7.5 66.7-4.8 98.7.3 136 23l1034 634c37.3 22.7 56 50.3 56 83s-18.7 60.3-56 83L136 1458c-37.3 22.7-69.3 27.8-96 15.5-26.7-12.3-40-38.8-40-79.5z\" fill=\"#FFFFFF\"/></svg>"       
         //console.log("Start Seeding Page 1");
         const md1 = await connection
         .createQueryBuilder()
@@ -27,14 +27,19 @@ export default class SeedIntroProf implements Seeder {
         .into(IntroEntity)
         .values([
             {
-                intro_text: `## Ueberschrift
-                pls add picture here: 
-                ${getPic1Text}.
-                This is not 
-                something Like.`,
+                intro_text: `<div>
+                <h1>Prof1</h1>
+                </div`,
                 intro_categories: catProf,
                 intro_identifier:'1',
            },
+           {
+            intro_text: `<div>
+            <h2Prof2</h2>
+            </div`,
+            intro_categories: catProf,
+            intro_identifier:'2',
+       },
         ])
         .execute();
     }
