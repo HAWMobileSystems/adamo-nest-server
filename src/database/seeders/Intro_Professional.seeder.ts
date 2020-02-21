@@ -35,7 +35,7 @@ export default class SeedIntroProf implements Seeder {
            },
            {
             intro_text: `<div>
-            <h2Prof2</h2>
+            <h2>Prof2</h2>
             </div`,
             intro_categories: catProf,
             intro_identifier:'2',
