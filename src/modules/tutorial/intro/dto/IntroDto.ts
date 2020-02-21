@@ -18,6 +18,9 @@ export class IntroDto extends AbstractDto {
     public intro_text: string;
 
     @ApiModelPropertyOptional()
+    public intro_text_de: string;
+
+    @ApiModelPropertyOptional()
     public intro_categories: string;
 
     @ApiModelPropertyOptional()
@@ -30,6 +33,7 @@ export class IntroDto extends AbstractDto {
         super(intro);
         this.intro_id = intro.intro_id;
         this.intro_text = intro.intro_text;
+        this.intro_text_de = intro.intro_text_de;
         this.intro_categories = intro.intro_categories;
         this.intro_identifier = intro.intro_identifier;
         console.log(intro)

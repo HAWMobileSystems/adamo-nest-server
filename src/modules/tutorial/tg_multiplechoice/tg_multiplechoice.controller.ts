@@ -20,6 +20,12 @@ import { Tg_MultiplechoiceEntity } from './tg_multiplechoice.entity';
 @ApiBearerAuth()
 export class Tg_MultiplechoiceController {_
     constructor(private readonly tg_multiplechoiceService: Tg_MultiplechoiceService) {}
+    
+    @Get(':user_id')
+    getMultiplechoiceQs(@Param('user_id')id){
+        return this.tg_multiplechoiceService.getMultiplechoiceQs(id);
+    }
+    
     /**
      * 
      

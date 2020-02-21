@@ -39,34 +39,46 @@ export default class SeedMultipleChoiceQuestion implements Seeder {
         .into(Multiplechoice_QuestionEntity)
         .values([
             {
-                multiplechoice_question_text: "Erste Sinnvolle MC Question",
+                multiplechoice_question_text: "First Real MC Question",
+                multiplechoice_question_text_de: "Erste Sinnvolle MC Question",
                 multiplechoice_question_categories:getCategory_id.category_id,
-                multiplechoice_question_description: "Short Description Qs 1"
+                multiplechoice_question_description: "Short Description Qs 1",
+                multiplechoice_question_description_de: "Kurze Beschreibung der ersten Frage"
             },
             {
-                multiplechoice_question_text: "Zweite Sinnvolle MC Question",
+                multiplechoice_question_text: "First Real MC Question",
+                multiplechoice_question_text_de: "Zweite Sinnvolle MC Question",
                 multiplechoice_question_categories:getCategory_id.category_id, 
-                multiplechoice_question_description: "Short Description Qs 2" 
+                multiplechoice_question_description: "Short Description Qs 2",
+                multiplechoice_question_description_de: "Kurze Beschreibung der zweiten Frage"
             },
             { 
-                multiplechoice_question_text: "CHOOSEN MC Question",
+                multiplechoice_question_text: "Third Real MC Question",
+                multiplechoice_question_text_de: "Dritte Sinnvolle MC Question",
                 multiplechoice_question_categories:getCategory_id.category_id,
-                multiplechoice_question_description: "Short Description Qs 3"
+                multiplechoice_question_description: "Short Description Qs 3",
+                multiplechoice_question_description_de: "Kurze Beschreibung der dritten Frage"
             },
             {
-                multiplechoice_question_text: "Erste Sinnvolle MC QuestionADV",
+                multiplechoice_question_text: "First Real MC Question Advanced",
+                multiplechoice_question_text_de: "Erste Sinnvolle MC QuestionADV",
                 multiplechoice_question_categories:getCategory_id_adv.category_id,
-                multiplechoice_question_description: "Short Description Qs 1ADV"
+                multiplechoice_question_description: "Short Description Qs 1ADV",
+                multiplechoice_question_description_de: "Kurze Beschreibung der ersten Frage Advanced"
             },
             {
-                multiplechoice_question_text: "Zweite Sinnvolle MC Question ADV",
+                multiplechoice_question_text: "Second Real MC Question Advanced",
+                multiplechoice_question_text_de: "Zweite Sinnvolle MC Question ADV",
                 multiplechoice_question_categories:getCategory_id_adv.category_id, 
-                multiplechoice_question_description: "Short Description Qs 2ADV" 
+                multiplechoice_question_description: "Short Description Qs 2ADV",
+                multiplechoice_question_description_de: "Kurze Beschreibung der zweiten Frage Adv"
             },
             { 
-                multiplechoice_question_text: "CHOOSEN MC Question ADV",
+                multiplechoice_question_text: "Thrid Real MC Question Advanced",
+                multiplechoice_question_text_de: "Dritte Sinnvolle MC Question ADV",
                 multiplechoice_question_categories:getCategory_id_adv.category_id,
-                multiplechoice_question_description: "Short Description Qs 3ADV"
+                multiplechoice_question_description: "Short Description Qs 3ADV",
+                multiplechoice_question_description_de: "Kurze Beschreibung der dritten Frage"
             }
             
         ])

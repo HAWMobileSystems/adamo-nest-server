@@ -142,8 +142,11 @@ export class IntroService {
                 }
             }
         })
-        console.log(returnArray.array)
 
+
+       
+        //returnArray.sortByCat();
+        console.log(returnArray.array)
         // const all_Mult_QS_Answered = await getRepository(Tg_MultiplechoiceEntity)
         // .createQueryBuilder("tg_multiplechoice")
         // .select("cat_table.category_name","catName")
@@ -301,5 +304,34 @@ class returnAsArray{
     public getArray(){
         return this.array;
     }
+
+    public sortByCat(){
+        let sorted_array = []
+        let countB = []
+        let countA = []
+        let countP = []
+        this.array.forEach(e=>{
+            let name = e.catName
+            switch(name){
+                case "Beginner":{
+                    countB.push(e)
+                    break;
+                }
+                case "Advanced":{
+                    countA.push(e)
+                    break;                       
+                }
+                case "Professional":{
+                    countP.push(e)
+                    break;
+                }
+            }
+        })
+        console.log(countB)
+        sorted_array.concat(countB,countA,countP)
+        console.log(sorted_array)
+        this.array = sorted_array
+    }
+
 
 }

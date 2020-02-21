@@ -5,6 +5,12 @@ import { TestRepository } from './test.repository';
 
 @Injectable()
 export class TestService {
+    solveMultiplechoice(user_id:string,task_id:string,solution:any) {
+        console.log(user_id)
+        console.log(task_id)
+        console.log(solution) 
+        throw new Error("Method not implemented.");
+    }
     
     constructor(
         // @InjectRepository(Role)

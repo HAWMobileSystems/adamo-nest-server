@@ -37,12 +37,12 @@ export default class SeedTutorial implements Seeder {
         
         const mult_qs_id = await getRepository(Multiplechoice_QuestionEntity)
         .createQueryBuilder("multiplechoice_question")
-        .where("multiplechoice_question.multiplechoice_question_text = :multiplechoice_question_text",{multiplechoice_question_text:'Erste Sinnvolle MC Question'})
+        .where("multiplechoice_question.multiplechoice_question_text_de = :multiplechoice_question_text_de",{multiplechoice_question_text_de:'Erste Sinnvolle MC Question'})
         .getOne();
         
         console.log("Grabbing Question Specific Rule");
      
-  
+        
         const mult_qs_ID = mult_qs_id.multiplechoice_question_id;
         const random_ID = '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed';
         
@@ -55,6 +55,7 @@ export default class SeedTutorial implements Seeder {
             {
               multiplechoice_question_answer_question_id:mult_qs_ID,
               multiplechoice_question_answer_text:"MultiplechoiceQuestion",
+              multiplechoice_question_answer_text_de:"MehrfachauswahlFrage",
               multiplechoice_question_answer_true:true
             }
             //,'multiplechoice_question_answer_true': "true"

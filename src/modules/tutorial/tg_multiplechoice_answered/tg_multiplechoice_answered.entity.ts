@@ -23,6 +23,8 @@ export class Tg_Multiplechoice_AnsweredEntity extends AbstractEntity<Tg_Multiple
     @Column()
     public tg_multiplechoice_answered_answerd: boolean;
 
+
+    
     @Exclude()
     dtoClass = Tg_Multiplechoice_AnsweredDto;
 }

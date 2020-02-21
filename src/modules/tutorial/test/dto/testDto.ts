@@ -21,8 +21,8 @@ export class TestDto extends AbstractDto {
     public test_tg_identifier: tg;
 
     constructor(test: TestEntity) {
-        console.log("IIIIIIIIITESTIIIIIIII");
-        console.log(test);
+        // console.log("IIIIIIIIITESTIIIIIIII");
+        // console.log(test);
         super(test);
         this.test_id = test.test_id;
         this.test_solved_test_id = test.test_solved_test_id;

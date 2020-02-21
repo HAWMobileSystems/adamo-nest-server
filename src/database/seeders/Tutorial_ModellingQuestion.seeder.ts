@@ -71,7 +71,7 @@ export default class SeedModellignQuestion implements Seeder {
         .into(Modelling_Question_RulesEntity)
         .values([
             {
-                modelling_question_id: mult_qs_id.multiplechoice_question_id,
+                modelling_question_used:"test",
                 modelling_rule_id: seedrule_id.modelling_rule_id,
             }
         ])
@@ -94,55 +94,73 @@ export default class SeedModellignQuestion implements Seeder {
             {
                 mod_qs_categories: getCategory_id.category_id,
                 mod_qs_question_text:"This is the first Beginner Question",
+                mod_qs_question_text_de:"Deutsch - erste Frage",
                 mod_qs_question_description:"Learn to create a Basic Beginner Diagramm(1/3)",
+                mod_qs_question_description_de:"Lerne ein BPMN Diagramm zu erstellen(1/3)",
                 mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
             },
             {
                 mod_qs_categories: getCategory_id.category_id,
                 mod_qs_question_text:"This is the second Beginner Question",
+                mod_qs_question_text_de:"Deutsch - zweite Frage",
                 mod_qs_question_description:"Learn to create a Basic Beginner Diagramm(2/3)",
+                mod_qs_question_description_de:"Lerne ein BPMN Diagramm zu erstellen(2/3)",
                 mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
             },
             {
                 mod_qs_categories: getCategory_id.category_id,
                 mod_qs_question_text:"This is the third Beginner Question",
+                mod_qs_question_text_de:"Deutsch - dritte Frage",
                 mod_qs_question_description:"Learn to create a Basic Beginner Diagramm(3/3)",
+                mod_qs_question_description_de:"Lerne ein BPMN Diagramm zu erstellen(3/3)",
                 mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
             },
             {
                 mod_qs_categories: getCategory_id_adv.category_id,
                 mod_qs_question_text:"This is the first Advanced Question",
+                mod_qs_question_text_de:"Deutsch - erste Frage Advanced",
                 mod_qs_question_description:"Learn to create a Basic Advanced Diagramm(1/3)",
+                mod_qs_question_description_de:"Lerne ein BPMN fortgeschrittenes Diagramm zu erstellen(1/3)",
                 mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
             },
             {
                 mod_qs_categories: getCategory_id_adv.category_id,
                 mod_qs_question_text:"This is the second Advanced Question",
+                mod_qs_question_text_de:"Deutsch - zweite Frage Advanced",
                 mod_qs_question_description:"Learn to create a Basic Advanced Diagramm(2/3)",
+                mod_qs_question_description_de:"Lerne ein BPMN fortgeschrittenes Diagramm zu erstellen(2/3)",
                 mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
             },
             {
                 mod_qs_categories: getCategory_id_adv.category_id,
                 mod_qs_question_text:"This is the third Advanced Question",
+                mod_qs_question_text_de:"Deutsch - dritte Frage Advanced",
                 mod_qs_question_description:"Learn to create a Basic Advanced Diagramm(3/3)",
+                mod_qs_question_description_de:"Lerne ein BPMN fortgeschrittenes Diagramm zu erstellen(3/3)",
                 mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
             },
             {
                 mod_qs_categories: getCategory_id_prof.category_id,
                 mod_qs_question_text:"This is the first Professional Question",
+                mod_qs_question_text_de:"Deutsch - erste Frage Professional",
                 mod_qs_question_description:"Learn to create a Basic Professional Diagramm(1/3)",
+                mod_qs_question_description_de:"Lerne ein BPMN professionelles Diagramm zu erstellen(1/3)",
                 mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
             },
             {
                 mod_qs_categories: getCategory_id_prof.category_id,
                 mod_qs_question_text:"This is the second Professional Question",
+                mod_qs_question_text_de:"Deutsch - zweite Frage Professional",
                 mod_qs_question_description:"Learn to create a Basic Professional Diagramm(2/3)",
+                mod_qs_question_description_de:"Lerne ein BPMN professionelles Diagramm zu erstellen(2/3)",
                 mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
             },
             {
                 mod_qs_categories: getCategory_id_prof.category_id,
                 mod_qs_question_text:"This is the third Professional Question",
+                mod_qs_question_text_de:"Deutsch - dritte Frage Professional",
                 mod_qs_question_description:"Learn to create a Basic Professional Diagramm(3/3)",
+                mod_qs_question_description_de:"Lerne ein BPMN professionelles Diagramm zu erstellen(3/3)",
                 mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
             },
         ])

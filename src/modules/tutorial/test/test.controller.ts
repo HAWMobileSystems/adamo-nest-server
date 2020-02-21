@@ -16,24 +16,30 @@ import { ApiBearerAuth, ApiUseTags } from '@nestjs/swagger';
 import { TestService } from './test.service';
 import { TestEntity } from './test.entity';
 
-@Controller('test')
-@ApiUseTags('test')
+@Controller('test_table')
+@ApiUseTags('test_table')
 @ApiBearerAuth()
-export class TestController {_
+export class TestController {
     constructor(private readonly testService: TestService) {}
-    /**
-
-    @Get()
+    
+    @Get('all')
     listRoles() {
         return this.testService.find();
     }
+
+    @Put(':id/:task/:solution')
+    async solveMultiplechoice(@Param('id') id,@Param('task')task,@Param('solution')solution){
+        this.testService.solveMultiplechoice(id,task,solution);
+    }
+
+
 
      /**
      * We use this also for password?
      * 
      * @param id 
      * @param userData 
-
+    */
     @Put(':id/update')
     async update(@Param('id') id, @Body() testData: TestEntity): Promise<any> {
         // userData.id = Number(id);
@@ -47,7 +53,7 @@ export class TestController {_
     /**
      * 
      * @param entity 
-   
+   **/
     @Post()
     create(@Body() entity: TestEntity) {
         this.testService.create(entity);
@@ -58,5 +64,5 @@ export class TestController {_
       return this.testService.delete(id);
       // Maybe deleting all role entries in Permissions with this role and set them back to Default ist an valid option? TODO
     }  
-    **/
+
 }

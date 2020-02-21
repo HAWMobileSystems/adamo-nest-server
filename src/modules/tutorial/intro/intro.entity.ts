@@ -21,6 +21,10 @@ export class IntroEntity extends AbstractEntity<IntroDto>{
 
     @ApiModelProperty()
     @Column()
+    public intro_text_de: string;
+
+    @ApiModelProperty()
+    @Column()
     @OneToMany(type => CategoryEntity, category => category.category_id)
     public intro_categories: string;
 

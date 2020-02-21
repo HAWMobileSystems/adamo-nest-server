@@ -6,6 +6,10 @@ import { Tg_MultiplechoiceEntity } from "./tg_multiplechoice.entity";
 @Injectable()
 export class Tg_MultiplechoiceService {
     
+    getMultiplechoiceQs(user_id: any) {
+       console.log("Request for user_id")
+    }
+    
     constructor(
         // @InjectRepository(Role)
         private readonly repository: Tg_MultiplechoiceRepository

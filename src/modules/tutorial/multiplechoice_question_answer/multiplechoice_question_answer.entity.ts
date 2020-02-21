@@ -24,6 +24,10 @@ export class Multiplechoice_Question_AnswerEntity extends AbstractEntity<Multipl
 
     @ApiModelProperty()
     @Column()
+    public multiplechoice_question_answer_text_de: string;
+
+    @ApiModelProperty()
+    @Column()
     public multiplechoice_question_answer_true: boolean;
 
     @Exclude()

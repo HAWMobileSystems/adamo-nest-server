@@ -29,14 +29,20 @@ export default class SeedIntroProf implements Seeder {
             {
                 intro_text: `<div>
                 <h1>Prof1</h1>
-                </div`,
+                </div>`,
+                intro_text_de: `<div>
+                <h1>Deutsch</h1>
+                </div>`,
                 intro_categories: catProf,
                 intro_identifier:'1',
            },
            {
             intro_text: `<div>
             <h2>Prof2</h2>
-            </div`,
+            </div>`,
+            intro_text_de: `<div>
+            <h1>Deutsch</h1>
+            </div>`,
             intro_categories: catProf,
             intro_identifier:'2',
        },

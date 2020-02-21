@@ -40,6 +40,14 @@ export default class SeedIntroBeginner implements Seeder {
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48" height="48" viewBox="167 96 48 48" version="1.1"><g class="djs-group"><g class="djs-element djs-shape selected" data-element-id="StartEvent_1" style="display: block;" transform="translate(173 102)"><g class="djs-visual"><circle cx="18" cy="18" r="18" style="stroke: black; stroke-width: 2px; fill: white; fill-opacity: 0.95;"/></g><rect x="0" y="0" width="36" height="36" class="djs-hit" style="fill: none; stroke-opacity: 0; stroke: white; stroke-width: 15px;"/><rect x="-6" y="-6" width="48" height="48" class="djs-outline" style="fill: none;"/></g></g>
                 </svg>
                 </div>`,
+                intro_text_de: `
+                <div>
+                <h1>Das ist der start des Levels Beginner</h1>
+                <h2> Start Event </h2>
+                <p>Zeigt an wo ein Prozess startet. Hat kein spezifisches Verhalten. Es ist optional und kann durch ein Start-Message Eregniss oder kein Ergeniss ersetzt werden.</p>
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48" height="48" viewBox="167 96 48 48" version="1.1"><g class="djs-group"><g class="djs-element djs-shape selected" data-element-id="StartEvent_1" style="display: block;" transform="translate(173 102)"><g class="djs-visual"><circle cx="18" cy="18" r="18" style="stroke: black; stroke-width: 2px; fill: white; fill-opacity: 0.95;"/></g><rect x="0" y="0" width="36" height="36" class="djs-hit" style="fill: none; stroke-opacity: 0; stroke: white; stroke-width: 15px;"/><rect x="-6" y="-6" width="48" height="48" class="djs-outline" style="fill: none;"/></g></g>
+                </svg>
+                </div>`,
                 intro_categories: catBeginer,
                 intro_identifier:'1',
            },
@@ -52,6 +60,25 @@ export default class SeedIntroBeginner implements Seeder {
                 <th>Element</th>
                 <th>Description</th>
                 <th>Best Practices</th>
+                <th>Notation</th>
+            </tr>
+            <tr>
+                <td>End Event</td>
+                <td>Indicates when the process ends. In terms of sequence flows, the end event ends the flow of the process, and thus, will not have any outgoing sequence flows.</td>
+                <td>End event indicates where a process will end. </td>
+                <td><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48" height="48" viewBox="193 119 48 48" version="1.1"><g class="djs-group"><g class="djs-element djs-shape" data-element-id="EndEvent_0z53vd4" style="display: block;" transform="translate(199 125)"><g class="djs-visual"><circle cx="18" cy="18" r="18" style="stroke: black; stroke-width: 4px; fill: white; fill-opacity: 0.95;"/></g><rect x="0" y="0" width="36" height="36" class="djs-hit" style="fill: none; stroke-opacity: 0; stroke: white; stroke-width: 15px;"/><rect x="-6" y="-6" width="48" height="48" class="djs-outline" style="fill: none;"/></g></g></svg></td>
+            </tr>
+            </table>
+            
+            </div>`,
+            intro_text_de: `
+            <div>
+            <h3>End Event</h3>
+            <table style="width:100%">
+            <tr>
+                <th>Element</th>
+                <th>Beschreibung</th>
+                <th>Standart Vorgehensweise</th>
                 <th>Notation</th>
             </tr>
             <tr>
