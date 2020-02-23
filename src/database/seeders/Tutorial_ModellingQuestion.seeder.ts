@@ -71,7 +71,7 @@ export default class SeedModellignQuestion implements Seeder {
         .into(Modelling_Question_RulesEntity)
         .values([
             {
-                modelling_question_used:"test",
+                modelling_question_used:"standart",
                 modelling_rule_id: seedrule_id.modelling_rule_id,
             }
         ])

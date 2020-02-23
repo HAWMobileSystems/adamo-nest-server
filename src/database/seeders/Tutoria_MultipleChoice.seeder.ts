@@ -126,28 +126,7 @@ export default class SeedMultipleChoiceQuestion implements Seeder {
         .createQueryBuilder("users")
         .getOne();
 
-
-        console.log("##############");
-        console.log("##############");
-        console.log("##############");
-        console.log("##############");
-        console.log("##############");
-        console.log("##############");
-        console.log("##############");
-        console.log("##############");
-        console.log("##############");
-        console.log("##############");
-        console.log("##############");
-        console.log("##############");
-        console.log("##############");
-        console.log("##############");
-        console.log("##############");
-        console.log("##############");
-        console.log("##############");
-        console.log("##############");
-        console.log(seedMult_Qs)
-        console.log(seedMult_Qs.identifiers[2].id)
-        console.log(seedMult_Qs.identifiers[2].multiplechoice_question_id)
+        
         const seedTest3 = await connection
         .createQueryBuilder()
         .insert()
