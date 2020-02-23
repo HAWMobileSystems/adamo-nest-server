@@ -9,7 +9,6 @@ export class TestService {
         console.log(user_id)
         console.log(task_id)
         console.log(solution) 
-        throw new Error("Method not implemented.");
     }
     
     constructor(

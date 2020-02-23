@@ -47,24 +47,24 @@ export default class SeedTutorial implements Seeder {
         const random_ID = '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed';
         
 
-        const seedMult_Qs_A = await connection
-        .createQueryBuilder()
-        .insert()
-        .into(Multiplechoice_Question_AnswerEntity)
-        .values([
-            {
-              multiplechoice_question_answer_question_id:mult_qs_ID,
-              multiplechoice_question_answer_text:"MultiplechoiceQuestion",
-              multiplechoice_question_answer_text_de:"MehrfachauswahlFrage",
-              multiplechoice_question_answer_true:true
-            }
-            //,'multiplechoice_question_answer_true': "true"
-            //{'multiplechoice_question_answer_question_id': mult_qs_ID, 'multiplechoice_question_answer_text': 'Answer_number_1','multiplechoice_question_answer_true': true},
-            // {'multiplechoice_question_answer_question_id': mult_qs_ID, 'multiplechoice_question_answer_text': 'Answer_number_2'},
-            // {'multiplechoice_question_answer_question_id': mult_qs_ID, 'multiplechoice_question_answer_text': 'Answer_number_3'},
-            // {'multiplechoice_question_answer_question_id': random_ID, 'multiplechoice_question_answer_text': 'Answer_number_1'},
-        ])
-        .execute();
+        // const seedMult_Qs_A = await connection
+        // .createQueryBuilder()
+        // .insert()
+        // .into(Multiplechoice_Question_AnswerEntity)
+        // .values([
+        //     {
+        //       multiplechoice_question_answer_question_id:mult_qs_ID,
+        //       multiplechoice_question_answer_text:"MultiplechoiceQuestion",
+        //       multiplechoice_question_answer_text_de:"MehrfachauswahlFrage",
+        //       multiplechoice_question_answer_true:true
+        //     }
+        //     //,'multiplechoice_question_answer_true': "true"
+        //     //{'multiplechoice_question_answer_question_id': mult_qs_ID, 'multiplechoice_question_answer_text': 'Answer_number_1','multiplechoice_question_answer_true': true},
+        //     // {'multiplechoice_question_answer_question_id': mult_qs_ID, 'multiplechoice_question_answer_text': 'Answer_number_2'},
+        //     // {'multiplechoice_question_answer_question_id': mult_qs_ID, 'multiplechoice_question_answer_text': 'Answer_number_3'},
+        //     // {'multiplechoice_question_answer_question_id': random_ID, 'multiplechoice_question_answer_text': 'Answer_number_1'},
+        // ])
+        // .execute();
        
         console.log("Seeding Multiplehoice Answers");
         
@@ -116,17 +116,17 @@ export default class SeedTutorial implements Seeder {
        .getOne();
 
        
-       const seedTg_Mult_Ans = await connection
-       .createQueryBuilder()
-       .insert()
-       .into(Tg_Multiplechoice_AnsweredEntity)
-       .values([
-           {
-            tg_multiplechoice_answered_answer_id: mult_qs_id.multiplechoice_question_id,
-            tg_multiplechoice_answered_answerd: true,
-           }
-       ])
-       .execute();
+    //    const seedTg_Mult_Ans = await connection
+    //    .createQueryBuilder()
+    //    .insert()
+    //    .into(Tg_Multiplechoice_AnsweredEntity)
+    //    .values([
+    //        {
+    //         tg_multiplechoice_answered_answer_id: mult_qs_id.multiplechoice_question_id,
+    //         tg_multiplechoice_answered_answerd: true,
+    //        }
+    //    ])
+    //    .execute();
 
     //    const tg_mult_answ = await getRepository(Tg_Multiplechoice_AnsweredEntity)
     //    .createQueryBuilder("tg_multiplechoice_answered")

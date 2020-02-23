@@ -11,8 +11,12 @@ import { Exclude } from "class-transformer";
 export class Tg_Multiplechoice_AnsweredEntity extends AbstractEntity<Tg_Multiplechoice_AnsweredDto>{
 
     @ApiModelProperty()
-    @OneToMany(type => Tg_MultiplechoiceEntity, test => test.tg_multiplechoice_id)
-    public tg_multiplechoice_answered_id: string;
+    @PrimaryGeneratedColumn('uuid')
+    public tg_multiplechoice_answered_id: string
+
+    @ApiModelProperty()
+    @Column()
+    public tg_multiplechoice_answered_from_qs_id: string;
    
     @ApiModelProperty()
     @Column()

@@ -16,8 +16,8 @@ import { ApiBearerAuth, ApiUseTags } from '@nestjs/swagger';
 import { TestService } from './test.service';
 import { TestEntity } from './test.entity';
 
-@Controller('test_table')
-@ApiUseTags('test_table')
+@Controller('test')
+@ApiUseTags('test')
 @ApiBearerAuth()
 export class TestController {
     constructor(private readonly testService: TestService) {}

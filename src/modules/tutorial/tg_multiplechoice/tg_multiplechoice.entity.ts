@@ -13,7 +13,7 @@ export class Tg_MultiplechoiceEntity extends AbstractEntity<Tg_MultiplechoiceDto
 
   
     @PrimaryGeneratedColumn('uuid')
-    @OneToMany(type => Tg_Multiplechoice_AnsweredEntity, test => test.id)
+    @OneToMany(type => Tg_Multiplechoice_AnsweredEntity, test => test.tg_multiplechoice_answered_from_qs_id)
     public tg_multiplechoice_unique_id: string;
     /** 
     @ApiModelProperty()
