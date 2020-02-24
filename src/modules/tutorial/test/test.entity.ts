@@ -10,11 +10,11 @@ import { Tg_IntroEntity } from "../tg_intro/tg_intro.entity";
 import { Tg_MultiplechoiceEntity } from "../tg_multiplechoice/tg_multiplechoice.entity";
 import { Exclude } from "class-transformer";
 import { Tg_ModellingEntity } from "../tg_modelling/tg_modelling.entity";
-enum tg{
-    beginner,
-    advanced,
-    professional
-}
+// enum tg{
+//     beginner,
+//     advanced,
+//     professional
+// }
 @Entity({name:'test'})
 export class TestEntity extends AbstractEntity<TestDto>{
 
@@ -38,9 +38,9 @@ export class TestEntity extends AbstractEntity<TestDto>{
     @OneToMany(type => CategoryEntity, category => category.category_id)
     public test_categorie: string;
 
-    @ApiModelProperty()
-    @Column()
-    public test_tg_identifier: tg;
+    // @ApiModelProperty()
+    // @Column()
+    // public test_tg_identifier: tg;
 
     @Exclude()
     dtoClass = TestDto;
