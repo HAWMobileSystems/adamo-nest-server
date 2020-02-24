@@ -37,7 +37,7 @@ export default class SeedTutorial implements Seeder {
         
         const mult_qs_id = await getRepository(Multiplechoice_QuestionEntity)
         .createQueryBuilder("multiplechoice_question")
-        .where("multiplechoice_question.multiplechoice_question_text_de = :multiplechoice_question_text_de",{multiplechoice_question_text_de:'Erste Sinnvolle MC Question'})
+        .where("multiplechoice_question.multiplechoice_question_text_de = :multiplechoice_question_text_de",{multiplechoice_question_text_de:'Erste Sinnvolle MC Question-Professional'})
         .getOne();
         
         console.log("Grabbing Question Specific Rule");

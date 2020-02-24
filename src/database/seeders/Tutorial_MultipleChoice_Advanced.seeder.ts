@@ -20,15 +20,10 @@ enum tg{
     advanced,
     professional
 }
-export default class SeedMultipleChoiceQuestion implements Seeder {
+export default class SeedMultipleChoiceQuestionAdvanced implements Seeder {
     public async run(factory: Factory, connection: Connection): Promise<any> {
 
         const getCategory_id = await getRepository(CategoryEntity)
-        .createQueryBuilder("category")
-        .where("category.category_name = :category_name",{category_name:'Beginner'})
-        .getOne();
-        console.log("Grabbing Category ID");
-        const getCategory_id_adv = await getRepository(CategoryEntity)
         .createQueryBuilder("category")
         .where("category.category_name = :category_name",{category_name:'Advanced'})
         .getOne();
@@ -40,55 +35,24 @@ export default class SeedMultipleChoiceQuestion implements Seeder {
         .into(Multiplechoice_QuestionEntity)
         .values([
             {
-                multiplechoice_question_text: "First Real MC Question",
-                multiplechoice_question_text_de: "Erste Sinnvolle MC Question",
+                multiplechoice_question_text: "First Real MC Question -Advanced",
+                multiplechoice_question_text_de: "Erste Sinnvolle MC Question-Advanced",
                 multiplechoice_question_categories:getCategory_id.category_id,
-                // multiplechoice_question_description: "Short Description Qs 1",
-                // multiplechoice_question_description_de: "Kurze Beschreibung der ersten Frage"
             },
             {
-                multiplechoice_question_text: "First Real MC Question",
-                multiplechoice_question_text_de: "Zweite Sinnvolle MC Question",
+                multiplechoice_question_text: "First Real MC Question-Advanced",
+                multiplechoice_question_text_de: "Zweite Sinnvolle MC Question-Advanced",
                 multiplechoice_question_categories:getCategory_id.category_id, 
-                // multiplechoice_question_description: "Short Description Qs 2",
-                // multiplechoice_question_description_de: "Kurze Beschreibung der zweiten Frage"
             },
             { 
-                multiplechoice_question_text: "Third Real MC Question",
-                multiplechoice_question_text_de: "Dritte Sinnvolle MC Question",
-                multiplechoice_question_categories:getCategory_id.category_id,
-                // multiplechoice_question_description: "Short Description Qs 3",
-                // multiplechoice_question_description_de: "Kurze Beschreibung der dritten Frage"
-            },
-            {
-                multiplechoice_question_text: "First Real MC Question Advanced",
-                multiplechoice_question_text_de: "Erste Sinnvolle MC QuestionADV",
-                multiplechoice_question_categories:getCategory_id_adv.category_id,
-                // multiplechoice_question_description: "Short Description Qs 1ADV",
-                // multiplechoice_question_description_de: "Kurze Beschreibung der ersten Frage Advanced"
-            },
-            {
-                multiplechoice_question_text: "Second Real MC Question Advanced",
-                multiplechoice_question_text_de: "Zweite Sinnvolle MC Question ADV",
-                multiplechoice_question_categories:getCategory_id_adv.category_id, 
-                // multiplechoice_question_description: "Short Description Qs 2ADV",
-                // multiplechoice_question_description_de: "Kurze Beschreibung der zweiten Frage Adv"
-            },
-            { 
-                multiplechoice_question_text: "Thrid Real MC Question Advanced",
-                multiplechoice_question_text_de: "Dritte Sinnvolle MC Question ADV",
-                multiplechoice_question_categories:getCategory_id_adv.category_id,
-                // multiplechoice_question_description: "Short Description Qs 3ADV",
-                // multiplechoice_question_description_de: "Kurze Beschreibung der dritten Frage"
+                multiplechoice_question_text: "Third Real MC Question-Advanced",
+                multiplechoice_question_text_de: "Dritte Sinnvolle MC Question-Advanced",
+                multiplechoice_question_categories:getCategory_id.category_id,   
             }
             
         ])
         .execute();
-
-
         console.log("Seeding Answer")
-        console.log(seedMult_Qs.identifiers[0].multiplechoice_question_id)
-        console.log("GOGOGOOG")
         const seedMult_Qs_Ans = await connection
         .createQueryBuilder()
         .insert()
@@ -138,7 +102,7 @@ export default class SeedMultipleChoiceQuestion implements Seeder {
                 multiplechoice_question_answer_true:true
             },
             {
-                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[3].multiplechoice_question_id,
+                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[2].multiplechoice_question_id,
                 multiplechoice_question_answer_text:"Answer 2 English-Richtig",
                 multiplechoice_question_answer_text_de:"Antwort 2 Deutsch-Richtig",
                 multiplechoice_question_answer_true:false
@@ -170,8 +134,8 @@ export default class SeedMultipleChoiceQuestion implements Seeder {
                 tg_multiplechoice_multiplechoice_id:seedMult_Qs.identifiers[0].multiplechoice_question_id
             },
             {
-                tg_multiplechoice_id:seedMult_Qs.identifiers[3].multiplechoice_question_id,
-                tg_multiplechoice_multiplechoice_id:seedMult_Qs.identifiers[3].multiplechoice_question_id
+                tg_multiplechoice_id:seedMult_Qs.identifiers[2].multiplechoice_question_id,
+                tg_multiplechoice_multiplechoice_id:seedMult_Qs.identifiers[2].multiplechoice_question_id
             },
         ])
         .execute();
@@ -220,16 +184,16 @@ export default class SeedMultipleChoiceQuestion implements Seeder {
             {
 
                 tg_multiplechoice_answered_answer_id: seedMult_Qs_Ans.identifiers[6].multiplechoice_question_answer_id,
-                tg_multiplechoice_answered_from_qs_id: seedMult_Qs.identifiers[3].multiplechoice_question_id,
+                tg_multiplechoice_answered_from_qs_id: seedMult_Qs.identifiers[0].multiplechoice_question_id,
                 tg_multiplechoice_answered_answerd:false,
-                tg_multiplechoice_answered_id : seedMult_Qs.identifiers[3].multiplechoice_question_id
+                tg_multiplechoice_answered_id : seedMult_Qs.identifiers[0].multiplechoice_question_id
             },
             {
 
                 tg_multiplechoice_answered_answer_id: seedMult_Qs_Ans.identifiers[7].multiplechoice_question_answer_id,
-                tg_multiplechoice_answered_from_qs_id: seedMult_Qs.identifiers[3].multiplechoice_question_id,
+                tg_multiplechoice_answered_from_qs_id: seedMult_Qs.identifiers[0].multiplechoice_question_id,
                 tg_multiplechoice_answered_answerd:true,
-                tg_multiplechoice_answered_id : seedMult_Qs.identifiers[3].multiplechoice_question_id
+                tg_multiplechoice_answered_id : seedMult_Qs.identifiers[0].multiplechoice_question_id
             },
         ])
         .execute();
@@ -244,25 +208,16 @@ export default class SeedMultipleChoiceQuestion implements Seeder {
              test_solved_test_id: seedTest3.identifiers[0].tg_multiplechoice_id,
              test_user_id: user.id,
              test_categorie: getCategory_id.category_id,
-             //test_tg_identifier: tg.beginner,
             },
             {
                 test_solved_test_id: seedTest3.identifiers[1].tg_multiplechoice_id,
                 test_user_id: user.id,
                 test_categorie: getCategory_id.category_id,
-                //test_tg_identifier: tg.beginner,
                },
                {
                 test_solved_test_id: seedTest3.identifiers[2].tg_multiplechoice_id,
                 test_user_id: user.id,
                 test_categorie: getCategory_id.category_id,
-                //test_tg_identifier: tg.beginner,
-               },
-               {
-                test_solved_test_id: seedTest3.identifiers[3].tg_multiplechoice_id,
-                test_user_id: user.id,
-                test_categorie: getCategory_id.category_id,
-                //test_tg_identifier: tg.beginner,
                },
         ])
         .execute();
