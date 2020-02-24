@@ -104,7 +104,7 @@ export default class SeedTutorial implements Seeder {
            test_categorie:getCategory_id.category_id,
            test_solved_test_id:seedTg_Intro.identifiers[0].tg_intro_id,
            test_user_id:user.id,
-           test_tg_identifier:tg.beginner
+           //test_tg_identifier:tg.beginner
        }])
        .execute()
 

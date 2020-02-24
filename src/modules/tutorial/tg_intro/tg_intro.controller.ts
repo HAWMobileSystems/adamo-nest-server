@@ -21,6 +21,15 @@ import { Tg_IntroEntity } from './tg_intro.entity';
 @ApiBearerAuth()
 export class Tg_IntroController {_
     constructor(private readonly tg_introService: Tg_IntroService) {}
+    
+    
+    
+    
+    @Put(':user_id/:intro_id')
+    async putUserTutorialFinished(@Param('user_id') user_id,@Param('intro_id')intro_id){
+        return this.tg_introService.putUserTutorialFinished(user_id,intro_id)
+    }
+    
     /**
      * 
      
