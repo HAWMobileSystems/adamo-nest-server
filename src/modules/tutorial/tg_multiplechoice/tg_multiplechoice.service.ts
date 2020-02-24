@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { FindConditions, QueryRunner, SelectQueryBuilder, Repository, UpdateResult, getRepository } from 'typeorm';
+import { FindConditions, QueryRunner, SelectQueryBuilder, Repository, UpdateResult, getRepository, getConnection } from 'typeorm';
 import { Tg_MultiplechoiceRepository } from "./tg_multiplechoice.repository";
 import { Tg_MultiplechoiceEntity } from "./tg_multiplechoice.entity";
 import { CategoryEntity } from '../category/category.entity';
@@ -13,10 +13,63 @@ import { Multiplechoice_Question_AnswerDto } from '../multiplechoice_question_an
 export class Tg_MultiplechoiceService {
     /**
      * 
-     * Returns 1 not yet (correct) Answered Question including 4 Answers
-     * for the given category
-     * @param user_id
+     * Posts the Answers given by 
+     * 
+     * @param user_id in combination with the 
+     * @param qs_id and the given 
+     * @param answers 
+     * 
+     * to the Database
+     */
+    async solveMultiplechoice(user_id: any, qs_id: any, answers: string[]) {
+        console.log(qs_id)
+        const mult_qs_id = await getRepository(Multiplechoice_QuestionEntity)
+        .createQueryBuilder("multiplechoice_question")
+        .select("multiplechoice_question.multiplechoice_question_categories","cat")
+        .where("multiplechoice_question.multiplechoice_question_id = :multiplechoice_question_id",{multiplechoice_question_id:qs_id})
+        .getOne();
+        console.log(mult_qs_id)
+
+
+        const seedTest3 = await getConnection()
+        .createQueryBuilder()
+        .insert()
+        .into(Tg_MultiplechoiceEntity)
+        .values([{
+            tg_multiplechoice_id:qs_id,
+            tg_multiplechoice_multiplechoice_id:qs_id
+        }]).execute();
+
+
+
+        // const seedTest4 = await getConnection()
+        // .createQueryBuilder()
+        // .insert()
+        // .into(Tg_Multiplechoice_AnsweredEntity)
+        // .values([{
+        //     tg_multiplechoice_answered_answer_id: seedMult_Qs_Ans.identifiers[0].multiplechoice_question_answer_id,
+        //     tg_multiplechoice_answered_from_qs_id: qs_id,
+        //     tg_multiplechoice_answered_answerd:true,
+        //     tg_multiplechoice_answered_id : qs_id
+        // }]).execute();
+
+        // const seedTest = await getConnection()
+        // .createQueryBuilder()
+        // .insert()
+        // .into(TestEntity)
+        // .values([{
+        //     test_solved_test_id: seedTest3.identifiers[0].tg_multiplechoice_id,
+        //     test_user_id: user_id,
+        //     test_categorie: getCategory_id.category_id,
+        // }]).execute();
+    }
+    /**
+     * 
+     * Returns 1 not yet (correct) Answered Question by the 
+     * @param user_id corresponding to the 
      * @param cat_name
+     *  
+     * from the Database 
      */
     async getMultiplechoiceQs(user_id: any,cat_name: string) {
        //Retrieve all Categorys
@@ -36,7 +89,7 @@ export class Tg_MultiplechoiceService {
        const all_QS_Answered = await getRepository(Tg_MultiplechoiceEntity)
        .createQueryBuilder("tg_multiplechoice")
        .select("test_table.test_solved_test_id","id")
-       .addSelect("mult_qs_table.multiplechoice_question_description","name")
+       //.addSelect("mult_qs_table.multiplechoice_question_description","name")
        .addSelect("mult_qs_table.multiplechoice_question_text","question")
        .addSelect("mult_qs_ans_given.tg_multiplechoice_answered_answerd","answergiven")
        .addSelect("mult_qs_ans.multiplechoice_question_answer_true","answercorrect")
@@ -68,14 +121,14 @@ export class Tg_MultiplechoiceService {
             }
         })
 
-        console.log("List of Array Bevore Remove")
+        console.log("List of All Solved Test")
         console.log(a_filterd)
         //Remove InCorrect Questions from all Answered Questions
         // idToRemove.forEach(idToRem=>{
         //     a_filterd = this.remove_array_element(a_filterd,idToRem)
         // })
-        console.log("Array After Remove")
-        console.log(a_filterd)
+        console.log("List of all Wrong Answers")
+        console.log(idToRemove)
 
         //Now we can remove the list of correct answered Questions 
         //of a List of all Multiplechoice Questions.
@@ -84,14 +137,28 @@ export class Tg_MultiplechoiceService {
         .select("multiplechoice_question.multiplechoice_question_id","id")
         .where('multiplechoice_question.multiplechoice_question_categories = :multiplechoice_question_categories',{multiplechoice_question_categories:catid})
         .getRawMany();
+        console.log(all_QS)
         //Remove the IDS to get an List of all Applicable QUestions
         let arrayOfAllQsIds = []
+        let final_array = []
         all_QS.forEach(e=>{
             arrayOfAllQsIds.push(e.id)
+            final_array.push(e.id)
         })
-        a_filterd.forEach(idToRem=>{
+        console.log(arrayOfAllQsIds)
+        idToRemove.forEach(idToRem=>{
             arrayOfAllQsIds = this.remove_array_element(arrayOfAllQsIds,idToRem)
         })
+        arrayOfAllQsIds.forEach(idTRem=>{
+            final_array = this.remove_array_element(final_array,idTRem)
+        })
+        //Remove right answers from Text
+        console.log(arrayOfAllQsIds)
+
+
+
+        const randomElement = final_array[Math.floor(Math.random() * final_array.length)];
+
         let return_Qs = await getRepository(Multiplechoice_QuestionEntity)
         .createQueryBuilder("multiplechoice_question")
         .select("multiplechoice_question.multiplechoice_question_id","id")
@@ -100,16 +167,13 @@ export class Tg_MultiplechoiceService {
         .addSelect("mult_qs_ans.multiplechoice_question_answer_id","answerID")
         .innerJoin(Multiplechoice_Question_AnswerEntity,'mult_qs_ans','mult_qs_ans.multiplechoice_question_answer_question_id = multiplechoice_question.multiplechoice_question_id::VARCHAR')
         .where('multiplechoice_question.multiplechoice_question_categories = :multiplechoice_question_categories',{multiplechoice_question_categories:catid})
-        .getRawMany();
-        console.log(arrayOfAllQsIds)
-        //Get ALL QS
+        //.andWhere("multiplechoice_question.multiplechoice_question_id IN (:...multiplechoice_question_id)",{multiplechoice_question_id:final_array})
+        .andWhere('multiplechoice_question.multiplechoice_question_id = :multiplechoice_question_id',{multiplechoice_question_id:randomElement})
+        .getRawMany(); //IN (:...mod_qs_categories)",{mod_qs_categories:cat_ids_array}
+       
+        //return_Qs ==> All QS not yet correct answered by user
+        console.log(return_Qs)
         
-
-
-
-        let allNotCorrectAnsweredQuestions = []
-
-
 
         //Get Index to Remov
         /**
@@ -118,40 +182,6 @@ export class Tg_MultiplechoiceService {
         return return_Qs
     }
 
-    // async getAllMult_Answ_By_User(cat_name:string,user_id:string){
-    //     //Retrieve all Categorys
-    //    const category_IDs = await getRepository(CategoryEntity)
-    //    .createQueryBuilder("category")
-    //    .getMany();
-       
-    //    let catid
-    //    category_IDs.forEach(e=>{
-    //        if(e.category_name == cat_name){
-    //            catid = e.category_id
-    //        }
-    //    })     
-    //    console.log("Get all answered Questions")
-    //    /**
-    //     * Get All Questions answered by user in the given category
-    //     */
-    //    const all_QS_Answered = await getRepository(Tg_MultiplechoiceEntity)
-    //    .createQueryBuilder("tg_multiplechoice")
-    //    .select("tg_multiplechoice.tg_multiplechoice_id","id")
-    //    .addSelect("mult_qs_table.multiplechoice_question_description","name")
-    //    .addSelect("mult_qs_table.multiplechoice_question_text","question")
-    //    .addSelect("mult_qs_ans_given.tg_multiplechoice_answered_answerd","answer given")
-    //    .addSelect("mult_qs_ans.multiplechoice_question_answer_true","answer correct")
-    //    .innerJoin(TestEntity,'test_table', 'tg_multiplechoice.tg_multiplechoice_id::VARCHAR = test_table.test_solved_test_id ')
-    //    .innerJoin(Multiplechoice_QuestionEntity,'mult_qs_table','tg_multiplechoice.tg_multiplechoice_id::VARCHAR = mult_qs_table.multiplechoice_question_id::VARCHAR')
-    //    .innerJoin(Tg_Multiplechoice_AnsweredEntity,'mult_qs_ans_given','mult_qs_ans_given.tg_multiplechoice_answered_from_qs_id = tg_multiplechoice.tg_multiplechoice_id::VARCHAR')
-    //    .innerJoin(Multiplechoice_Question_AnswerEntity,'mult_qs_ans','mult_qs_ans_given.tg_multiplechoice_answered_answer_id = multiplechoice_question_answer_id::VARCHAR')
-    //    .where('test_table.test_user_id = :test_user_id',{test_user_id:user_id})
-    //    .andWhere('test_table.test_categorie = :test_categorie',{test_categorie:catid})
-    //    .getRawMany();
-
-    //    console.log(all_QS_Answered)
-    //    return all_QS_Answered
-    // }
     constructor(
         // @InjectRepository(Role)
         private readonly repository: Tg_MultiplechoiceRepository

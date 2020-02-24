@@ -26,8 +26,8 @@ export class Multiplechoice_QuestionDto extends AbstractDto {
         this.multiplechoice_question_text = mc_question.multiplechoice_question_text;
         this.multiplechoice_question_text_de = mc_question.multiplechoice_question_text_de;
         this.multiplechoice_question_categories = mc_question.multiplechoice_question_categories;
-        this.multiplechoice_question_description = mc_question.multiplechoice_question_description;
-        this.multiplechoice_question_description_de = mc_question.multiplechoice_question_description_de;
+        // this.multiplechoice_question_description = mc_question.multiplechoice_question_description;
+        // this.multiplechoice_question_description_de = mc_question.multiplechoice_question_description_de;
    
     }
 

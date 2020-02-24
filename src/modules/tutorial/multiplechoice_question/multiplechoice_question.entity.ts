@@ -17,12 +17,12 @@ export class Multiplechoice_QuestionEntity extends AbstractEntity<Multiplechoice
     @ApiModelProperty()
     @Column()
     public multiplechoice_question_text_de: string;
-    @ApiModelProperty()
-    @Column()
-    public multiplechoice_question_description: string;
-    @ApiModelProperty()
-    @Column()
-    public multiplechoice_question_description_de: string;
+    // @ApiModelProperty()
+    // @Column()
+    // public multiplechoice_question_description: string;
+    // @ApiModelProperty()
+    // @Column()
+    // public multiplechoice_question_description_de: string;
     @ApiModelProperty()
     @Column()
     @OneToMany(type => CategoryEntity, category => category.category_id)
