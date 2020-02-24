@@ -32,7 +32,7 @@ export class IntroController {
 
 
     @Get('/:lvl/:pageid')
-    listLvl(@Param('lvl')lvl,@Param('pageid')id){
+    listLvl(@Param('lvl') lvl,@Param('pageid') id){
         return this.introService.getPage(lvl,id);
     }
 

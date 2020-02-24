@@ -23,10 +23,8 @@ export class Tg_IntroController {_
     constructor(private readonly tg_introService: Tg_IntroService) {}
     
     
-    
-    
     @Put(':user_id/:intro_id')
-    async putUserTutorialFinished(@Param('user_id') user_id,@Param('intro_id')intro_id){
+    putUserTutorialFinished(@Param('user_id')user_id,@Param('intro_id') intro_id){
         return this.tg_introService.putUserTutorialFinished(user_id,intro_id)
     }
     
@@ -43,7 +41,7 @@ export class Tg_IntroController {_
      * 
      * @param id 
      * @param userData 
-     
+     */
     @Put(':id/update')
     async update(@Param('id') id, @Body() testData: Tg_IntroEntity): Promise<any> {
         // userData.id = Number(id);

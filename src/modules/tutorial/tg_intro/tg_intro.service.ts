@@ -49,7 +49,8 @@ export class Tg_IntroService {
            test_user_id:user_id,
            //test_tg_identifier:
        }])
-       .execute()       
+       .execute();
+       console.log("Inserting Intro Finished to DB")      
     }
 
     constructor(

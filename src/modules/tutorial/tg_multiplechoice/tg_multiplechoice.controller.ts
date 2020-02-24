@@ -22,10 +22,16 @@ export class Tg_MultiplechoiceController {_
     constructor(private readonly tg_multiplechoiceService: Tg_MultiplechoiceService) {}
     
     @Get('getMultiplechoice/:user_id/:cat')
-    getMultiplechoiceQs(@Param('user_id')id,@Param('cat')cat){
-        return this.tg_multiplechoiceService.getMultiplechoiceQs(id,cat);
+    getMultiplechoiceQs(@Param('user_id')id,@Param('cat') cat){
+        return this.tg_multiplechoiceService.getMultiplechoiceQs(id,cat)
     }
     
+    @Put(':user_id/solved/:qs_id/:answ')
+    solveMultipleChoice(@Param('user_id') user_id,@Param('qs_id') qs_id,@Param('answ') answers:string[]){
+        return this.tg_multiplechoiceService.solveMultiplechoice(user_id,qs_id,answers)
+    }
+
+
     /**
      * 
      
