@@ -2,11 +2,9 @@ import { Entity, Column,PrimaryGeneratedColumn, ManyToOne, OneToMany } from "typ
 import { CategoryEntity } from '../category/category.entity';
 import { IntroDto } from "./dto/IntroDto";
 import { AbstractEntity } from '../../../common/abstract.entity';
-import { type } from "os";
 import { ApiModelProperty } from "@nestjs/swagger";
 import { Tg_IntroEntity } from "../tg_intro/tg_intro.entity";
 import { Exclude } from "class-transformer";
-
 
 @Entity({name:'intro'})
 export class IntroEntity extends AbstractEntity<IntroDto>{
@@ -22,17 +20,6 @@ export class IntroEntity extends AbstractEntity<IntroDto>{
     @ApiModelProperty()
     @Column()
     public intro_text_de: string;
-
-    //Insert for Navigation  
-
-    // @ApiModelProperty()
-    // @Column()
-    // public intro_desc: string;
-
-    // @ApiModelProperty()
-    // @Column()
-    // public intro_desc_de: string;
-
 
     @ApiModelProperty()
     @Column()
