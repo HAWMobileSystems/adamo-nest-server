@@ -8,13 +8,14 @@ import { Tg_ModellingEntity } from '../tg_modelling/tg_modelling.entity';
 import { TestEntity } from '../test/test.entity';
 import { Tg_IntroEntity } from '../tg_intro/tg_intro.entity';
 import { Multiplechoice_QuestionEntity } from '../multiplechoice_question/multiplechoice_question.entity';
-import { Tg_MultiplechoiceEntity } from '../tg_multiplechoice/tg_multiplechoice.entity';
-import { Multiplechoice_QuestionDto } from '../multiplechoice_question/dto/Multiplechoice_QuestionDto';
-import { Tg_Multiplechoice_AnsweredEntity } from '../tg_multiplechoice_answered/tg_multiplechoice_answered.entity';
 
 @Injectable()
 export class IntroService {
-
+    constructor(
+        // @InjectRepository(Role)
+        private readonly repository: IntroRepository
+    ) {
+    }
     /**
      * Returns the "Overview for the User"
      * @param user_id with the choosen Language
@@ -24,7 +25,7 @@ export class IntroService {
 
         let request = ""
         let request_allQS = ""
-        if(lang == 'ed'){
+        if(lang == 'en'){
             request = "mod_qs_table.mod_qs_question_description"
             request_allQS = "modelling_question.mod_qs_question_description"
         }
@@ -32,7 +33,6 @@ export class IntroService {
             request = "mod_qs_table.mod_qs_question_description_de"
             request_allQS = "modelling_question.mod_qs_question_description_de"
         }
-
 
         //Retrieve all Categorys
         const category_IDs = await getRepository(CategoryEntity)
@@ -44,7 +44,7 @@ export class IntroService {
             cat_ids_array.push(e.category_id)
         })     
 
-        console.log(cat_ids_array)
+        //console.log(cat_ids_array)
         const all_QS_Answered = await getRepository(Tg_ModellingEntity)
         .createQueryBuilder("tg_modelling")
         .select("cat_table.category_name","catName")
@@ -57,9 +57,7 @@ export class IntroService {
         .where('test_table.test_user_id = :test_user_id',{test_user_id:user_id})
         .andWhere("mod_qs_table.mod_qs_categories IN (:...mod_qs_categories)",{mod_qs_categories:cat_ids_array})
         .getRawMany();
-
         console.log(all_QS_Answered)
-      
         const all_QS = await getRepository(Modelling_QuestionEntity)
         .createQueryBuilder("modelling_question")
         .select("cat_table.category_name","catName")
@@ -69,12 +67,13 @@ export class IntroService {
         .innerJoin(CategoryEntity,'cat_table', 'modelling_question.mod_qs_categories = cat_table.category_id::VARCHAR')
         .getRawMany();
         console.log("Parsing Results")
+        console.log(all_QS)
         const returnArray = new returnAsArray();
         all_QS.forEach(e=>{
             let ele = new parseReturn(e.catName,e.id,e.name)
             returnArray.append(ele)
         })
-        console.log("Adding Score")
+        //console.log("Adding Score")
         all_QS_Answered.forEach(e=>{
             returnArray.array.forEach(array_ele=>{
                 if(e.id == array_ele.id){
@@ -82,7 +81,7 @@ export class IntroService {
                 }
             })
         })
-        console.log("Adding tutorial finished")
+        //console.log("Adding tutorial finished")
         const intro_status = await getRepository(Tg_IntroEntity)
         .createQueryBuilder("tg_intro")
         .select("cat_table.category_name","catName")
@@ -91,8 +90,8 @@ export class IntroService {
         .innerJoin(CategoryEntity,'cat_table', 'test_table.test_categorie = cat_table.category_id::VARCHAR')
         .where('test_table.test_user_id = :test_user_id',{test_user_id:user_id})
         .getRawMany()
-        console.log("intro_status")
-        console.log(returnArray)
+        // console.log("intro_status")
+        // console.log(returnArray)
 
         const count_All_Mult_Qs = await getRepository(Multiplechoice_QuestionEntity)
         .createQueryBuilder("multiplechoice_question")
@@ -131,7 +130,7 @@ export class IntroService {
                 }
             })
         })   
-        console.log("Set Intro Status")
+        //console.log("Set Intro Status")
         returnArray.array.forEach(array_ele=>{
             intro_status.forEach(ele=>{
                 if(array_ele.catName == ele.catName){
@@ -139,7 +138,7 @@ export class IntroService {
                 }
             })
         })
-        console.log("Set MC Status")
+        //console.log("Set MC Status")
         returnArray.array.forEach(array_ele=>{
             switch(array_ele.catName){
                 case "Beginner":{
@@ -159,24 +158,6 @@ export class IntroService {
                 }
             }
         })
-
-
-       
-        //returnArray.sortByCat();
-        console.log(returnArray.array)
-        // const all_Mult_QS_Answered = await getRepository(Tg_MultiplechoiceEntity)
-        // .createQueryBuilder("tg_multiplechoice")
-        // .select("cat_table.category_name","catName")
-        // .addSelect("multiplechoice_question.multiplechoice_question_id","id")
-        // .addSelect("tg_mult_ans.tg_modelling_validation_score","score")
-        // .innerJoin(TestEntity,'test_table', 'tg_modelling.tg_modelling_id::VARCHAR = test_table.test_solved_test_id ')
-        // .innerJoin(Multiplechoice_QuestionEntity,'multiplechoice_question','tg_modelling.tg_modelling_question_id  = mod_qs_table.mod_qs_id::VARCHAR')
-        // .innerJoin(Tg_Multiplechoice_AnsweredEntity,'tg_mult_ans','tg_mult_ans.tg_multiplechoice_answered_id = tg_multiplechoice.tg_multiplechoice_id ')
-        // .innerJoin(CategoryEntity,'cat_table', 'mod_qs_table.mod_qs_categories = cat_table.category_id::VARCHAR')
-        // .where('test_table.test_user_id = :test_user_id',{test_user_id:user_id})
-        // .andWhere("mod_qs_table.mod_qs_categories IN (:...mod_qs_categories)",{mod_qs_categories:cat_ids_array})
-        // .getRawMany();
-        
 
         return returnArray.array
     }
@@ -207,84 +188,15 @@ export class IntroService {
         .where("intro.intro_categories = :intro_categories",{intro_categories:getCategory_id.category_id})
         .andWhere("intro.intro_identifier =:intro_identifier",{intro_identifier:id})
         .getRawOne();
-        console.log(result)
-
-        
-
+        //console.log(result)
         return result;
-    }
-
-
-
-
-
-    
-    constructor(
-        // @InjectRepository(Role)
-        private readonly repository: IntroRepository
-    ) {
     }
 
     async find(): Promise<any[]> {
         let result = await this.repository.find()
-        console.log(result);
         return result
        // return await this.repository.find();
     }
-
-    async getCategory(catName: String){
-        const getCategory_id = await getRepository(CategoryEntity)
-        .createQueryBuilder("category")
-        .where("category.category_name = :category_name",{category_name:catName})
-        .getOne();
-
-        let result = await this.repository.createQueryBuilder('intro')
-        .where("intro.intro_categories = :intro_categories",{intro_categories:getCategory_id.category_id})
-        .getMany();
-
-        return result;
-    }
-
-    async getFirstIntroByLevel(lvl: string){
-        const getCategory_id = await getRepository(CategoryEntity)
-        .createQueryBuilder("category")
-        .where("category.category_name = :category_name",{category_name:lvl})
-        .getOne();
-
-        let result = await this.repository.createQueryBuilder('intro')
-        .where("intro.intro_categories = :intro_categories",{intro_categories:getCategory_id.category_id})
-        .andWhere("intro.intro_is_first =:intro_is_first",{intro_is_first:true})
-        .getOne();
-        return result;
-    }
-
-    async getIntroById(next_id: string){
-        let result = await this.repository.createQueryBuilder('intro')
-        .where("intro.intro_id = :intro_id",{intro_id:next_id})
-        .getOne();
-        return result;
-    }
-
-    async getPrevIntroByCurrentID(id: string){
-        let result = await this.repository.createQueryBuilder('intro')
-        .where("intro.intro_next_id = :intro_next_id",{intro_next_id:id})
-        .getOne();
-        return result;
-    }
-
-    async getRandomByLvl(lvl: string){
-        const getCategory_id = await getRepository(CategoryEntity)
-        .createQueryBuilder("category")
-        .where("category.category_name = :category_name",{category_name:lvl})
-        .getOne();
-
-        const result = await this.repository.createQueryBuilder('intro')
-        .where("intro.intro_categories = :intro_categories",{intro_categories:getCategory_id.category_id})
-        .getMany();
-
-        return result[Math.floor(Math.random()*result.length)];
-    }
-
 
     async create(intro: IntroEntity) {
         return await this.repository.save(intro);
@@ -303,6 +215,7 @@ export class IntroService {
     }
 
 }
+
 class parseReturn{
     catName:String
     id:String
@@ -328,6 +241,7 @@ class parseReturn{
         this.mctest = value
     }
 }
+
 class returnAsArray{
     array:parseReturn[]
     constructor(){
@@ -362,11 +276,9 @@ class returnAsArray{
                 }
             }
         })
-        console.log(countB)
+        //console.log(countB)
         sorted_array.concat(countB,countA,countP)
-        console.log(sorted_array)
+        //console.log(sorted_array)
         this.array = sorted_array
     }
-
-
 }
