@@ -34,21 +34,49 @@ export default class SeedMultipleChoiceQuestionProfessional implements Seeder {
         .insert()
         .into(Multiplechoice_QuestionEntity)
         .values([
+            // --- 1. Question --- Conditional Event
             {
-                multiplechoice_question_text: "First Real MC Question -Professional",
-                multiplechoice_question_text_de: "Erste Sinnvolle MC Question-Professional",
+                multiplechoice_question_text: "The event is triggered when a condition is true. Which event fits to the description?",
+                multiplechoice_question_text_de: "",
                 multiplechoice_question_categories:getCategory_id.category_id,
             },
+            // --- 2. Question --- Event Based Gateway
             {
-                multiplechoice_question_text: "First Real MC Question-Professional",
-                multiplechoice_question_text_de: "Zweite Sinnvolle MC Question-Professional",
+                multiplechoice_question_text: "The outgoing paths that follow the Event-Based Gateway are based on what?",
+                multiplechoice_question_text_de: "",
                 multiplechoice_question_categories:getCategory_id.category_id, 
             },
+            // --- 3. Question --- Signal Event
             { 
-                multiplechoice_question_text: "Third Real MC Question-Professional",
-                multiplechoice_question_text_de: "Dritte Sinnvolle MC Question-Professional",
+                multiplechoice_question_text: "What is the name of the following event?",
+                multiplechoice_question_text_de: "",
+                multiplechoice_question_categories:getCategory_id.category_id,   
+            },
+            // --- 4. Question --- Compensation
+            {
+                multiplechoice_question_text: "What is the purpose of a compensation?",
+                multiplechoice_question_text_de: "",
+                multiplechoice_question_categories:getCategory_id.category_id,
+            },
+            // --- 5. Question --- Escalation Event
+            {
+                multiplechoice_question_text: "What does the following event?",
+                multiplechoice_question_text_de: "",
+                multiplechoice_question_categories:getCategory_id.category_id, 
+            },
+            // --- 6. Question --- Link Event
+            { 
+                multiplechoice_question_text: "Used to connect two sections of the process. Can be used to create looping situations or to avoid long Sequence Flow lines. Which of the following events is described?",
+                multiplechoice_question_text_de: "",
                 multiplechoice_question_categories:getCategory_id.category_id,   
             }
+            ,
+            // --- 7. Question --- Complex Gateway
+            {
+                multiplechoice_question_text: "What is the name of the following gateway?",
+                multiplechoice_question_text_de: "",
+                multiplechoice_question_categories:getCategory_id.category_id,
+            },
             
         ])
         .execute();
@@ -58,57 +86,201 @@ export default class SeedMultipleChoiceQuestionProfessional implements Seeder {
         .insert()
         .into(Multiplechoice_Question_AnswerEntity)
         .values([
+        // --- 1. Question --- Answers --- Conditional Event
+            //false
             {
                 multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[0].multiplechoice_question_id,
-                multiplechoice_question_answer_text:"Answer 1 English-Wrong",
-                multiplechoice_question_answer_text_de:"Antwort1 Deutsch-Falsch",
+                multiplechoice_question_answer_text:"Conditional Event",
+                multiplechoice_question_answer_text_de:"",
+                multiplechoice_question_answer_true:true
+            },
+            // true
+            {
+                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[0].multiplechoice_question_id,
+                multiplechoice_question_answer_text:"Escalation Event",
+                multiplechoice_question_answer_text_de:"",
                 multiplechoice_question_answer_true:false
             },
+            // false 
             {
                 multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[0].multiplechoice_question_id,
-                multiplechoice_question_answer_text:"Answer 2 English-Wrong",
-                multiplechoice_question_answer_text_de:"Antwort 2 Deutsch-Falsch",
+                multiplechoice_question_answer_text:"Signal Event",
+                multiplechoice_question_answer_text_de:"",
                 multiplechoice_question_answer_true:false
             },
+            // false
             {
                 multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[0].multiplechoice_question_id,
-                multiplechoice_question_answer_text:"Answer 3 English-Richtig",
-                multiplechoice_question_answer_text_de:"Antwort 3 Deutsch-Richtig",
-                multiplechoice_question_answer_true:true
-            },
-            {
-                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[0].multiplechoice_question_id,
-                multiplechoice_question_answer_text:"Answer 4 English-Richtig",
-                multiplechoice_question_answer_text_de:"Antwort 4 Deutsch-Richtig",
-                multiplechoice_question_answer_true:true
-            },
-            // 4 next
-            {
-                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[1].multiplechoice_question_id,
-                multiplechoice_question_answer_text:"Answer 1 English-Richtig",
-                multiplechoice_question_answer_text_de:"Antwort 1 Deutsch-Richtig",
-                multiplechoice_question_answer_true:true
-            },
-            {
-                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[1].multiplechoice_question_id,
-                multiplechoice_question_answer_text:"Answer 2 English-Richtig",
-                multiplechoice_question_answer_text_de:"Antwort 2 Deutsch-Richtig",
-                multiplechoice_question_answer_true:true
-            },
-            {
-                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[2].multiplechoice_question_id,
-                multiplechoice_question_answer_text:"Answer 1 English-Richtig",
-                multiplechoice_question_answer_text_de:"Antwort 1 Deutsch-Richtig",
-                multiplechoice_question_answer_true:true
-            },
-            {
-                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[2].multiplechoice_question_id,
-                multiplechoice_question_answer_text:"Answer 2 English-Richtig",
-                multiplechoice_question_answer_text_de:"Antwort 2 Deutsch-Richtig",
+                multiplechoice_question_answer_text:"Compensation Event",
+                multiplechoice_question_answer_text_de:"",
                 multiplechoice_question_answer_true:false
-            }
-        ]).execute();
+            },
 
+
+
+            // --- 2. Question --- Answers --- Event-Based Gateway
+            {
+                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[1].multiplechoice_question_id,
+                multiplechoice_question_answer_text:"Conditions",
+                multiplechoice_question_answer_text_de:"",
+                multiplechoice_question_answer_true:false
+            },
+            {
+                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[1].multiplechoice_question_id,
+                multiplechoice_question_answer_text:"Events",
+                multiplechoice_question_answer_text_de:"",
+                multiplechoice_question_answer_true:true
+            },
+            {
+                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[1].multiplechoice_question_id,
+                multiplechoice_question_answer_text:"Time periods",
+                multiplechoice_question_answer_text_de:"",
+                multiplechoice_question_answer_true:false
+            },
+
+            // --- 3. Question --- Answers --- Signal Event
+            {
+                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[2].multiplechoice_question_id,
+                multiplechoice_question_answer_text:"Timer Event",
+                multiplechoice_question_answer_text_de:"",
+                multiplechoice_question_answer_true:false
+            },
+            {
+                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[2].multiplechoice_question_id,
+                multiplechoice_question_answer_text:"Message Event",
+                multiplechoice_question_answer_text_de:"",
+                multiplechoice_question_answer_true:false
+            },
+            {
+                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[2].multiplechoice_question_id,
+                multiplechoice_question_answer_text:"Terminate Event",
+                multiplechoice_question_answer_text_de:"",
+                multiplechoice_question_answer_true:false
+            },
+            {
+                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[2].multiplechoice_question_id,
+                multiplechoice_question_answer_text:"Escalation Event",
+                multiplechoice_question_answer_text_de:"",
+                multiplechoice_question_answer_true:false
+            },
+            {
+                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[2].multiplechoice_question_id,
+                multiplechoice_question_answer_text:"Conditional",
+                multiplechoice_question_answer_text_de:"",
+                multiplechoice_question_answer_true:false
+            },
+            {
+                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[2].multiplechoice_question_id,
+                multiplechoice_question_answer_text:"Signal Event",
+                multiplechoice_question_answer_text_de:"",
+                multiplechoice_question_answer_true:true
+            },
+
+            // --- 4. Question --- Answers --- Compensation
+            {
+                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[3].multiplechoice_question_id,
+                multiplechoice_question_answer_text:"Dealing with errors that may occur.",
+                multiplechoice_question_answer_text_de:"",
+                multiplechoice_question_answer_true:false
+            },
+            {
+                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[3].multiplechoice_question_id,
+                multiplechoice_question_answer_text:"Undoing steps that were already completed.",
+                multiplechoice_question_answer_text_de:"",
+                multiplechoice_question_answer_true:true
+            },
+            {
+                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[3].multiplechoice_question_id,
+                multiplechoice_question_answer_text:"Synchronization of behavior",
+                multiplechoice_question_answer_text_de:"",
+                multiplechoice_question_answer_true:false
+            },
+            {
+                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[3].multiplechoice_question_id,
+                multiplechoice_question_answer_text:"Connect two sections of the process",
+                multiplechoice_question_answer_text_de:"",
+                multiplechoice_question_answer_true:false
+            },
+
+            // --- 5. Question --- Answers --- Escalation Event
+            {
+                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[4].multiplechoice_question_id,
+                multiplechoice_question_answer_text:"Indicates an escalation through the process",
+                multiplechoice_question_answer_text_de:"",
+                multiplechoice_question_answer_true:true
+            },
+            {
+                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[4].multiplechoice_question_id,
+                multiplechoice_question_answer_text:"Undo steps that were already completed successfully",
+                multiplechoice_question_answer_text_de:"",
+                multiplechoice_question_answer_true:false
+            },
+            {
+                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[4].multiplechoice_question_id,
+                multiplechoice_question_answer_text:"Handle compensations",
+                multiplechoice_question_answer_text_de:"",
+                multiplechoice_question_answer_true:false
+            },
+
+            // --- 6. Question --- Answers --- Link Event
+            {
+                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[5].multiplechoice_question_id,
+                multiplechoice_question_answer_text:"Escalation Event",
+                multiplechoice_question_answer_text_de:"",
+                multiplechoice_question_answer_true:false
+            },
+            {
+                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[5].multiplechoice_question_id,
+                multiplechoice_question_answer_text:"Signal Event",
+                multiplechoice_question_answer_text_de:"",
+                multiplechoice_question_answer_true:true
+            },
+            {
+                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[5].multiplechoice_question_id,
+                multiplechoice_question_answer_text:"Link Event",
+                multiplechoice_question_answer_text_de:"",
+                multiplechoice_question_answer_true:false
+            },
+            {
+                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[5].multiplechoice_question_id,
+                multiplechoice_question_answer_text:"Compensation Event",
+                multiplechoice_question_answer_text_de:"",
+                multiplechoice_question_answer_true:false
+            },
+
+            // --- 7. Question --- Answers --- Complex Gateway
+            {
+                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[6].multiplechoice_question_id,
+                multiplechoice_question_answer_text:"Event-based Gateway",
+                multiplechoice_question_answer_text_de:"",
+                multiplechoice_question_answer_true:false
+            },
+            {
+                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[6].multiplechoice_question_id,
+                multiplechoice_question_answer_text:"Inclusive Gateway",
+                multiplechoice_question_answer_text_de:"",
+                multiplechoice_question_answer_true:false
+            },
+            {
+                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[6].multiplechoice_question_id,
+                multiplechoice_question_answer_text:"Exclusive Gateway",
+                multiplechoice_question_answer_text_de:"",
+                multiplechoice_question_answer_true:false
+            },
+            {
+                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[6].multiplechoice_question_id,
+                multiplechoice_question_answer_text:"Complex Gateway",
+                multiplechoice_question_answer_text_de:"",
+                multiplechoice_question_answer_true:true
+            },
+            {
+                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[6].multiplechoice_question_id,
+                multiplechoice_question_answer_text:"Parallel Gateway",
+                multiplechoice_question_answer_text_de:"",
+                multiplechoice_question_answer_true:false
+            },
+        ])
+        .execute();
 
         const user = await getRepository(UserEntity)
         .createQueryBuilder("users")
