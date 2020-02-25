@@ -83,7 +83,11 @@ export default class SeedIntroProf implements Seeder {
             //--- 1. Compensation --- DE ---
             intro_text_de: 
             `<div>
-            <table border="0" cellpadding="0" cellspacing="0" width="667">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <style>
+            table, th, td {
+            padding: 15px;}
+            </style>
             <tbody>
                 <tr>
                 <td valign="top">
@@ -188,7 +192,11 @@ export default class SeedIntroProf implements Seeder {
             //--- 2. Compensation --- DE ---
             intro_text_de: 
             `<div>
-            <table border="0" cellpadding="0" cellspacing="0" width="667">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <style>
+            table, th, td {
+            padding: 15px;}
+            </style>
             <tbody>
                 <tr>
                 <td valign="top">
@@ -289,7 +297,11 @@ export default class SeedIntroProf implements Seeder {
             //--- 3. Complex Gateway --- DE ---
             intro_text_de: 
             `<div>
-            <table border="0" cellpadding="0" cellspacing="0" width="667">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <style>
+            table, th, td {
+            padding: 15px;}
+            </style>
             <tbody>
                 <tr>
                 <td valign="top">
@@ -391,7 +403,11 @@ export default class SeedIntroProf implements Seeder {
             //--- DE ---
             intro_text_de: 
             `<div>
-            <table border="0" cellpadding="0" cellspacing="0" width="667">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <style>
+            table, th, td {
+            padding: 15px;}
+            </style>
             <tbody>
                 <tr>
                 <td valign="top">
@@ -499,7 +515,11 @@ export default class SeedIntroProf implements Seeder {
             //--- 5. Event Based --- DE ---
             intro_text_de: 
             `<div>
-            <table border="0" cellpadding="0" cellspacing="0" width="667">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <style>
+            table, th, td {
+            padding: 15px;}
+            </style>
             <tbody>
                 <tr>
                 <td valign="top">
@@ -592,7 +612,11 @@ export default class SeedIntroProf implements Seeder {
             //--- 6. Linked Based Evend --- DE ---
             intro_text_de: 
             `<div>
-            <table border="0" cellpadding="0" cellspacing="0" width="667">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <style>
+            table, th, td {
+            padding: 15px;}
+            </style>
             <tbody>
                 <tr>
                 <td valign="top">
@@ -686,7 +710,11 @@ export default class SeedIntroProf implements Seeder {
                 //--- 7. Escalation Event --- DE ---
                 intro_text_de: 
                 `<div>
-                <table border="0" cellpadding="0" cellspacing="0" width="667">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <style>
+                table, th, td {
+                padding: 15px;}
+                </style>
                 <tbody>
                     <tr>
                     <td valign="top">

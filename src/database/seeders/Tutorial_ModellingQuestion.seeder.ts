@@ -91,6 +91,9 @@ export default class SeedModellignQuestion implements Seeder {
         .insert()
         .into(Modelling_QuestionEntity)
         .values([
+
+            // --- Level 1 - Beginner ---
+            // 1. Processing a customer inquiry
             {
                 mod_qs_categories: getCategory_id.category_id,
                 mod_qs_question_text:"This is the first Beginner Question",
@@ -99,6 +102,8 @@ export default class SeedModellignQuestion implements Seeder {
                 mod_qs_question_description_de:"Lerne ein BPMN Diagramm zu erstellen(1/3)",
                 mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
             },
+
+            // 2. Processing a customer inquiry with branching
             {
                 mod_qs_categories: getCategory_id.category_id,
                 mod_qs_question_text:"This is the second Beginner Question",
@@ -107,6 +112,7 @@ export default class SeedModellignQuestion implements Seeder {
                 mod_qs_question_description_de:"Lerne ein BPMN Diagramm zu erstellen(2/3)",
                 mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
             },
+            // 3. Customer inquiry with option for process repetition
             {
                 mod_qs_categories: getCategory_id.category_id,
                 mod_qs_question_text:"This is the third Beginner Question",
@@ -115,6 +121,81 @@ export default class SeedModellignQuestion implements Seeder {
                 mod_qs_question_description_de:"Lerne ein BPMN Diagramm zu erstellen(3/3)",
                 mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
             },
+            // 4. Customer inquiry with parallel processes
+            {
+                mod_qs_categories: getCategory_id.category_id,
+                mod_qs_question_text:"This is the first Beginner Question",
+                mod_qs_question_text_de:"Deutsch - erste Frage",
+                mod_qs_question_description:"Learn to create a Basic Beginner Diagramm(1/3)",
+                mod_qs_question_description_de:"Lerne ein BPMN Diagramm zu erstellen(1/3)",
+                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+            },
+            // 5. Order process including manual operation
+            {
+                mod_qs_categories: getCategory_id.category_id,
+                mod_qs_question_text:"This is the second Beginner Question",
+                mod_qs_question_text_de:"Deutsch - zweite Frage",
+                mod_qs_question_description:"Learn to create a Basic Beginner Diagramm(2/3)",
+                mod_qs_question_description_de:"Lerne ein BPMN Diagramm zu erstellen(2/3)",
+                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+            },
+            // 6. Order process inluding user task
+            {
+                mod_qs_categories: getCategory_id.category_id,
+                mod_qs_question_text:"This is the third Beginner Question",
+                mod_qs_question_text_de:"Deutsch - dritte Frage",
+                mod_qs_question_description:"Learn to create a Basic Beginner Diagramm(3/3)",
+                mod_qs_question_description_de:"Lerne ein BPMN Diagramm zu erstellen(3/3)",
+                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+            },
+            // 7. Order process including send an receive task
+            {
+                mod_qs_categories: getCategory_id.category_id,
+                mod_qs_question_text:"This is the first Beginner Question",
+                mod_qs_question_text_de:"Deutsch - erste Frage",
+                mod_qs_question_description:"Learn to create a Basic Beginner Diagramm(1/3)",
+                mod_qs_question_description_de:"Lerne ein BPMN Diagramm zu erstellen(1/3)",
+                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+            },
+            // 8. Order process including script task
+            {
+                mod_qs_categories: getCategory_id.category_id,
+                mod_qs_question_text:"This is the second Beginner Question",
+                mod_qs_question_text_de:"Deutsch - zweite Frage",
+                mod_qs_question_description:"Learn to create a Basic Beginner Diagramm(2/3)",
+                mod_qs_question_description_de:"Lerne ein BPMN Diagramm zu erstellen(2/3)",
+                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+            },
+            // 9. Order process including pools and lanes
+            {
+                mod_qs_categories: getCategory_id.category_id,
+                mod_qs_question_text:"This is the third Beginner Question",
+                mod_qs_question_text_de:"Deutsch - dritte Frage",
+                mod_qs_question_description:"Learn to create a Basic Beginner Diagramm(3/3)",
+                mod_qs_question_description_de:"Lerne ein BPMN Diagramm zu erstellen(3/3)",
+                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+            },
+            // 10. Order process including several pools and lanes
+            {
+                mod_qs_categories: getCategory_id.category_id,
+                mod_qs_question_text:"This is the first Beginner Question",
+                mod_qs_question_text_de:"Deutsch - erste Frage",
+                mod_qs_question_description:"Learn to create a Basic Beginner Diagramm(1/3)",
+                mod_qs_question_description_de:"Lerne ein BPMN Diagramm zu erstellen(1/3)",
+                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+            },
+            // 11. Final order process including multiple pools and lanes
+            {
+                mod_qs_categories: getCategory_id.category_id,
+                mod_qs_question_text:"This is the second Beginner Question",
+                mod_qs_question_text_de:"Deutsch - zweite Frage",
+                mod_qs_question_description:"Learn to create a Basic Beginner Diagramm(2/3)",
+                mod_qs_question_description_de:"Lerne ein BPMN Diagramm zu erstellen(2/3)",
+                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+            },
+
+            // --- Level 2 - Advanced ---
+            // 1. Customer complaints
             {
                 mod_qs_categories: getCategory_id_adv.category_id,
                 mod_qs_question_text:"This is the first Advanced Question",
@@ -123,6 +204,7 @@ export default class SeedModellignQuestion implements Seeder {
                 mod_qs_question_description_de:"Lerne ein BPMN fortgeschrittenes Diagramm zu erstellen(1/3)",
                 mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
             },
+             // 2. Customer complaints extended by business rule
             {
                 mod_qs_categories: getCategory_id_adv.category_id,
                 mod_qs_question_text:"This is the second Advanced Question",
@@ -131,6 +213,7 @@ export default class SeedModellignQuestion implements Seeder {
                 mod_qs_question_description_de:"Lerne ein BPMN fortgeschrittenes Diagramm zu erstellen(2/3)",
                 mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
             },
+            // 3. Customer complaints extended by data object
             {
                 mod_qs_categories: getCategory_id_adv.category_id,
                 mod_qs_question_text:"This is the third Advanced Question",
@@ -139,6 +222,72 @@ export default class SeedModellignQuestion implements Seeder {
                 mod_qs_question_description_de:"Lerne ein BPMN fortgeschrittenes Diagramm zu erstellen(3/3)",
                 mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
             },
+             // 4. Customer complaints extended by timer event
+            {
+                mod_qs_categories: getCategory_id_adv.category_id,
+                mod_qs_question_text:"This is the first Advanced Question",
+                mod_qs_question_text_de:"Deutsch - erste Frage Advanced",
+                mod_qs_question_description:"Learn to create a Basic Advanced Diagramm(1/3)",
+                mod_qs_question_description_de:"Lerne ein BPMN fortgeschrittenes Diagramm zu erstellen(1/3)",
+                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+            },
+            // 5. Customer complaints extended by intermediate event
+            {
+                mod_qs_categories: getCategory_id_adv.category_id,
+                mod_qs_question_text:"This is the second Advanced Question",
+                mod_qs_question_text_de:"Deutsch - zweite Frage Advanced",
+                mod_qs_question_description:"Learn to create a Basic Advanced Diagramm(2/3)",
+                mod_qs_question_description_de:"Lerne ein BPMN fortgeschrittenes Diagramm zu erstellen(2/3)",
+                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+            },
+            // 6. Customer complaints extended by inclusive gateway
+            {
+                mod_qs_categories: getCategory_id_adv.category_id,
+                mod_qs_question_text:"This is the third Advanced Question",
+                mod_qs_question_text_de:"Deutsch - dritte Frage Advanced",
+                mod_qs_question_description:"Learn to create a Basic Advanced Diagramm(3/3)",
+                mod_qs_question_description_de:"Lerne ein BPMN fortgeschrittenes Diagramm zu erstellen(3/3)",
+                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+            },
+            // 7. Customer complaints extended by terminate event
+            {
+                mod_qs_categories: getCategory_id_adv.category_id,
+                mod_qs_question_text:"This is the first Advanced Question",
+                mod_qs_question_text_de:"Deutsch - erste Frage Advanced",
+                mod_qs_question_description:"Learn to create a Basic Advanced Diagramm(1/3)",
+                mod_qs_question_description_de:"Lerne ein BPMN fortgeschrittenes Diagramm zu erstellen(1/3)",
+                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+            },
+            // 8. Customer complaints extended by data stores
+            {
+                mod_qs_categories: getCategory_id_adv.category_id,
+                mod_qs_question_text:"This is the second Advanced Question",
+                mod_qs_question_text_de:"Deutsch - zweite Frage Advanced",
+                mod_qs_question_description:"Learn to create a Basic Advanced Diagramm(2/3)",
+                mod_qs_question_description_de:"Lerne ein BPMN fortgeschrittenes Diagramm zu erstellen(2/3)",
+                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+            },
+            // 9. Customer complaints extended by service task
+            {
+                mod_qs_categories: getCategory_id_adv.category_id,
+                mod_qs_question_text:"This is the third Advanced Question",
+                mod_qs_question_text_de:"Deutsch - dritte Frage Advanced",
+                mod_qs_question_description:"Learn to create a Basic Advanced Diagramm(3/3)",
+                mod_qs_question_description_de:"Lerne ein BPMN fortgeschrittenes Diagramm zu erstellen(3/3)",
+                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+            },
+            // 2. Customer complaints extended by sub-process
+            {
+                mod_qs_categories: getCategory_id_adv.category_id,
+                mod_qs_question_text:"This is the first Advanced Question",
+                mod_qs_question_text_de:"Deutsch - erste Frage Advanced",
+                mod_qs_question_description:"Learn to create a Basic Advanced Diagramm(1/3)",
+                mod_qs_question_description_de:"Lerne ein BPMN fortgeschrittenes Diagramm zu erstellen(1/3)",
+                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+            },
+
+            // --- Level 3 - Professional --- 
+            // 1. Availablility of goods, therefore it is offered for sale again in the online shop
             {
                 mod_qs_categories: getCategory_id_prof.category_id,
                 mod_qs_question_text:"This is the first Professional Question",
@@ -147,6 +296,7 @@ export default class SeedModellignQuestion implements Seeder {
                 mod_qs_question_description_de:"Lerne ein BPMN professionelles Diagramm zu erstellen(1/3)",
                 mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
             },
+            // 2. Order will be canceled if the product is not available
             {
                 mod_qs_categories: getCategory_id_prof.category_id,
                 mod_qs_question_text:"This is the second Professional Question",
@@ -155,6 +305,7 @@ export default class SeedModellignQuestion implements Seeder {
                 mod_qs_question_description_de:"Lerne ein BPMN professionelles Diagramm zu erstellen(2/3)",
                 mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
             },
+            // 3. The order must be released from a certain size by several, but not by all instances
             {
                 mod_qs_categories: getCategory_id_prof.category_id,
                 mod_qs_question_text:"This is the third Professional Question",
@@ -163,6 +314,43 @@ export default class SeedModellignQuestion implements Seeder {
                 mod_qs_question_description_de:"Lerne ein BPMN professionelles Diagramm zu erstellen(3/3)",
                 mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
             },
+            // 4. Triggering of several processes by signal events
+            {
+                mod_qs_categories: getCategory_id_prof.category_id,
+                mod_qs_question_text:"This is the first Professional Question",
+                mod_qs_question_text_de:"Deutsch - erste Frage Professional",
+                mod_qs_question_description:"Learn to create a Basic Professional Diagramm(1/3)",
+                mod_qs_question_description_de:"Lerne ein BPMN professionelles Diagramm zu erstellen(1/3)",
+                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+            },
+            // 5. Extended payment process including varians
+            {
+                mod_qs_categories: getCategory_id_prof.category_id,
+                mod_qs_question_text:"This is the second Professional Question",
+                mod_qs_question_text_de:"Deutsch - zweite Frage Professional",
+                mod_qs_question_description:"Learn to create a Basic Professional Diagramm(2/3)",
+                mod_qs_question_description_de:"Lerne ein BPMN professionelles Diagramm zu erstellen(2/3)",
+                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+            },
+            // 6. Escalate to CEO
+            {
+                mod_qs_categories: getCategory_id_prof.category_id,
+                mod_qs_question_text:"This is the third Professional Question",
+                mod_qs_question_text_de:"Deutsch - dritte Frage Professional",
+                mod_qs_question_description:"Learn to create a Basic Professional Diagramm(3/3)",
+                mod_qs_question_description_de:"Lerne ein BPMN professionelles Diagramm zu erstellen(3/3)",
+                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+            },
+            // 7. Collection agency
+            {
+                mod_qs_categories: getCategory_id_prof.category_id,
+                mod_qs_question_text:"This is the first Professional Question",
+                mod_qs_question_text_de:"Deutsch - erste Frage Professional",
+                mod_qs_question_description:"Learn to create a Basic Professional Diagramm(1/3)",
+                mod_qs_question_description_de:"Lerne ein BPMN professionelles Diagramm zu erstellen(1/3)",
+                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+            },
+
         ])
         .execute();
 
