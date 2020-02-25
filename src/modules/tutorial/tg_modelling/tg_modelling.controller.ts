@@ -20,6 +20,20 @@ import { Tg_ModellingService } from './tg_modelling.service';
 @ApiBearerAuth()
 export class Tg_ModellingController {_
     constructor(private readonly tg_modellingService: Tg_ModellingService) {}
+    
+    
+    
+    
+    // @Get('allQs/:lvl/:lang')
+    // getAllModelingQuestions(@Param('lvl') lvl,@Param('lang') lang){
+    //     return this.tg_modellingService.getAllQs(lvl,lang)
+    // }
+
+    @Get('question/:id/:lang')
+    getSpecificModelingQuestion(@Param('id') id,@Param('lang') lang){
+        return this.tg_modellingService.getSpecificQs(id,lang)
+    }
+    
     /**
      * 
      
