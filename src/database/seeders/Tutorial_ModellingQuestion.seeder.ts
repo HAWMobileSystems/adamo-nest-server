@@ -223,19 +223,19 @@ export default class SeedModellignQuestion implements Seeder {
             test_solved_test_id: seedTg_Mod.identifiers[0].tg_modelling_id,
             test_user_id: user.id,
             test_categorie: getCategory_id_prof.category_id,
-            test_tg_identifier: tg.professional,
+            //test_tg_identifier: tg.professional,
            },
            {
             test_solved_test_id: seedTg_Mod.identifiers[1].tg_modelling_id,
             test_user_id: user.id,
             test_categorie: getCategory_id_adv.category_id,
-            test_tg_identifier: tg.advanced,
+            //test_tg_identifier: tg.advanced,
            },
            {
             test_solved_test_id: seedTg_Mod.identifiers[2].tg_modelling_id,
             test_user_id: user.id,
             test_categorie: getCategory_id.category_id,
-            test_tg_identifier: tg.beginner,
+            //test_tg_identifier: tg.beginner,
            },
        ])
        .execute();
