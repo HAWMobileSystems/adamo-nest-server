@@ -31,7 +31,7 @@ export class IntroController {
     }
 
 
-    @Get('/:lvl/:pageid/:lang')
+    @Get('/:lang/:lvl/:pageid')
     listLvl(@Param('lvl') lvl,@Param('pageid') id,@Param('lang') lang){
         return this.introService.getPage(lvl,id,lang);
     }
