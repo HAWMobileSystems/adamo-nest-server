@@ -7,6 +7,7 @@ import { Modelling_QuestionEntity } from '../modelling_question/modelling_questi
 @Injectable()
 export class Tg_ModellingService {
 
+
     
     constructor(
         // @InjectRepository(Role)
@@ -34,10 +35,19 @@ export class Tg_ModellingService {
         .createQueryBuilder('modelling_question')
         .select(request,"question_text")
         .addSelect(request_desc,"question_description")
+        .addSelect("modelling_question.mod_qs_id","id")
         .where("modelling_question.mod_qs_id = :mod_qs_id",{mod_qs_id:qs_id})
         .getRawOne();
        
         return result;
+    }
+    /**
+     * Puts the solved Question in the Database for the User:
+     * @param user_id and the Question:
+     * @param qs_id 
+     */
+    solveQuestion(user_id: any, qs_id: any) {
+        throw new Error("Method not implemented.");
     }
 
     async find(): Promise<Tg_ModellingEntity[]> {

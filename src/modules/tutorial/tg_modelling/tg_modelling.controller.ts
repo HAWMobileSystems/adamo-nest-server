@@ -30,10 +30,16 @@ export class Tg_ModellingController {_
     // }
 
     @Get('question/:id/:lang')
-    getSpecificModelingQuestion(@Param('id') id,@Param('lang') lang){
+    getSpecificModellingQuestion(@Param('id') id,@Param('lang') lang){
         return this.tg_modellingService.getSpecificQs(id,lang)
     }
     
+    @Put(':user_id/solved/:qs_id')
+    solveSpecificModellingQuestion(@Param('user_id') id,@Param('qs_id') qs_id){
+        return this.tg_modellingService.solveQuestion(id,qs_id)
+    }
+
+
     /**
      * 
      
