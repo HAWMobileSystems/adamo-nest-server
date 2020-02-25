@@ -16,7 +16,20 @@ import { Tg_Multiplechoice_AnsweredEntity } from '../tg_multiplechoice_answered/
 export class IntroService {
 
 
-    async getAllQsByCatAndUser(user_id: string) {
+    async getAllQsByCatAndUser(user_id: string,lang: string) {
+
+        let request = ""
+        let request_allQS = ""
+        if(lang == 'ed'){
+            request = "mod_qs_table.mod_qs_question_description"
+            request_allQS = "modelling_question.mod_qs_question_description"
+        }
+        if(lang == 'de'){
+            request = "mod_qs_table.mod_qs_question_description_de"
+            request_allQS = "modelling_question.mod_qs_question_description_de"
+        }
+
+
         //Retrieve all Categorys
         const category_IDs = await getRepository(CategoryEntity)
         .createQueryBuilder("category")
@@ -32,7 +45,7 @@ export class IntroService {
         .createQueryBuilder("tg_modelling")
         .select("cat_table.category_name","catName")
         .addSelect("mod_qs_table.mod_qs_id","id")
-        .addSelect("mod_qs_table.mod_qs_question_description","name")
+        .addSelect(request,"name")
         .addSelect("tg_modelling.tg_modelling_validation_score","score")
         .innerJoin(TestEntity,'test_table', 'tg_modelling.tg_modelling_id::VARCHAR = test_table.test_solved_test_id ')
         .innerJoin(Modelling_QuestionEntity,'mod_qs_table','tg_modelling.tg_modelling_question_id  = mod_qs_table.mod_qs_id::VARCHAR')
@@ -47,7 +60,7 @@ export class IntroService {
         .createQueryBuilder("modelling_question")
         .select("cat_table.category_name","catName")
         .addSelect("modelling_question.mod_qs_id","id")
-        .addSelect("modelling_question.mod_qs_question_description","name")
+        .addSelect(request_allQS,"name")
         .addSelect("0","score")
         .innerJoin(CategoryEntity,'cat_table', 'modelling_question.mod_qs_categories = cat_table.category_id::VARCHAR')
         .getRawMany();
@@ -165,7 +178,8 @@ export class IntroService {
     }
 
 
-    async getPage(lvl:string, id:number){
+    async getPage(lvl:string, id:number,lang:string){
+        
         //Grab LVL
         const getCategory_id = await getRepository(CategoryEntity)
         .createQueryBuilder("category")
@@ -176,6 +190,12 @@ export class IntroService {
         .where("intro.intro_categories = :intro_categories",{intro_categories:getCategory_id.category_id})
         .andWhere("intro.intro_identifier =:intro_identifier",{intro_identifier:id})
         .getOne();
+        console.log(result)
+
+        if(lang == 'de'){
+           result.intro_text = result.intro_text_de
+        }
+
         return result;
     }
 

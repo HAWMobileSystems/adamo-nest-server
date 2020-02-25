@@ -21,9 +21,9 @@ import { Tg_MultiplechoiceEntity } from './tg_multiplechoice.entity';
 export class Tg_MultiplechoiceController {_
     constructor(private readonly tg_multiplechoiceService: Tg_MultiplechoiceService) {}
     
-    @Get('getMultiplechoice/:user_id/:cat')
-    getMultiplechoiceQs(@Param('user_id')id,@Param('cat') cat){
-        return this.tg_multiplechoiceService.getMultiplechoiceQs(id,cat)
+    @Get('getMultiplechoice/:user_id/:cat/:lang')
+    getMultiplechoiceQs(@Param('user_id')id,@Param('cat') cat,@Param('lang') lang){
+        return this.tg_multiplechoiceService.getMultiplechoiceQs(id,cat,lang)
     }
     
     @Put(':user_id/solved/:qs_id/:answ')
