@@ -25,15 +25,15 @@ export class IntroController {
     /**
      * 
      */
-    @Get('startview/:id')
-    listAllQsByCatAndUser(@Param('id') id): Promise<any> {
-        return this.introService.getAllQsByCatAndUser(id);
+    @Get('startview/:id/:lang')
+    listAllQsByCatAndUser(@Param('id') id,@Param('lang') lang): Promise<any> {
+        return this.introService.getAllQsByCatAndUser(id,lang);
     }
 
 
-    @Get('/:lvl/:pageid')
-    listLvl(@Param('lvl') lvl,@Param('pageid') id){
-        return this.introService.getPage(lvl,id);
+    @Get('/:lang/:lvl/:pageid')
+    listLvl(@Param('lvl') lvl,@Param('pageid') id,@Param('lang') lang){
+        return this.introService.getPage(lvl,id,lang);
     }
 
 

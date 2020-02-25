@@ -71,7 +71,22 @@ export class Tg_MultiplechoiceService {
      *  
      * from the Database 
      */
-    async getMultiplechoiceQs(user_id: any,cat_name: string) {
+    async getMultiplechoiceQs(user_id: any,cat_name: string,lang: string) {
+       
+        let request = ""
+        let request_returnQS = ""
+        if(lang == 'de'){
+            request = "multiplechoice_question.multiplechoice_question_text_de"
+            request_returnQS = "mult_qs_ans.multiplechoice_question_answer_text_de"
+        }
+        if(lang == 'en'){
+            request = "multiplechoice_question.multiplechoice_question_text"
+            request_returnQS = "mult_qs_ans.multiplechoice_question_answer_text"
+        }
+
+
+
+
        //Retrieve all Categorys
        const category_IDs = await getRepository(CategoryEntity)
        .createQueryBuilder("category")
@@ -90,11 +105,11 @@ export class Tg_MultiplechoiceService {
        .createQueryBuilder("tg_multiplechoice")
        .select("test_table.test_solved_test_id","id")
        //.addSelect("mult_qs_table.multiplechoice_question_description","name")
-       .addSelect("mult_qs_table.multiplechoice_question_text","question")
+       .addSelect(request,"question")
        .addSelect("mult_qs_ans_given.tg_multiplechoice_answered_answerd","answergiven")
        .addSelect("mult_qs_ans.multiplechoice_question_answer_true","answercorrect")
        .innerJoin(TestEntity,'test_table', 'tg_multiplechoice.tg_multiplechoice_id::VARCHAR = test_table.test_solved_test_id ')
-       .innerJoin(Multiplechoice_QuestionEntity,'mult_qs_table','tg_multiplechoice.tg_multiplechoice_id::VARCHAR = mult_qs_table.multiplechoice_question_id::VARCHAR')
+       .innerJoin(Multiplechoice_QuestionEntity,'multiplechoice_question','tg_multiplechoice.tg_multiplechoice_id::VARCHAR = multiplechoice_question.multiplechoice_question_id::VARCHAR')
        .innerJoin(Tg_Multiplechoice_AnsweredEntity,'mult_qs_ans_given','mult_qs_ans_given.tg_multiplechoice_answered_from_qs_id = tg_multiplechoice.tg_multiplechoice_id::VARCHAR')
        .innerJoin(Multiplechoice_Question_AnswerEntity,'mult_qs_ans','mult_qs_ans_given.tg_multiplechoice_answered_answer_id = multiplechoice_question_answer_id::VARCHAR')
        .where('test_table.test_user_id = :test_user_id',{test_user_id:user_id})
@@ -162,8 +177,8 @@ export class Tg_MultiplechoiceService {
         let return_Qs = await getRepository(Multiplechoice_QuestionEntity)
         .createQueryBuilder("multiplechoice_question")
         .select("multiplechoice_question.multiplechoice_question_id","id")
-        .addSelect("multiplechoice_question.multiplechoice_question_text","question")
-        .addSelect("mult_qs_ans.multiplechoice_question_answer_text","answer")
+        .addSelect(request,"question")
+        .addSelect(request_returnQS,"answer")
         .addSelect("mult_qs_ans.multiplechoice_question_answer_id","answerID")
         .innerJoin(Multiplechoice_Question_AnswerEntity,'mult_qs_ans','mult_qs_ans.multiplechoice_question_answer_question_id = multiplechoice_question.multiplechoice_question_id::VARCHAR')
         .where('multiplechoice_question.multiplechoice_question_categories = :multiplechoice_question_categories',{multiplechoice_question_categories:catid})
