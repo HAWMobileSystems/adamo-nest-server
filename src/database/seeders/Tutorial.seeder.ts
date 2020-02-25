@@ -43,8 +43,8 @@ export default class SeedTutorial implements Seeder {
         console.log("Grabbing Question Specific Rule");
      
         
-        const mult_qs_ID = mult_qs_id.multiplechoice_question_id;
-        const random_ID = '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed';
+        //const mult_qs_ID = mult_qs_id.multiplechoice_question_id;
+        //const random_ID = '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed';
         
 
         // const seedMult_Qs_A = await connection
