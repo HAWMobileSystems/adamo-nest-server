@@ -15,7 +15,11 @@ import { Tg_Multiplechoice_AnsweredEntity } from '../tg_multiplechoice_answered/
 @Injectable()
 export class IntroService {
 
-
+    /**
+     * Returns the "Overview for the User"
+     * @param user_id with the choosen Language
+     * @param lang
+     */
     async getAllQsByCatAndUser(user_id: string,lang: string) {
 
         let request = ""
@@ -177,9 +181,20 @@ export class IntroService {
         return returnArray.array
     }
 
-
+    /**
+     * Returns the Requested Page of the Level
+     * @param lvl with the ID(Page NUmber)
+     * @param id with the choosen Language
+     * @param lang
+     */
     async getPage(lvl:string, id:number,lang:string){
-        
+        let request = ""
+        if(lang == 'de'){
+            request = "intro.intro_text_de"
+        }
+        if(lang == 'en'){
+            request = "intro.intro_text"
+        }
         //Grab LVL
         const getCategory_id = await getRepository(CategoryEntity)
         .createQueryBuilder("category")
@@ -187,14 +202,14 @@ export class IntroService {
         .getOne();
         //Get Page by ID
         let result = await this.repository.createQueryBuilder('intro')
+        .select("intro.intro_categories","catName")
+        .addSelect(request,"intro_text")
         .where("intro.intro_categories = :intro_categories",{intro_categories:getCategory_id.category_id})
         .andWhere("intro.intro_identifier =:intro_identifier",{intro_identifier:id})
-        .getOne();
+        .getRawOne();
         console.log(result)
 
-        if(lang == 'de'){
-           result.intro_text = result.intro_text_de
-        }
+        
 
         return result;
     }
