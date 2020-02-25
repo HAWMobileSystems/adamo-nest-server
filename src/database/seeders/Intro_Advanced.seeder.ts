@@ -76,6 +76,10 @@ export default class SeedIntroAdvanced implements Seeder {
                 intro_text_de: `
                 <div>
                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <style>
+                table, th, td {
+                padding: 15px;}
+                </style>
                 <tbody>
                     <tr>
                     <td valign="top" width="10%">
@@ -171,6 +175,10 @@ export default class SeedIntroAdvanced implements Seeder {
             intro_text_de: `
             <div>
             <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <style>
+                table, th, td {
+                padding: 15px;}
+                </style>
             <tbody>
                 <tr>
                 <td valign="top" width="10%">
@@ -266,6 +274,10 @@ export default class SeedIntroAdvanced implements Seeder {
         intro_text_de: `
         <div>
         <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <style>
+                table, th, td {
+                padding: 15px;}
+                </style>
         <tbody>
             <tr>
             <td valign="top" width="10%">
@@ -362,6 +374,10 @@ export default class SeedIntroAdvanced implements Seeder {
         intro_text_de: `
         <div>
         <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <style>
+                table, th, td {
+                padding: 15px;}
+                </style>
         <tbody>
             <tr>
             <td valign="top" width="10%">
@@ -457,6 +473,10 @@ export default class SeedIntroAdvanced implements Seeder {
         intro_text_de: `
         <div>
         <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <style>
+                table, th, td {
+                padding: 15px;}
+                </style>
         <tbody>
             <tr>
             <td valign="top" width="10%">
@@ -554,6 +574,10 @@ export default class SeedIntroAdvanced implements Seeder {
         intro_text_de: `
         <div>
         <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <style>
+                table, th, td {
+                padding: 15px;}
+                </style>
         <tbody>
             <tr>
             <td valign="top" width="10%">
@@ -651,6 +675,10 @@ export default class SeedIntroAdvanced implements Seeder {
         intro_text_de: `
         <div>
         <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <style>
+                table, th, td {
+                padding: 15px;}
+                </style>
         <tbody>
             <tr>
             <td valign="top" width="10%">
@@ -755,6 +783,10 @@ export default class SeedIntroAdvanced implements Seeder {
         intro_text_de: `
         <div>
         <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <style>
+                table, th, td {
+                padding: 15px;}
+                </style>
         <tbody>
             <tr>
             <td valign="top" width="10%">
@@ -852,6 +884,10 @@ export default class SeedIntroAdvanced implements Seeder {
         intro_text_de: `
         <div>
         <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <style>
+                table, th, td {
+                padding: 15px;}
+        </style>
         <tbody>
             <tr>
             <td valign="top" width="10%">
@@ -948,6 +984,10 @@ export default class SeedIntroAdvanced implements Seeder {
         intro_text_de: `
         <div>
         <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <style>
+                table, th, td {
+                padding: 15px;}
+                </style>
         <tbody>
             <tr>
             <td valign="top" width="10%">
@@ -1042,6 +1082,10 @@ export default class SeedIntroAdvanced implements Seeder {
         intro_text_de: `
         <div>
         <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <style>
+                table, th, td {
+                padding: 15px;}
+                </style>
         <tbody>
             <tr>
             <td valign="top" width="10%">
@@ -1138,6 +1182,10 @@ export default class SeedIntroAdvanced implements Seeder {
         intro_text_de: `
         <div>
         <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <style>
+                table, th, td {
+                padding: 15px;}
+                </style>
         <tbody>
             <tr>
             <td valign="top" width="10%">
