@@ -25,7 +25,7 @@ export class IntroService {
 
         let request = ""
         let request_allQS = ""
-        if(lang == 'ed'){
+        if(lang == 'en'){
             request = "mod_qs_table.mod_qs_question_description"
             request_allQS = "modelling_question.mod_qs_question_description"
         }
@@ -57,8 +57,7 @@ export class IntroService {
         .where('test_table.test_user_id = :test_user_id',{test_user_id:user_id})
         .andWhere("mod_qs_table.mod_qs_categories IN (:...mod_qs_categories)",{mod_qs_categories:cat_ids_array})
         .getRawMany();
-
-       // console.log(all_QS_Answered)
+        console.log(all_QS_Answered)
         const all_QS = await getRepository(Modelling_QuestionEntity)
         .createQueryBuilder("modelling_question")
         .select("cat_table.category_name","catName")
@@ -67,7 +66,8 @@ export class IntroService {
         .addSelect("0","score")
         .innerJoin(CategoryEntity,'cat_table', 'modelling_question.mod_qs_categories = cat_table.category_id::VARCHAR')
         .getRawMany();
-        //console.log("Parsing Results")
+        console.log("Parsing Results")
+        console.log(all_QS)
         const returnArray = new returnAsArray();
         all_QS.forEach(e=>{
             let ele = new parseReturn(e.catName,e.id,e.name)
