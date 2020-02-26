@@ -18,6 +18,6 @@ import { Tg_Multiplechoice_AnsweredService } from './tg_multiplechoice_answered.
 @ApiUseTags('tg_multiplechoice_answered')
 @ApiBearerAuth()
 export class Tg_Multiplechoice_AnsweredController {_
-    constructor(private readonly tg_multiplechoice_answeredServce: Tg_Multiplechoice_AnsweredService) {}
+    constructor(private readonly tg_multiplechoice_answeredService: Tg_Multiplechoice_AnsweredService) {}
     
 }

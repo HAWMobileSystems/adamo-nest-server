@@ -5,6 +5,7 @@ import { Multiplechoice_QuestionEntity } from "../multiplechoice_question/multip
 import { Tg_Multiplechoice_AnsweredEntity } from "../tg_multiplechoice_answered/tg_multiplechoice_answered.entity";
 import { Tg_MultiplechoiceDto } from './dto/tg_multiplechoiceDto';
 import { Exclude } from "class-transformer";
+
 @Entity({name:'tg_multiplechoice'})
 export class Tg_MultiplechoiceEntity extends AbstractEntity<Tg_MultiplechoiceDto>{
   

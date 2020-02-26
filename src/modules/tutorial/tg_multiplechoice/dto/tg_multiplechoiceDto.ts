@@ -3,6 +3,7 @@ import { AbstractDto } from '../../../../common/dto/AbstractDto';
 import { Tg_MultiplechoiceEntity } from '../tg_multiplechoice.entity';
 
 export class Tg_MultiplechoiceDto extends AbstractDto {
+    
     @ApiModelPropertyOptional()
     public tg_multiplechoice_unique_id: string;
 
