@@ -1,14 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { FindConditions, QueryRunner, SelectQueryBuilder, Repository, UpdateResult } from 'typeorm';
+import { QueryRunner, SelectQueryBuilder, UpdateResult } from 'typeorm';
 import { TestEntity } from './test.entity';
 import { TestRepository } from './test.repository';
 
 @Injectable()
 export class TestService {
     solveMultiplechoice(user_id:string,task_id:string,solution:any) {
-        console.log(user_id)
-        console.log(task_id)
-        console.log(solution) 
+        
     }
     
     constructor(
