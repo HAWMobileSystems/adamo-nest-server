@@ -1,12 +1,10 @@
-import { Entity, Column,PrimaryGeneratedColumn, ManyToOne, OneToMany } from "typeorm";
-import { CategoryEntity } from '../category/category.entity';
+import { Entity, Column,PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { Modelling_RulesDto } from "../modelling_rules/dto/Modelling_RulesDto";
 import { AbstractEntity } from '../../../common/abstract.entity';
-import { type } from "os";
 import { ApiModelProperty } from "@nestjs/swagger";
-import { Modelling_QuestionEntity } from "../modelling_question/modelling_question.entity";
 import { Modelling_Question_RulesEntity} from '../modelling_question_rules/modelling_question_rules.entity';
 import { Exclude } from "class-transformer";
+
 @Entity({name:'modelling_rules'})
 export class Modelling_RulesEntity extends AbstractEntity<Modelling_RulesDto>{
 
