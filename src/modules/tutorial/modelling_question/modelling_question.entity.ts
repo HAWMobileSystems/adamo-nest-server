@@ -2,11 +2,11 @@ import { Entity, Column,PrimaryGeneratedColumn, ManyToOne, OneToMany } from "typ
 import { CategoryEntity } from '../category/category.entity';
 import { Modelling_QuestionDto } from "../modelling_question/dto/Modelling_QuestionDto";
 import { AbstractEntity } from '../../../common/abstract.entity';
-import { type } from "os";
 import { ApiModelProperty } from "@nestjs/swagger";
 import { Modelling_RulesEntity } from "../modelling_rules/modelling_rules.entity";
 import { Modelling_Question_RulesEntity } from "../modelling_question_rules/modelling_question_rules.entity";
 import { Exclude } from "class-transformer";
+
 @Entity({name:'modelling_question'})
 export class Modelling_QuestionEntity extends AbstractEntity<Modelling_QuestionDto>{
 
@@ -29,7 +29,6 @@ export class Modelling_QuestionEntity extends AbstractEntity<Modelling_QuestionD
     @ApiModelProperty()
     @Column()
     public mod_qs_question_description_de: string;
-
 
     @ApiModelProperty()
     @Column()

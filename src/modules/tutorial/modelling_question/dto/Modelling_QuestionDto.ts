@@ -1,15 +1,10 @@
-import { CategoryEntity } from "../../category/category.entity"
 import { ApiModelPropertyOptional } from '@nestjs/swagger';
 import { Modelling_QuestionEntity } from '../modelling_question.entity';
 import { AbstractDto } from '../../../../common/dto/AbstractDto';
-import { Modelling_RulesEntity } from "../../modelling_rules/modelling_rules.entity"
 
 export class Modelling_QuestionDto extends AbstractDto {
     @ApiModelPropertyOptional()
     public mod_qs_id: string;
-
-    // @ApiModelPropertyOptional()
-    // timestampLastChange: number;
 
     @ApiModelPropertyOptional()
     public mod_qs_question_text: string;

@@ -1,6 +1,5 @@
 import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
 import { Modelling_QuestionService } from './modelling_question.service';
 import { Modelling_QuestionController } from './modelling_question.controller';
 import { Modelling_QuestionRepository } from './modelling_question.repository';
