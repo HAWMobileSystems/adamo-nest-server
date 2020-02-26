@@ -45,6 +45,7 @@ export class Tg_IntroService {
            //test_tg_identifier:
        }])
        .execute();
+       console.log(test_seed)
        console.log("Inserting Intro Finished to DB")      
     }
 

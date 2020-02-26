@@ -29,12 +29,14 @@ export class Tg_IntroController {_
     }
         
     @Put('')
-    putUserTutorialFinishedAlternative(@Body('data') data:any){//,@Body('catName') catName:any,@Body('tg_intro_is_finished') tg_intro_is_finished:any){
-        console.log("Tutorial-Alternative")
-     //     let user_id  = userid
-    //     let cat_name = catName
-    //     let finished = tg_intro_is_finished
-        console.log(data)
-       // return this.tg_introService.putUserTutorialFinished(user_id,cat_name,finished)
+    putUserTutorialFinishedAlternative(@Body() data:any){
+        //,@Body('catName') catName:any,@Body('tg_intro_is_finished') tg_intro_is_finished:any){
+        //console.log("Tutorial-Alternative")
+        //console.log(data)
+        let user_id  = data.userid
+        let cat_name = data.catName
+        let finished = true
+        //console.log(data)
+        return this.tg_introService.putUserTutorialFinished(user_id,cat_name,finished)
     }
 }
