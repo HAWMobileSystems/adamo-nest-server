@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { FindConditions, QueryRunner, SelectQueryBuilder, Repository, UpdateResult } from 'typeorm';
+import { QueryRunner, SelectQueryBuilder, UpdateResult } from 'typeorm';
 import { Modelling_Question_RulesEntity } from './modelling_question_rules.entity';
 import { Modelling_Question_RulesRepository } from './modelling_question_rules.repository';
 
