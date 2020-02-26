@@ -1,13 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { FindConditions, QueryRunner, SelectQueryBuilder, Repository, UpdateResult, getRepository } from 'typeorm';
+import { QueryRunner, SelectQueryBuilder, UpdateResult, getRepository } from 'typeorm';
 import {Tg_ModellingRepository } from "./tg_modelling.repository";
 import { Tg_ModellingEntity } from './tg_modelling.entity';
 import { Modelling_QuestionEntity } from '../modelling_question/modelling_question.entity';
 
 @Injectable()
 export class Tg_ModellingService {
-
-
     
     constructor(
         // @InjectRepository(Role)

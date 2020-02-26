@@ -20,63 +20,22 @@ import { Tg_ModellingService } from './tg_modelling.service';
 @ApiBearerAuth()
 export class Tg_ModellingController {_
     constructor(private readonly tg_modellingService: Tg_ModellingService) {}
-    
-    
-    
-    
-    // @Get('allQs/:lvl/:lang')
-    // getAllModelingQuestions(@Param('lvl') lvl,@Param('lang') lang){
-    //     return this.tg_modellingService.getAllQs(lvl,lang)
-    // }
-
+    /**
+     * GETs the Modelling_Qs_Entity with the ID:
+     * @param qs_id and the Langauge:
+     * @param lang 
+     */
     @Get('question/:id/:lang')
     getSpecificModellingQuestion(@Param('id') id,@Param('lang') lang){
         return this.tg_modellingService.getSpecificQs(id,lang)
     }
-    
+    /**
+     * PUTs the solved Question in the Database for the User:
+     * @param user_id and the Question:
+     * @param qs_id 
+     */
     @Put(':user_id/solved/:qs_id')
     solveSpecificModellingQuestion(@Param('user_id') id,@Param('qs_id') qs_id){
         return this.tg_modellingService.solveQuestion(id,qs_id)
     }
-
-
-    /**
-     * 
-     
-    @Get()
-    listRoles() {
-        return this.tg_modellingService.find();
-    }
-
-     /**
-     * We use this also for password?
-     * 
-     * @param id 
-     * @param userData 
-     
-    @Put(':id/update')
-    async update(@Param('id') id, @Body() testData: Tg_ModellingEntity): Promise<any> {
-        // userData.id = Number(id);
-        // Set the roleData.id because it is missing in Data from Client?!
-        testData.id = id;
-        console.log('Update #' + testData.id)
-
-        return this.tg_modellingService.update(testData);
-    }  
-
-    /**
-     * 
-     * @param entity 
-     
-    @Post()
-    create(@Body() entity: Tg_ModellingEntity) {
-        this.tg_modellingService.create(entity);
-    }
-
-    @Delete(':id/delete')
-    async delete(@Param('id') id): Promise<any> {
-      return this.tg_modellingService.delete(id);
-      // Maybe deleting all role entries in Permissions with this role and set them back to Default ist an valid option? TODO
-    }  
-**/
 }
