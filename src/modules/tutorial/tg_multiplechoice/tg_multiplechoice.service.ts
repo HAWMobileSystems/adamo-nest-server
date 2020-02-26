@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { FindConditions, QueryRunner, SelectQueryBuilder, Repository, UpdateResult, getRepository, getConnection } from 'typeorm';
+import { QueryRunner, SelectQueryBuilder, UpdateResult, getRepository, getConnection } from 'typeorm';
 import { Tg_MultiplechoiceRepository } from "./tg_multiplechoice.repository";
 import { Tg_MultiplechoiceEntity } from "./tg_multiplechoice.entity";
 import { CategoryEntity } from '../category/category.entity';
@@ -17,9 +17,8 @@ export class Tg_MultiplechoiceService {
      * 
      * @param user_id in combination with the 
      * @param qs_id and the given 
-     * @param answers 
-     * 
-     * to the Database
+     * @param answers to the Database
+     * Then returns for each answer if the given answer was correct or not.
      */
     async solveMultiplechoice(user_id: any, qs_id: any, answers: string[]) {
         console.log(qs_id)
@@ -29,7 +28,6 @@ export class Tg_MultiplechoiceService {
         .where("multiplechoice_question.multiplechoice_question_id = :multiplechoice_question_id",{multiplechoice_question_id:qs_id})
         .getOne();
         console.log(mult_qs_id)
-
 
         const seedTest3 = await getConnection()
         .createQueryBuilder()

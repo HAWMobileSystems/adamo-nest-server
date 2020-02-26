@@ -1,8 +1,7 @@
 import { ApiModelPropertyOptional } from '@nestjs/swagger';
 import { AbstractDto } from '../../../../common/dto/AbstractDto';
 import { Tg_MultiplechoiceEntity } from '../tg_multiplechoice.entity';
-import { Tg_Multiplechoice_AnsweredEntity } from './../../tg_multiplechoice_answered/tg_multiplechoice_answered.entity';
-import { TestEntity } from './../../test/test.entity';
+
 export class Tg_MultiplechoiceDto extends AbstractDto {
     @ApiModelPropertyOptional()
     public tg_multiplechoice_unique_id: string;
