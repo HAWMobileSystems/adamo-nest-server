@@ -25,12 +25,22 @@ export class Tg_MultiplechoiceController {_
         return this.tg_multiplechoiceService.getMultiplechoiceQs(id,cat,lang)
     }
     
-    @Post('/solve/')
+    @Post('solve/')
     solveMultipleChoice(@Body() data:any){
         console.log(data)
-        let user_id
+        // console.log(data.user_choice)
+        let user_id 
         let qs_id
-        let answers
+        let answers: Map<string,string> = new Map<string,string>()
+        data.user_choice.forEach(element => {
+            if(element.key == 'userid'){
+                user_id = element.value
+            }else if(element.key == 'questionid'){
+                qs_id = element.value
+            }else {
+                answers.set(element.key,element.value)
+            }
+        });
         return this.tg_multiplechoiceService.solveMultiplechoice(user_id,qs_id,answers)
     }
 }

@@ -20,23 +20,52 @@ export class Tg_MultiplechoiceService {
      * @param answers to the Database
      * Then returns for each answer if the given answer was correct or not.
      */
-    async solveMultiplechoice(user_id: any, qs_id: any, answers: string[]) {
+    async solveMultiplechoice(user_id: any, qs_id: any, answers: Map<string,string>) {
         console.log(qs_id)
+        //Get DTO to Multiplechoice_Qs
         const mult_qs_id = await getRepository(Multiplechoice_QuestionEntity)
         .createQueryBuilder("multiplechoice_question")
-        .select("multiplechoice_question.multiplechoice_question_categories","cat")
         .where("multiplechoice_question.multiplechoice_question_id = :multiplechoice_question_id",{multiplechoice_question_id:qs_id})
         .getOne();
         console.log(mult_qs_id)
+        //Get List of Answers given
+        let listOfAnswerIDs = []
+        answers.forEach((value,key)=>{
+            listOfAnswerIDs.push(key)
+        })
+        //Get DTOs for all answers given
+        const all_Answers = await getRepository(Multiplechoice_Question_AnswerEntity)
+        .createQueryBuilder("multiplechoice_question_answer")
+        .where("multiplechoice_question_answer.multiplechoice_question_answer_id IN (:...multiplechoice_question_answer_id)",{multiplechoice_question_answer_id:listOfAnswerIDs})
+        .getMany();
+        console.log(all_Answers)
+        //compare answers given to correct value
+        let returnMap: Map<string,boolean> = new Map()
+        answers.forEach((value,key)=>{
+            all_Answers.forEach(e=>{
+                //e => answer ID
+                if(key == e.multiplechoice_question_answer_id){
+                    let answergiven = (value == "true")
+                    if(answergiven == e.multiplechoice_question_answer_true){
+                        returnMap.set(e.multiplechoice_question_answer_id,true)
+                    }else{
+                        returnMap.set(e.multiplechoice_question_answer_id,false)
+                    }
+                }
+            })
+        })
+        console.log("ReturnMAP")
+        console.log(returnMap)
 
-        const seedTest3 = await getConnection()
-        .createQueryBuilder()
-        .insert()
-        .into(Tg_MultiplechoiceEntity)
-        .values([{
-            tg_multiplechoice_id:qs_id,
-            tg_multiplechoice_multiplechoice_id:qs_id
-        }]).execute();
+
+        // const seedTest3 = await getConnection()
+        // .createQueryBuilder()
+        // .insert()
+        // .into(Tg_MultiplechoiceEntity)
+        // .values([{
+        //     tg_multiplechoice_id:qs_id,
+        //     tg_multiplechoice_multiplechoice_id:qs_id
+        // }]).execute();
 
 
 
@@ -60,6 +89,7 @@ export class Tg_MultiplechoiceService {
         //     test_user_id: user_id,
         //     test_categorie: getCategory_id.category_id,
         // }]).execute();
+        return returnMap
     }
     /**
      * 

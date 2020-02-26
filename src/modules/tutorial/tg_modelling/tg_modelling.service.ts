@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { QueryRunner, SelectQueryBuilder, UpdateResult, getRepository } from 'typeorm';
-import {Tg_ModellingRepository } from "./tg_modelling.repository";
+import { Tg_ModellingRepository } from "./tg_modelling.repository";
 import { Tg_ModellingEntity } from './tg_modelling.entity';
 import { Modelling_QuestionEntity } from '../modelling_question/modelling_question.entity';
 
