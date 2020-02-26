@@ -35,23 +35,25 @@ export class Tg_MultiplechoiceService {
             listOfAnswerIDs.push(key)
         })
         //Get DTOs for all answers given
-        // const all_Answers = await getRepository(Multiplechoice_Question_AnswerEntity)
-        // .createQueryBuilder("multiplechoice_question_answer")
-        // .where("multiplechoice_question_answer.multiplechoice_question_answer_id IN (:...multiplechoice_question_answer_id)",{multiplechoice_question_answer_id:listOfAnswerIDs})
-        // .getMany();
-        const all_Answers = await this.testReturnDTO(listOfAnswerIDs)
+        const all_Answers = await getRepository(Multiplechoice_Question_AnswerEntity)
+        .createQueryBuilder("multiplechoice_question_answer")
+        .select("multiplechoice_question_answer.multiplechoice_question_answer_id","id")
+        .addSelect("multiplechoice_question_answer.multiplechoice_question_answer_true","correct")
+        .where("multiplechoice_question_answer.multiplechoice_question_answer_id IN (:...multiplechoice_question_answer_id)",{multiplechoice_question_answer_id:listOfAnswerIDs})
+        .getRawMany();
+        //const all_Answers = await this.testReturnDTO(listOfAnswerIDs)
         console.log(all_Answers)
         //compare answers given to correct value
         let returnMap: Map<string,boolean> = new Map()
         answers.forEach((value,key)=>{
             all_Answers.forEach(e=>{
                 //e => answer ID
-                if(key == e.multiplechoice_question_answer_id){
+                if(key == e.id){
                     let answergiven = (value == "true")
-                    if(answergiven == e.multiplechoice_question_answer_true){
-                        returnMap.set(e.multiplechoice_question_answer_id,true)
+                    if(answergiven == e.correct){
+                        returnMap.set(e.id,true)
                     }else{
-                        returnMap.set(e.multiplechoice_question_answer_id,false)
+                        returnMap.set(e.id,false)
                     }
                 }
             })
@@ -96,13 +98,13 @@ export class Tg_MultiplechoiceService {
             tg_multiplechoice_answered_id : qs_id
         }]).execute();
     }
-    async testReturnDTO(listOfAnswerIDs: string[]){
-        const all_Answers = await getRepository(Multiplechoice_Question_AnswerEntity)
-        .createQueryBuilder("multiplechoice_question_answer")
-        .where("multiplechoice_question_answer.multiplechoice_question_answer_id IN (:...multiplechoice_question_answer_id)",{multiplechoice_question_answer_id:listOfAnswerIDs})
-        .getMany();
-        return all_Answers
-    }
+    // async testReturnDTO(listOfAnswerIDs: string[]){
+    //     const all_Answers = await getRepository(Multiplechoice_Question_AnswerEntity)
+    //     .createQueryBuilder("multiplechoice_question_answer")
+    //     .where("multiplechoice_question_answer.multiplechoice_question_answer_id IN (:...multiplechoice_question_answer_id)",{multiplechoice_question_answer_id:listOfAnswerIDs})
+    //     .getMany();
+    //     return all_Answers
+    // }
     /**
      * 
      * Returns 1 not yet (correct) Answered Question by the 
@@ -224,8 +226,9 @@ export class Tg_MultiplechoiceService {
         console.log("###############")
         console.log("###############")
 
-
-        const randomElement = final_array[Math.floor(Math.random() * final_array.length)];
+        let random = Math.random()
+        console.log("Random Number: "+random)
+        const randomElement = final_array[Math.floor(random * final_array.length)];
 
         let return_Qs = await getRepository(Multiplechoice_QuestionEntity)
         .createQueryBuilder("multiplechoice_question")
