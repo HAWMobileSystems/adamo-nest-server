@@ -1,16 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { Connection, QueryRunner, SelectQueryBuilder, Repository, UpdateResult, getRepository, getConnection } from 'typeorm';
+import { QueryRunner, SelectQueryBuilder, UpdateResult, getRepository, getConnection } from 'typeorm';
 import { Tg_IntroEntity } from './tg_intro.entity';
 import { Tg_IntroRepository } from './tg_intro.repository';
 import { TestEntity } from '../test/test.entity';
 import { CategoryEntity } from '../category/category.entity';
 import { IntroEntity } from '../intro/intro.entity';
 
-// enum tg{
-//     beginner,
-//     advanced,
-//     professional
-// }
 @Injectable()
 export class Tg_IntroService {
 

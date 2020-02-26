@@ -22,49 +22,8 @@ import { Tg_IntroEntity } from './tg_intro.entity';
 export class Tg_IntroController {_
     constructor(private readonly tg_introService: Tg_IntroService) {}
     
-    
-    @Put(':user_id/:intro_id')
-    putUserTutorialFinished(@Param('user_id')user_id,@Param('intro_id') intro_id){
-        return this.tg_introService.putUserTutorialFinished(user_id,intro_id)
+    @Put(':user_id/:cat_name')
+    putUserTutorialFinished(@Param('user_id')user_id,@Param('cat_name') cat_name){
+        return this.tg_introService.putUserTutorialFinished(user_id,cat_name)
     }
-    
-    /**
-     * 
-     
-    @Get()
-    listRoles() {
-        return this.tg_introService.find();
-    }
-
-     /**
-     * We use this also for password?
-     * 
-     * @param id 
-     * @param userData 
-     */
-    @Put(':id/update')
-    async update(@Param('id') id, @Body() testData: Tg_IntroEntity): Promise<any> {
-        // userData.id = Number(id);
-        // Set the roleData.id because it is missing in Data from Client?!
-        testData.id = id;
-        console.log('Update #' + testData.id)
-
-        return this.tg_introService.update(testData);
-    }  
-
-    /**
-     * 
-     * @param entity 
-     
-    @Post()
-    create(@Body() entity: Tg_IntroEntity) {
-        this.tg_introService.create(entity);
-    }
-
-    @Delete(':id/delete')
-    async delete(@Param('id') id): Promise<any> {
-      return this.tg_introService.delete(id);
-      // Maybe deleting all role entries in Permissions with this role and set them back to Default ist an valid option? TODO
-    }  
-*/
 }
