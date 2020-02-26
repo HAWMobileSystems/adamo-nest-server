@@ -28,7 +28,7 @@ export class Tg_IntroController {_
         return this.tg_introService.putUserTutorialFinished(user_id,cat_name,true)
     }
         
-    @Put('')
+    @Post('')
     putUserTutorialFinishedAlternative(@Body() data:any){
         //,@Body('catName') catName:any,@Body('tg_intro_is_finished') tg_intro_is_finished:any){
         //console.log("Tutorial-Alternative")
