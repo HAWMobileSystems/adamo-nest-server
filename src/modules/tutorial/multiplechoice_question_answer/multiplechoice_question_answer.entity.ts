@@ -1,8 +1,6 @@
-import { Entity, Column,PrimaryGeneratedColumn, ManyToOne, OneToMany } from "typeorm";
-import { CategoryEntity } from '../category/category.entity';
+import { Entity, Column,PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { Multiplechoice_Question_AnswerDto } from "./dto/Multiplechoice_Question_AnswerDto";
 import { AbstractEntity } from '../../../common/abstract.entity';
-import { type } from "os";
 import { ApiModelProperty } from "@nestjs/swagger";
 import { Exclude } from "class-transformer";
 import { Multiplechoice_QuestionEntity } from "../multiplechoice_question/multiplechoice_question.entity";
