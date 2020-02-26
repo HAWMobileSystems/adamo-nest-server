@@ -9,7 +9,7 @@ import { IntroEntity } from '../intro/intro.entity';
 @Injectable()
 export class Tg_IntroService {
 
-    async putUserTutorialFinished(user_id: any, cat_name: any) {
+    async putUserTutorialFinished(user_id: any, cat_name: any,finished: boolean) {
         //Get Cat of Intro
         const getCategory_id = await getRepository(CategoryEntity)
         .createQueryBuilder("category")
@@ -29,7 +29,7 @@ export class Tg_IntroService {
            {
             tg_intro_intro_id:intro_id.intro_id,
             tg_intro_intro_category:getCategory_id.category_id,
-            tg_intro_is_finished:true,
+            tg_intro_is_finished:finished,
            }
        ])
        .execute();
