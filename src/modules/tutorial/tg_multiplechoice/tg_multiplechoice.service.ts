@@ -226,8 +226,9 @@ export class Tg_MultiplechoiceService {
         console.log("###############")
         console.log("###############")
 
-
-        const randomElement = final_array[Math.floor(Math.random() * final_array.length)];
+        let random = Math.random()
+        console.log("Random Number: "+random)
+        const randomElement = final_array[Math.floor(random * final_array.length)];
 
         let return_Qs = await getRepository(Multiplechoice_QuestionEntity)
         .createQueryBuilder("multiplechoice_question")
