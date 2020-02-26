@@ -31,13 +31,15 @@ export class Tg_MultiplechoiceService {
         //Get List of Answers given
         let listOfAnswerIDs = []
         answers.forEach((value,key)=>{
+            let waiter = this.putMC(key,qs_id,value)
             listOfAnswerIDs.push(key)
         })
         //Get DTOs for all answers given
-        const all_Answers = await getRepository(Multiplechoice_Question_AnswerEntity)
-        .createQueryBuilder("multiplechoice_question_answer")
-        .where("multiplechoice_question_answer.multiplechoice_question_answer_id IN (:...multiplechoice_question_answer_id)",{multiplechoice_question_answer_id:listOfAnswerIDs})
-        .getMany();
+        // const all_Answers = await getRepository(Multiplechoice_Question_AnswerEntity)
+        // .createQueryBuilder("multiplechoice_question_answer")
+        // .where("multiplechoice_question_answer.multiplechoice_question_answer_id IN (:...multiplechoice_question_answer_id)",{multiplechoice_question_answer_id:listOfAnswerIDs})
+        // .getMany();
+        const all_Answers = await this.testReturnDTO(listOfAnswerIDs)
         console.log(all_Answers)
         //compare answers given to correct value
         let returnMap: Map<string,boolean> = new Map()
@@ -54,42 +56,52 @@ export class Tg_MultiplechoiceService {
                 }
             })
         })
-        console.log("ReturnMAP")
-        console.log(returnMap)
-
-
-        // const seedTest3 = await getConnection()
-        // .createQueryBuilder()
-        // .insert()
-        // .into(Tg_MultiplechoiceEntity)
-        // .values([{
-        //     tg_multiplechoice_id:qs_id,
-        //     tg_multiplechoice_multiplechoice_id:qs_id
-        // }]).execute();
-
-
-
-        // const seedTest4 = await getConnection()
-        // .createQueryBuilder()
-        // .insert()
-        // .into(Tg_Multiplechoice_AnsweredEntity)
-        // .values([{
-        //     tg_multiplechoice_answered_answer_id: seedMult_Qs_Ans.identifiers[0].multiplechoice_question_answer_id,
-        //     tg_multiplechoice_answered_from_qs_id: qs_id,
-        //     tg_multiplechoice_answered_answerd:true,
-        //     tg_multiplechoice_answered_id : qs_id
-        // }]).execute();
-
-        // const seedTest = await getConnection()
-        // .createQueryBuilder()
-        // .insert()
-        // .into(TestEntity)
-        // .values([{
-        //     test_solved_test_id: seedTest3.identifiers[0].tg_multiplechoice_id,
-        //     test_user_id: user_id,
-        //     test_categorie: getCategory_id.category_id,
-        // }]).execute();
+        //Put Question in Database
+        const seedTest3 = await getConnection()
+        .createQueryBuilder()
+        .insert()
+        .into(Tg_MultiplechoiceEntity)
+        .values([{
+            tg_multiplechoice_id:qs_id,
+            tg_multiplechoice_multiplechoice_id:qs_id
+        }]).execute();
+        //Put all given Answers in Database
+        const seedTest = await getConnection()
+        .createQueryBuilder()
+        .insert()
+        .into(TestEntity)
+        .values([{
+            test_solved_test_id: seedTest3.identifiers[0].tg_multiplechoice_id,
+            test_user_id: user_id,
+            test_categorie: mult_qs_id.multiplechoice_question_categories,
+        }]).execute();
+        //Return ReturnMap for Highligting
         return returnMap
+    }
+    /**
+     * 
+     * @param key Method to put into tg_mult_choice
+     * @param qs_id 
+     * @param value 
+     */
+    async putMC(key,qs_id,value){
+        let seedTest4 = await getConnection()
+        .createQueryBuilder()
+        .insert()
+        .into(Tg_Multiplechoice_AnsweredEntity)
+        .values([{
+            tg_multiplechoice_answered_answer_id: key,
+            tg_multiplechoice_answered_from_qs_id: qs_id,
+            tg_multiplechoice_answered_answerd: (value == "true"),
+            tg_multiplechoice_answered_id : qs_id
+        }]).execute();
+    }
+    async testReturnDTO(listOfAnswerIDs: string[]){
+        const all_Answers = await getRepository(Multiplechoice_Question_AnswerEntity)
+        .createQueryBuilder("multiplechoice_question_answer")
+        .where("multiplechoice_question_answer.multiplechoice_question_answer_id IN (:...multiplechoice_question_answer_id)",{multiplechoice_question_answer_id:listOfAnswerIDs})
+        .getMany();
+        return all_Answers
     }
     /**
      * 
@@ -111,9 +123,6 @@ export class Tg_MultiplechoiceService {
             request = "multiplechoice_question.multiplechoice_question_text"
             request_returnQS = "mult_qs_ans.multiplechoice_question_answer_text"
         }
-
-
-
 
        //Retrieve all Categorys
        const category_IDs = await getRepository(CategoryEntity)
@@ -148,6 +157,7 @@ export class Tg_MultiplechoiceService {
         * 
         */
         //Get List of all IDs
+
         console.log(all_QS_Answered)
         const listOfAllIds = []
         all_QS_Answered.forEach(e=>{
@@ -196,8 +206,23 @@ export class Tg_MultiplechoiceService {
             final_array = this.remove_array_element(final_array,idTRem)
         })
         //Remove right answers from Text
-        console.log(arrayOfAllQsIds)
-
+        console.log("###############")
+        console.log("###############")
+        console.log("###############")
+        console.log("###############")
+        console.log("###############")
+        console.log("###############")
+        console.log("###############")
+        console.log("###############")
+        console.log(arrayOfAllQsIds.length)
+        console.log("###############")
+        console.log("###############")
+        console.log("###############")
+        console.log("###############")
+        console.log("###############")
+        console.log("###############")
+        console.log("###############")
+        console.log("###############")
 
 
         const randomElement = final_array[Math.floor(Math.random() * final_array.length)];
