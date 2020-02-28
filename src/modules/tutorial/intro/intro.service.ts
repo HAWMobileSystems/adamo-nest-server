@@ -162,7 +162,7 @@ export class IntroService {
         firstAdv = countAdvanced-pfirstAdv
         let firstProf = 0
         let pfirstProf = await this.getNumberOfWrongAnswersByCat(cat_professional,user_id,request)
-        pfirstProf = countProfessi-pfirstProf
+        firstProf = countProfessi-pfirstProf
 
         // category_IDs.forEach(async e=>{
         //     switch(e.category_name){
@@ -268,13 +268,13 @@ export class IntroService {
          * 
          */
          //Get List of all IDs
-         console.log(all_QS_Answered_for_check)
+         //console.log(all_QS_Answered_for_check)
          let listOfAllIds = []
          all_QS_Answered_for_check.forEach(e=>{
             listOfAllIds.push(e.id)
          })
-         console.log("ALLIDFDSDSDSDSD")
-         console.log(listOfAllIds)
+         //console.log("ALLIDFDSDSDSDSD")
+         //console.log(listOfAllIds)
           //Get unique List of solved Tests
          let a_filterd = this.uniqueArray(listOfAllIds)
          console.log("ALL SOLVED TEST ")
@@ -311,7 +311,7 @@ export class IntroService {
         .createQueryBuilder("multiplechoice_question")
         .where('multiplechoice_question.multiplechoice_question_categories = :multiplechoice_question_categories',{multiplechoice_question_categories:cat_id})
         .getMany();
-        console.log(all_QS)
+        //console.log(all_QS)
         let return_Array = []
         all_QS.forEach(e=>{
             return_Array.push(e.multiplechoice_question_id)
