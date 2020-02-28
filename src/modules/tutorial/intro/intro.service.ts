@@ -8,6 +8,9 @@ import { Tg_ModellingEntity } from '../tg_modelling/tg_modelling.entity';
 import { TestEntity } from '../test/test.entity';
 import { Tg_IntroEntity } from '../tg_intro/tg_intro.entity';
 import { Multiplechoice_QuestionEntity } from '../multiplechoice_question/multiplechoice_question.entity';
+import { Tg_MultiplechoiceEntity } from '../tg_multiplechoice/tg_multiplechoice.entity';
+import { Tg_Multiplechoice_AnsweredEntity } from '../tg_multiplechoice_answered/tg_multiplechoice_answered.entity';
+import { Multiplechoice_Question_AnswerEntity } from '../multiplechoice_question_answer/multiplechoice_question_answer.entity';
 
 @Injectable()
 export class IntroService {
@@ -40,9 +43,17 @@ export class IntroService {
         .getMany();
 
         let cat_ids_array = []
+        let cat_advanced
+        let cat_beginner
+        let cat_professional
         category_IDs.forEach(e=>{
             cat_ids_array.push(e.category_id)
-        })     
+            switch(e.category_name){
+                case('Beginner'):cat_beginner = e.category_id
+                case('Advanced'):cat_advanced = e.category_id
+                case('Professional'):cat_professional = e.category_id
+            }
+        })    
 
         //console.log(cat_ids_array)
         const all_QS_Answered = await getRepository(Tg_ModellingEntity)
@@ -93,6 +104,7 @@ export class IntroService {
         // console.log("intro_status")
         // console.log(returnArray)
 
+        //Get ALL Possible Questions.
         const count_All_Mult_Qs = await getRepository(Multiplechoice_QuestionEntity)
         .createQueryBuilder("multiplechoice_question")
         .select("multiplechoice_question.multiplechoice_question_id","id")
@@ -138,21 +150,63 @@ export class IntroService {
                 }
             })
         })
+        //Get All Correct Questions per Category
+        /**
+         * Get All Questions answered by user in the given category
+        */
+        let firstBeg = 0
+        firstBeg =await this.getNumberOfWrongAnswersByCat(cat_beginner,user_id,request)
+        let firstAdv = 0
+        firstAdv = await this.getNumberOfWrongAnswersByCat(cat_advanced,user_id,request)
+        let firstProf = 0
+        firstProf = await this.getNumberOfWrongAnswersByCat(cat_professional,user_id,request)
+
+        // category_IDs.forEach(async e=>{
+        //     switch(e.category_name){
+        //         case "Beginner":{
+        //             let num: any = await this.getNumberOfWrongAnswersByCat(e.category_id,user_id,request)
+        //             if(num == null){
+        //                 num = 0
+        //             }
+        //             firstBeg = countBeginner-num;
+        //             break;
+        //         }
+        //         case "Advanced":{
+        //             let num: any = await this.getNumberOfWrongAnswersByCat(e.category_id,user_id,request)
+        //             if(num == null){
+        //                 num = 0
+        //             }
+        //             firstAdv = countAdvanced-num;
+        //             break;
+        //         }
+        //         case "Professional":{
+        //             let num: any = await this.getNumberOfWrongAnswersByCat(e.category_id,user_id,request)
+        //             if(num == null){
+        //                 num = 0
+        //             }
+        //             firstProf = countProfessi-num;
+        //             break;
+        //         }
+        //     }
+        // })
+        console.log("Settttt")
+        console.log(firstBeg)
+
         //console.log("Set MC Status")
         returnArray.array.forEach(array_ele=>{
             switch(array_ele.catName){
                 case "Beginner":{
-                    let score = "0/"+countBeginner
+                    let score = firstBeg+"/"+countBeginner
                     array_ele.setMcTest(score)
                     break;
                 }
                 case "Advanced":{
-                    let score = "0/"+countAdvanced
+                    let score = firstAdv+"/"+countAdvanced
                     array_ele.setMcTest(score)
                     break;
                 }
                 case "Professional":{
-                    let score = "0/"+countProfessi
+                    let score = firstProf+"/"+countProfessi
                     array_ele.setMcTest(score)
                     break;
                 }
@@ -191,6 +245,61 @@ export class IntroService {
         //console.log(result)
         return result;
     }
+    async getNumberOfWrongAnswersByCat(cat_id:string,user_id:string,request:string){
+        const all_QS_Answered_for_check = await getRepository(Tg_MultiplechoiceEntity)
+        .createQueryBuilder("tg_multiplechoice")
+        .select("test_table.test_solved_test_id","id")
+        // .addSelect("mult_qs_table.multiplechoice_question_description","name")
+        // .addSelect(request,"question")
+        // .addSelect("mult_qs_ans_given.tg_multiplechoice_answered_answerd","answergiven")
+        // .addSelect("mult_qs_ans.multiplechoice_question_answer_true","answercorrect")
+        .innerJoin(TestEntity,'test_table', 'tg_multiplechoice.tg_multiplechoice_id::VARCHAR = test_table.test_solved_test_id ')
+        .innerJoin(Multiplechoice_QuestionEntity,'multiplechoice_question','tg_multiplechoice.tg_multiplechoice_id::VARCHAR = multiplechoice_question.multiplechoice_question_id::VARCHAR')
+        .innerJoin(Tg_Multiplechoice_AnsweredEntity,'mult_qs_ans_given','mult_qs_ans_given.tg_multiplechoice_answered_from_qs_id = tg_multiplechoice.tg_multiplechoice_id::VARCHAR')
+        .innerJoin(Multiplechoice_Question_AnswerEntity,'mult_qs_ans','mult_qs_ans_given.tg_multiplechoice_answered_answer_id = multiplechoice_question_answer_id::VARCHAR')
+        .where('test_table.test_user_id = :test_user_id',{test_user_id:user_id})
+        .andWhere('test_table.test_categorie = :test_categorie',{test_categorie:cat_id})
+        .getRawMany();
+        /**
+         * Check wheater Questions was answered correct
+         * 
+         */
+         //Get List of all IDs
+         //console.log(all_QS_Answered_for_check)
+         const listOfAllIds = []
+         all_QS_Answered_for_check.forEach(e=>{
+            listOfAllIds.push(e.id)
+         })
+         //console.log(listOfAllIds)
+          //Get unique List of solved Tests
+         let a_filterd = this.uniqueArray(listOfAllIds)
+         console.log("ALL SOLVED TEST ")
+         console.log(a_filterd)
+         //Create a list of all QS beeing answerd wrong.
+         let idToRemove = []
+         //Answered right
+         let answeredCorr = []
+         all_QS_Answered_for_check.forEach(e=>{
+             if(e.answergiven != e.answercorrect){
+                  idToRemove.push(e.id)
+             }else{
+                 answeredCorr.push(e.id)
+             }
+         })
+         //Make them to unique arrays
+         let wrong = this.uniqueArray(idToRemove)
+         let possible_right = this.uniqueArray(answeredCorr)
+
+        //Remove all wrong answers from Array to get only right 
+        
+        wrong.forEach(idToRem=>{
+            possible_right = this.remove_array_element(possible_right,idToRem)
+        })
+         console.log("Not correct Solved")
+         console.log(possible_right)
+         //Remove 
+         return possible_right.length
+    }
 
     async find(): Promise<any[]> {
         let result = await this.repository.find()
@@ -212,6 +321,19 @@ export class IntroService {
    
     createQueryBuilder(alias: string = 'intro', queryRunner?: QueryRunner): SelectQueryBuilder<IntroEntity> {
         return this.repository.createQueryBuilder(alias, queryRunner);
+    }
+         //https://stackoverflow.com/questions/1960473/get-all-unique-values-in-a-javascript-array-remove-duplicates
+         uniqueArray(array) {
+            var result = Array.from(new Set(array));
+            return result    
+        }
+            //https://www.w3resource.com/javascript-exercises/javascript-array-exercise-31.php
+    remove_array_element(array, n){
+        var index = array.indexOf(n);
+        if (index > -1) {
+            array.splice(index, 1);
+        }
+        return array;
     }
 
 }
@@ -281,4 +403,5 @@ class returnAsArray{
         //console.log(sorted_array)
         this.array = sorted_array
     }
+
 }
