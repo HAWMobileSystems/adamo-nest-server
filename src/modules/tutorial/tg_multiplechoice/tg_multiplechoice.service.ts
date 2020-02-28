@@ -175,7 +175,7 @@ export class Tg_MultiplechoiceService {
        .andWhere('test_table.test_categorie = :test_categorie',{test_categorie:catid})
        .getRawMany();
        console.log("All QS Answered")
-       console.log(all_QS_Answered.length)
+       console.log(all_QS_Answered)
        /**
         * Check wheater Questions was answered correct
         * 
@@ -253,7 +253,7 @@ export class Tg_MultiplechoiceService {
         //console.log(listOfAllIds)
          //Get unique List of solved Tests
         let a_filterd = this.uniqueArray(listOfAllIds)
-        console.log("ALL SOLVED TEST ")
+        console.log("ALL SOLVED TEST")
         console.log(a_filterd)
         console.log("Above Unique")
         //Create a list of all QS beeing answerd wrong.
@@ -267,30 +267,54 @@ export class Tg_MultiplechoiceService {
                 answeredCorr.push(e.id)
             }
         })
-        //Make them to unique arrays
+        
+        //idToRemove sind falsch gegebene antworten --> müssen entfernt werden
         let wrong = this.uniqueArray(idToRemove)
+        //AnsweredCorr sind nicht falsch gegebene Antworten 
         let possible_right = this.uniqueArray(answeredCorr)
 
-        //Remove all wrong answers from Array to get only right 
-        
-        a_filterd.forEach(idToRem=>{
+        let def_right = []
+        possible_right.forEach(ele=>{
+            const found = wrong.find(wele=> wele == ele)
+            console.log(found)
+            if(found === undefined){
+                //Wenn found undefined ist, ist ele nicht in wrong --> 
+                //Es ist also richtig
+                def_right.push(ele)
+            }
+        })
+     
+        //Wir entfernen alle richtige um nur unbeantwortete zu erhalten.
+        def_right.forEach(idToRem=>{
             all_QS_only_ids = this.remove_array_element(all_QS_only_ids,idToRem)
         })
-        //NOw possible_right is right.
-        console.log(possible_right)
+        // console.log("All solved Not correct")
+        // console.log(idToRemove)
+        // console.log("Possibly solved correct")
+        // console.log(answeredCorr)
+        // //Make them to unique arrays
+        // let wrong = this.uniqueArray(idToRemove)
+        // let possible_right = this.uniqueArray(answeredCorr)
 
-        possible_right.forEach(ele=>{
-            all_QS_only_ids = this.remove_array_element(all_QS_only_ids,ele)
-        })
+        // //Remove all wrong answers from Array to get only right 
+        // a_filterd.forEach(idToRem=>{
+        //     all_QS_only_ids = this.remove_array_element(all_QS_only_ids,idToRem)
+        // })
+        // //NOw possible_right is right.
+        // console.log(possible_right)
+
+        // possible_right.forEach(ele=>{
+        //     all_QS_only_ids = this.remove_array_element(all_QS_only_ids,ele)
+        // })
         
         const randomElement = all_QS_only_ids[Math.floor(Math.random() * all_QS_only_ids.length)];
         
         console.log("Random Ele:")        
         console.log(randomElement)
-        console.log("Array gekürzt:")
-        console.log(all_QS_only_ids.length)
-        console.log("Array ungekürzt:")
-        console.log(all_QS.length)
+        // console.log("Array gekürzt:")
+        // console.log(all_QS_only_ids.length)
+        // console.log("Array ungekürzt:")
+        // console.log(all_QS.length)
 
         let return_Qs = await getRepository(Multiplechoice_QuestionEntity)
         .createQueryBuilder("multiplechoice_question")
@@ -305,7 +329,7 @@ export class Tg_MultiplechoiceService {
         .getRawMany(); //IN (:...mod_qs_categories)",{mod_qs_categories:cat_ids_array}
        
         //return_Qs ==> All QS not yet correct answered by user
-        console.log(return_Qs)
+        // console.log(return_Qs)
         return return_Qs
     }
 
