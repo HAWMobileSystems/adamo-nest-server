@@ -62,7 +62,20 @@ export class Tg_MultiplechoiceService {
                 }
             })
         })
-
+        let returnArray: {key :string,value :boolean}[] = []
+        answers.forEach((value,key)=>{
+            all_Answers.forEach(e=>{
+                //e => answer ID
+                if(key == e.id){
+                    let answergiven = (value == "true")
+                    if(answergiven == e.correct){
+                        returnArray.push({key:e.id,value:true})
+                    }else{
+                        returnArray.push({key:e.id,value:false})
+                    }
+                }
+            })
+        })
         //Put Question in Database
         const seedTest3 = await getConnection()
         .createQueryBuilder()
@@ -85,7 +98,7 @@ export class Tg_MultiplechoiceService {
         }]).execute();
         
         //Return ReturnMap for Highligting
-        return returnMap
+        return returnArray
     }
     /**
      * 
