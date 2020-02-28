@@ -22,6 +22,10 @@ export class Tg_MultiplechoiceEntity extends AbstractEntity<Tg_MultiplechoiceDto
     @OneToMany( type => Multiplechoice_QuestionEntity, mc => mc.multiplechoice_question_id)
     public tg_multiplechoice_multiplechoice_id: string;
 
+    @ApiModelProperty()
+    @Column()
+    public tg_multiplechoice_solved_correct: boolean;
+
     @Exclude()
     dtoClass = Tg_MultiplechoiceDto;
 }
