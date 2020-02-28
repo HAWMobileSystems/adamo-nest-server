@@ -23,6 +23,7 @@ export class Tg_MultiplechoiceService {
     async solveMultiplechoice(user_id: any, qs_id: any, answers: Map<string,string>) {
         console.log(qs_id)
         //Get DTO to Multiplechoice_Qs
+        
         const mult_qs_id = await getRepository(Multiplechoice_QuestionEntity)
         .createQueryBuilder("multiplechoice_question")
         .where("multiplechoice_question.multiplechoice_question_id = :multiplechoice_question_id",{multiplechoice_question_id:qs_id})
@@ -30,10 +31,12 @@ export class Tg_MultiplechoiceService {
         console.log(mult_qs_id)
         //Get List of Answers given
         let listOfAnswerIDs = []
+        
         answers.forEach((value,key)=>{
             let waiter = this.putMC(key,qs_id,value)
             listOfAnswerIDs.push(key)
         })
+        
         //Get DTOs for all answers given
         const all_Answers = await getRepository(Multiplechoice_Question_AnswerEntity)
         .createQueryBuilder("multiplechoice_question_answer")
@@ -41,6 +44,7 @@ export class Tg_MultiplechoiceService {
         .addSelect("multiplechoice_question_answer.multiplechoice_question_answer_true","correct")
         .where("multiplechoice_question_answer.multiplechoice_question_answer_id IN (:...multiplechoice_question_answer_id)",{multiplechoice_question_answer_id:listOfAnswerIDs})
         .getRawMany();
+        
         //const all_Answers = await this.testReturnDTO(listOfAnswerIDs)
         console.log(all_Answers)
         //compare answers given to correct value
@@ -58,6 +62,7 @@ export class Tg_MultiplechoiceService {
                 }
             })
         })
+
         //Put Question in Database
         const seedTest3 = await getConnection()
         .createQueryBuilder()
@@ -67,7 +72,8 @@ export class Tg_MultiplechoiceService {
             tg_multiplechoice_id:qs_id,
             tg_multiplechoice_multiplechoice_id:qs_id
         }]).execute();
-        //Put all given Answers in Database
+        
+        //Put given Answers in Database
         const seedTest = await getConnection()
         .createQueryBuilder()
         .insert()
@@ -77,6 +83,7 @@ export class Tg_MultiplechoiceService {
             test_user_id: user_id,
             test_categorie: mult_qs_id.multiplechoice_question_categories,
         }]).execute();
+        
         //Return ReturnMap for Highligting
         return returnMap
     }
@@ -154,36 +161,59 @@ export class Tg_MultiplechoiceService {
        .where('test_table.test_user_id = :test_user_id',{test_user_id:user_id})
        .andWhere('test_table.test_categorie = :test_categorie',{test_categorie:catid})
        .getRawMany();
+       console.log("All QS Answered")
+       console.log(all_QS_Answered.length)
        /**
         * Check wheater Questions was answered correct
         * 
         */
         //Get List of all IDs
 
-        console.log(all_QS_Answered)
-        const listOfAllIds = []
-        all_QS_Answered.forEach(e=>{
-           listOfAllIds.push(e.id)
-        })
-        //Get unique List of solved Tests
-        let a_filterd = this.uniqueArray(listOfAllIds)
-        console.log(a_filterd)
-        //Create a list of all QS beeing answerd wrong.
-        let idToRemove = []
-        all_QS_Answered.forEach(e=>{
-            if(e.answergiven != e.answercorrect){
-                idToRemove.push(e.id)
-            }
-        })
-
-        console.log("List of All Solved Test")
-        console.log(a_filterd)
-        //Remove InCorrect Questions from all Answered Questions
-        // idToRemove.forEach(idToRem=>{
-        //     a_filterd = this.remove_array_element(a_filterd,idToRem)
+        // console.log(all_QS_Answered)
+        // const listOfAllIds = []
+        // all_QS_Answered.forEach(e=>{
+        //    listOfAllIds.push(e.id)
         // })
-        console.log("List of all Wrong Answers")
-        console.log(idToRemove)
+        // //Get unique List of solved Tests
+        // let a_filterd = this.uniqueArray(listOfAllIds)
+        // console.log(a_filterd)
+        // //Create a list of all QS beeing answerd wrong.
+        // let idToRemove = []
+        // all_QS_Answered.forEach(e=>{
+        //     if(e.answergiven != e.answercorrect){
+        //         idToRemove.push(e.id)
+        //     }
+        // })
+
+        // console.log("List of All Solved Test")
+        // console.log(a_filterd)
+        // console.log("List of all Wrong Answers")
+        // console.log(idToRemove)
+
+        // //Now we can remove the list of correct answered Questions 
+        // //of a List of all Multiplechoice Questions.
+        // let all_QS = await getRepository(Multiplechoice_QuestionEntity)
+        // .createQueryBuilder("multiplechoice_question")
+        // .select("multiplechoice_question.multiplechoice_question_id","id")
+        // .where('multiplechoice_question.multiplechoice_question_categories = :multiplechoice_question_categories',{multiplechoice_question_categories:catid})
+        // .getRawMany();
+
+        // //Remove the IDS to get an List of all Applicable QUestions
+        // let arrayOfAllQsIds = []
+        // let final_array = []
+        // all_QS.forEach(e=>{
+        //     arrayOfAllQsIds.push(e.id)
+        //     final_array.push(e.id)
+        // })
+        // //Remove all wrong answers from Array to get only right 
+        // idToRemove.forEach(idToRem=>{
+        //     arrayOfAllQsIds = this.remove_array_element(arrayOfAllQsIds,idToRem)
+        // })
+        // final_array = arrayOfAllQsIds
+        // // arrayOfAllQsIds.forEach(idTRem=>{
+        // //     final_array = this.remove_array_element(final_array,idTRem)
+        // // })
+        // //Remove right answers from Text
 
         //Now we can remove the list of correct answered Questions 
         //of a List of all Multiplechoice Questions.
@@ -192,43 +222,62 @@ export class Tg_MultiplechoiceService {
         .select("multiplechoice_question.multiplechoice_question_id","id")
         .where('multiplechoice_question.multiplechoice_question_categories = :multiplechoice_question_categories',{multiplechoice_question_categories:catid})
         .getRawMany();
-        console.log(all_QS)
-        //Remove the IDS to get an List of all Applicable QUestions
-        let arrayOfAllQsIds = []
-        let final_array = []
-        all_QS.forEach(e=>{
-            arrayOfAllQsIds.push(e.id)
-            final_array.push(e.id)
-        })
-        console.log(arrayOfAllQsIds)
-        idToRemove.forEach(idToRem=>{
-            arrayOfAllQsIds = this.remove_array_element(arrayOfAllQsIds,idToRem)
-        })
-        arrayOfAllQsIds.forEach(idTRem=>{
-            final_array = this.remove_array_element(final_array,idTRem)
-        })
-        //Remove right answers from Text
-        console.log("###############")
-        console.log("###############")
-        console.log("###############")
-        console.log("###############")
-        console.log("###############")
-        console.log("###############")
-        console.log("###############")
-        console.log("###############")
-        console.log(arrayOfAllQsIds.length)
-        console.log("###############")
-        console.log("###############")
-        console.log("###############")
-        console.log("###############")
-        console.log("###############")
-        console.log("###############")
-        console.log("###############")
-        console.log("###############")
+        console.log("ALL QS")
+        console.log(all_QS.length)
 
-        let random = Math.random()
-        console.log("Random Number: "+random)
-        const randomElement = final_array[Math.floor(random * final_array.length)];
+        let all_QS_only_ids = []
+        all_QS.forEach(eele=>{
+            all_QS_only_ids.push(eele.id)
+        })
+        console.log("All QS ONly ID")
+        console.log(all_QS_only_ids.length)
+
+
+        const listOfAllIds = []
+        all_QS_Answered.forEach(e=>{
+           listOfAllIds.push(e.id)
+        })
+        //console.log(listOfAllIds)
+         //Get unique List of solved Tests
+        let a_filterd = this.uniqueArray(listOfAllIds)
+        console.log("ALL SOLVED TEST ")
+        console.log(a_filterd)
+        console.log("Above Unique")
+        //Create a list of all QS beeing answerd wrong.
+        let idToRemove = []
+        //Answered right
+        let answeredCorr = []
+        all_QS_Answered.forEach(e=>{
+            if(e.answergiven != e.answercorrect){
+                idToRemove.push(e.id)
+            }else{
+                answeredCorr.push(e.id)
+            }
+        })
+        //Make them to unique arrays
+        let wrong = this.uniqueArray(idToRemove)
+        let possible_right = this.uniqueArray(answeredCorr)
+
+        //Remove all wrong answers from Array to get only right 
+        
+        a_filterd.forEach(idToRem=>{
+            all_QS_only_ids = this.remove_array_element(all_QS_only_ids,idToRem)
+        })
+        //NOw possible_right is right.
+        console.log(possible_right)
+
+        possible_right.forEach(ele=>{
+            all_QS_only_ids = this.remove_array_element(all_QS_only_ids,ele)
+        })
+        
+        const randomElement = all_QS_only_ids[Math.floor(Math.random() * all_QS_only_ids.length)];
+        
+        console.log("Random Ele:")        
+        console.log(randomElement)
+        console.log("Array gekürzt:")
+        console.log(all_QS_only_ids.length)
+        console.log("Array ungekürzt:")
+        console.log(all_QS.length)
 
         let return_Qs = await getRepository(Multiplechoice_QuestionEntity)
         .createQueryBuilder("multiplechoice_question")
@@ -244,12 +293,6 @@ export class Tg_MultiplechoiceService {
        
         //return_Qs ==> All QS not yet correct answered by user
         console.log(return_Qs)
-        
-
-        //Get Index to Remov
-        /**
-        * Check wheater the answered Questions where correct.
-        */
         return return_Qs
     }
 
