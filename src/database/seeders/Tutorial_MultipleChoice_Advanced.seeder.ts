@@ -20,22 +20,34 @@ export default class SeedMultipleChoiceQuestionAdvanced implements Seeder {
         .values([
         // --- 1. Question --- Data Store
         {
-            multiplechoice_question_text: `<p style="font-size:14pt;">A place where the process has read and write access. It exists independently of the lifetime of the process instance. What is described here?</p>`,
-            multiplechoice_question_text_de: `<p style="font-size:14pt;">Ein Ort, an dem der Prozess Lese- und Schreibzugriff hat. Er existiert unabhängig von der Lebensdauer der Prozessinstanz. Was wird hier beschrieben?</p>`,
+            multiplechoice_question_text: `<p style="font-size:14pt;">
+            A place where the process has read and write access. 
+            It exists independently of the lifetime of the process instance.
+             What is described here?</p>`,
+            multiplechoice_question_text_de: `<p style="font-size:14pt;">
+            Ein Ort, an dem der Prozess Lese- und Schreibzugriff hat.
+             Er existiert unabhängig von der Lebensdauer der Prozessinstanz.
+              Was wird hier beschrieben?</p>`,
             multiplechoice_question_categories:getCategory_id.category_id,
         },
         // --- 2. Question --- Data Object
         {
-            multiplechoice_question_text: `<p style="font-size:14pt;">What is represented with a data object? (More than one answer is correct)</p>`,
-            multiplechoice_question_text_de: `<p style="font-size:14pt;">Was wird durch ein Data Object repräsentiert? (Mehrere Antworten richtig)</p>`,
+            multiplechoice_question_text: `<p style="font-size:14pt;">
+            What is represented with a data object? 
+            (More than one answer is correct)</p>`,
+            multiplechoice_question_text_de: `<p style="font-size:14pt;">
+            Was wird durch ein Data Object repräsentiert?
+             (Mehrere Antworten richtig)</p>`,
             multiplechoice_question_categories:getCategory_id.category_id, 
         },
         // --- 3. Question --- Message End Event
         { 
-            multiplechoice_question_text: `<p style="font-size:14pt;">What does the end event below?</p>`+`
+            multiplechoice_question_text: `<p style="font-size:14pt;">
+            What does the end event below?</p>`+`
             <div><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48" height="48" viewBox="225 114 48 48" version="1.1"><defs><marker id="sequenceflow-end-white-black-9uh5jcqe3lsj7mx582rco918z" viewBox="0 0 20 20" refX="11" refY="10" markerWidth="10" markerHeight="10" orient="auto"><path d="M 1 5 L 11 10 L 1 15 Z" style="fill: black; stroke-width: 1px; stroke-linecap: round; stroke-dasharray: 10000, 1; stroke: black;"/></marker></defs><g class="djs-group"><g class="djs-element djs-shape" data-element-id="EndEvent_0kwb2i2" style="display: block;" transform="translate(231 120)"><g class="djs-visual"><circle cx="18" cy="18" r="18" style="stroke: black; stroke-width: 4px; fill: white; fill-opacity: 0.95;"/><path d="m 8.459999999999999,11.34 l 0,12.6 l 18.900000000000002,0 l 0,-12.6 z l 9.450000000000001,5.4 l 9.450000000000001,-5.4" style="fill: black; stroke-width: 1px; stroke: white;"/></g><rect x="0" y="0" width="36" height="36" class="djs-hit" style="fill: none; stroke-opacity: 0; stroke: white; stroke-width: 15px;"/><rect x="-6" y="-6" width="48" height="48" class="djs-outline" style="fill: none;"/></g></g></svg>
             </div>`,
-            multiplechoice_question_text_de: `<p style="font-size:14pt;">Was macht das angezeigte End Event?</p>`+`
+            multiplechoice_question_text_de: `<p style="font-size:14pt;">
+            Was macht das angezeigte End Event?</p>`+`
             <div><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48" height="48" viewBox="225 114 48 48" version="1.1"><defs><marker id="sequenceflow-end-white-black-9uh5jcqe3lsj7mx582rco918z" viewBox="0 0 20 20" refX="11" refY="10" markerWidth="10" markerHeight="10" orient="auto"><path d="M 1 5 L 11 10 L 1 15 Z" style="fill: black; stroke-width: 1px; stroke-linecap: round; stroke-dasharray: 10000, 1; stroke: black;"/></marker></defs><g class="djs-group"><g class="djs-element djs-shape" data-element-id="EndEvent_0kwb2i2" style="display: block;" transform="translate(231 120)"><g class="djs-visual"><circle cx="18" cy="18" r="18" style="stroke: black; stroke-width: 4px; fill: white; fill-opacity: 0.95;"/><path d="m 8.459999999999999,11.34 l 0,12.6 l 18.900000000000002,0 l 0,-12.6 z l 9.450000000000001,5.4 l 9.450000000000001,-5.4" style="fill: black; stroke-width: 1px; stroke: white;"/></g><rect x="0" y="0" width="36" height="36" class="djs-hit" style="fill: none; stroke-opacity: 0; stroke: white; stroke-width: 15px;"/><rect x="-6" y="-6" width="48" height="48" class="djs-outline" style="fill: none;"/></g></g></svg>
             </div>`,
             multiplechoice_question_categories:getCategory_id.category_id,   
