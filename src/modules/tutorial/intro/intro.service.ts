@@ -156,13 +156,13 @@ export class IntroService {
         */
         let firstBeg = 0
         let pfirstBeg = await this.getNumberOfWrongAnswersByCat(cat_beginner,user_id,request)
-        firstBeg = countBeginner-pfirstBeg
+        firstBeg = pfirstBeg
         let firstAdv = 0
         let pfirstAdv = await this.getNumberOfWrongAnswersByCat(cat_advanced,user_id,request)
-        firstAdv = countAdvanced-pfirstAdv
+        firstAdv = pfirstAdv
         let firstProf = 0
         let pfirstProf = await this.getNumberOfWrongAnswersByCat(cat_professional,user_id,request)
-        firstProf = countProfessi-pfirstProf
+        firstProf = pfirstProf
 
         // category_IDs.forEach(async e=>{
         //     switch(e.category_name){
@@ -249,79 +249,78 @@ export class IntroService {
         return result;
     }
     async getNumberOfWrongAnswersByCat(cat_id:string,user_id:string,request:string){
-        const all_QS_Answered_for_check = await getRepository(Tg_MultiplechoiceEntity)
+        const all_QS_Answered_Correct = await getRepository(Tg_MultiplechoiceEntity)
         .createQueryBuilder("tg_multiplechoice")
         .select("test_table.test_solved_test_id","id")
         //.addSelect("mult_qs_table.multiplechoice_question_description","name")
         //.addSelect(request,"question")
-        .addSelect("mult_qs_ans_given.tg_multiplechoice_answered_answerd","answergiven")
-        .addSelect("mult_qs_ans.multiplechoice_question_answer_true","answercorrect")
+        // .addSelect("mult_qs_ans_given.tg_multiplechoice_answered_answerd","answergiven")
+        // .addSelect("mult_qs_ans.multiplechoice_question_answer_true","answercorrect")
         .innerJoin(TestEntity,'test_table', 'tg_multiplechoice.tg_multiplechoice_id::VARCHAR = test_table.test_solved_test_id ')
-        .innerJoin(Multiplechoice_QuestionEntity,'multiplechoice_question','tg_multiplechoice.tg_multiplechoice_id::VARCHAR = multiplechoice_question.multiplechoice_question_id::VARCHAR')
-        .innerJoin(Tg_Multiplechoice_AnsweredEntity,'mult_qs_ans_given','mult_qs_ans_given.tg_multiplechoice_answered_from_qs_id = tg_multiplechoice.tg_multiplechoice_id::VARCHAR')
-        .innerJoin(Multiplechoice_Question_AnswerEntity,'mult_qs_ans','mult_qs_ans_given.tg_multiplechoice_answered_answer_id = multiplechoice_question_answer_id::VARCHAR')
+        // .innerJoin(Multiplechoice_QuestionEntity,'multiplechoice_question','tg_multiplechoice.tg_multiplechoice_id::VARCHAR = multiplechoice_question.multiplechoice_question_id::VARCHAR')
+        // .innerJoin(Tg_Multiplechoice_AnsweredEntity,'mult_qs_ans_given','mult_qs_ans_given.tg_multiplechoice_answered_from_qs_id = tg_multiplechoice.tg_multiplechoice_id::VARCHAR')
+        // .innerJoin(Multiplechoice_Question_AnswerEntity,'mult_qs_ans','mult_qs_ans_given.tg_multiplechoice_answered_answer_id = multiplechoice_question_answer_id::VARCHAR')
         .where('test_table.test_user_id = :test_user_id',{test_user_id:user_id})
         .andWhere('test_table.test_categorie = :test_categorie',{test_categorie:cat_id})
+        .andWhere('tg_multiplechoice.tg_multiplechoice_solved_correct = true')
         .getRawMany();
-        /**
-         * Check wheater Questions was answered correct
-         * 
-         */
-         //Get List of all IDs
-         //console.log(all_QS_Answered_for_check)
-         let listOfAllIds = []
-         all_QS_Answered_for_check.forEach(e=>{
-            listOfAllIds.push(e.id)
-         })
-         //console.log("ALLIDFDSDSDSDSD")
-         //console.log(listOfAllIds)
-          //Get unique List of solved Tests
-         let a_filterd = this.uniqueArray(listOfAllIds)
-         console.log("ALL SOLVED TEST ")
-         console.log(a_filterd)
-         //Create a list of all QS beeing answerd wrong.
-         let idToRemove = []
-         //Answered right
-         let answeredCorr = []
-         all_QS_Answered_for_check.forEach(e=>{
-             if(e.answergiven != e.answercorrect){
-                  idToRemove.push(e.id)
-             }else{
-                 answeredCorr.push(e.id)
-             }
-         })
-         //Make them to unique arrays
-         let wrong = this.uniqueArray(idToRemove)
-         let possible_right = this.uniqueArray(answeredCorr)
+        
+        let listOfSolvedCorrect = []
+
+        all_QS_Answered_Correct.forEach(solvedC=>{
+           listOfSolvedCorrect.push(solvedC.id)
+        })
+
+        let a_filterd = this.uniqueArray(listOfSolvedCorrect)
+        //  //console.log("ALLIDFDSDSDSDSD")
+        //  //console.log(listOfAllIds)
+        //   //Get unique List of solved Tests
+        //  let a_filterd = this.uniqueArray(listOfAllIds)
+        //  console.log("ALL SOLVED TEST ")
+        //  console.log(a_filterd)
+        //  //Create a list of all QS beeing answerd wrong.
+        //  let idToRemove = []
+        //  //Answered right
+        //  let answeredCorr = []
+        //  all_QS_Answered_for_check.forEach(e=>{
+        //      if(e.answergiven != e.answercorrect){
+        //           idToRemove.push(e.id)
+        //      }else{
+        //          answeredCorr.push(e.id)
+        //      }
+        //  })
+        //  //Make them to unique arrays
+        //  let wrong = this.uniqueArray(idToRemove)
+        //  let possible_right = this.uniqueArray(answeredCorr)
          
-         let def_right = []
-         possible_right.forEach(ele=>{
-             const found = wrong.find(wele=> wele == ele)
-             console.log(found)
-             if(found === undefined){
-                 //Wenn found undefined ist, ist ele nicht in wrong --> 
-                 //Es ist also richtig
-                 def_right.push(ele)
-             }
-         })
-         console.log("Wurstsalat")
-         console.log(def_right)
-         //Wir entfernen alle richtige um nur unbeantwortete zu erhalten.
-         let all_QS = await getRepository(Multiplechoice_QuestionEntity)
-        .createQueryBuilder("multiplechoice_question")
-        .where('multiplechoice_question.multiplechoice_question_categories = :multiplechoice_question_categories',{multiplechoice_question_categories:cat_id})
-        .getMany();
-        //console.log(all_QS)
-        let return_Array = []
-        all_QS.forEach(e=>{
-            return_Array.push(e.multiplechoice_question_id)
-        })
-        console.log("ALL QS")
-        console.log(return_Array.length)
-        def_right.forEach(idToRem=>{
-            return_Array = this.remove_array_element(return_Array,idToRem)
-        })
-        console.log(return_Array.length)
+        //  let def_right = []
+        //  possible_right.forEach(ele=>{
+        //      const found = wrong.find(wele=> wele == ele)
+        //      console.log(found)
+        //      if(found === undefined){
+        //          //Wenn found undefined ist, ist ele nicht in wrong --> 
+        //          //Es ist also richtig
+        //          def_right.push(ele)
+        //      }
+        //  })
+        //  console.log("Wurstsalat")
+        //  console.log(def_right)
+        //  //Wir entfernen alle richtige um nur unbeantwortete zu erhalten.
+        //  let all_QS = await getRepository(Multiplechoice_QuestionEntity)
+        // .createQueryBuilder("multiplechoice_question")
+        // .where('multiplechoice_question.multiplechoice_question_categories = :multiplechoice_question_categories',{multiplechoice_question_categories:cat_id})
+        // .getMany();
+        // //console.log(all_QS)
+        // let return_Array = []
+        // all_QS.forEach(e=>{
+        //     return_Array.push(e.multiplechoice_question_id)
+        // })
+        // console.log("ALL QS")
+        // console.log(return_Array.length)
+        // def_right.forEach(idToRem=>{
+        //     return_Array = this.remove_array_element(return_Array,idToRem)
+        // })
+        // console.log(return_Array.length)
         //Remove all wrong answers from Array to get only right 
         
         // wrong.forEach(idToRem=>{
@@ -330,7 +329,7 @@ export class IntroService {
         //  console.log("Not correct Solved")
         //  console.log(possible_right)
          //Remove 
-         return return_Array.length
+         return a_filterd.length
     }
 
     async find(): Promise<any[]> {

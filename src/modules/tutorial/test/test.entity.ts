@@ -18,7 +18,7 @@ export class TestEntity extends AbstractEntity<TestDto>{
     @ApiModelProperty()
     @Column()
     @OneToMany(type => Tg_IntroEntity, tg_i => tg_i.tg_intro_id)
-    @OneToMany(type => Tg_MultiplechoiceEntity, tg_mc => tg_mc.tg_multiplechoice_id)
+    @OneToMany(type => Tg_MultiplechoiceEntity, tg_mc => tg_mc.tg_multiplechoice_unique_id)
     @OneToMany(type => Tg_ModellingEntity, tg_mod => tg_mod.tg_modelling_id)
     public test_solved_test_id: string;
 

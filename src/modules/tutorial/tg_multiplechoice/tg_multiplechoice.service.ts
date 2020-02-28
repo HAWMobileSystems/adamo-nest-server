@@ -8,6 +8,7 @@ import { Multiplechoice_Question_AnswerEntity } from '../multiplechoice_question
 import { TestEntity } from '../test/test.entity';
 import { Tg_Multiplechoice_AnsweredEntity } from '../tg_multiplechoice_answered/tg_multiplechoice_answered.entity';
 import { Multiplechoice_Question_AnswerDto } from '../multiplechoice_question_answer/dto/Multiplechoice_Question_AnswerDto';
+import { ApiRequestTimeoutResponse } from '@nestjs/swagger';
 
 @Injectable()
 export class Tg_MultiplechoiceService {
@@ -63,6 +64,7 @@ export class Tg_MultiplechoiceService {
             })
         })
         let returnArray: {key :string,value :boolean}[] = []
+        let solvedArray = []
         answers.forEach((value,key)=>{
             all_Answers.forEach(e=>{
                 //e => answer ID
@@ -70,12 +72,19 @@ export class Tg_MultiplechoiceService {
                     let answergiven = (value == "true")
                     if(answergiven == e.correct){
                         returnArray.push({key:e.id,value:true})
+                        solvedArray.push(1)
                     }else{
                         returnArray.push({key:e.id,value:false})
+                        solvedArray.push(0)
                     }
                 }
             })
         })
+        let value:boolean = false
+        let v = solvedArray.find(e=> e == 0)
+        if(v === undefined){
+            value = true
+        }
         //Put Question in Database
         const seedTest3 = await getConnection()
         .createQueryBuilder()
@@ -83,7 +92,8 @@ export class Tg_MultiplechoiceService {
         .into(Tg_MultiplechoiceEntity)
         .values([{
             tg_multiplechoice_id:qs_id,
-            tg_multiplechoice_multiplechoice_id:qs_id
+            tg_multiplechoice_multiplechoice_id:qs_id,
+            tg_multiplechoice_solved_correct:value
         }]).execute();
         
         //Put given Answers in Database
@@ -156,10 +166,49 @@ export class Tg_MultiplechoiceService {
                catid = e.category_id
            }
        })     
-       console.log("Get all answered Questions")
        /**
-        * Get All Questions answered by user in the given category
+        * Get All Questions answered correct by user in the given category
         */
+
+       const all_QS_Answered_Correct = await getRepository(Tg_MultiplechoiceEntity)
+       .createQueryBuilder("tg_multiplechoice")
+       .select("test_table.test_solved_test_id","id")
+       .innerJoin(TestEntity,'test_table', 'tg_multiplechoice.tg_multiplechoice_id::VARCHAR = test_table.test_solved_test_id ')
+       //.innerJoin(Multiplechoice_Question_AnswerEntity,'mult_qs_ans','mult_qs_ans_given.tg_multiplechoice_answered_answer_id = multiplechoice_question_answer_id::VARCHAR')
+       .where('test_table.test_user_id = :test_user_id',{test_user_id:user_id})
+       .andWhere('test_table.test_categorie = :test_categorie',{test_categorie:catid})
+       .andWhere('tg_multiplechoice.tg_multiplechoice_solved_correct = true')
+       .getRawMany();
+    //    console.log("All QS Answered Correct")
+    //    console.log(all_QS_Answered_Correct.length)
+       //Create List of Correct Answered
+       let listOfSolvedCorrect = []
+
+       all_QS_Answered_Correct.forEach(solvedC=>{
+           listOfSolvedCorrect.push(solvedC.id)
+       })
+    //    console.log("Solved COrr")
+    //    console.log(listOfSolvedCorrect)
+       // Get List of All Questions
+       let all_QS = await getRepository(Multiplechoice_QuestionEntity)
+       .createQueryBuilder("multiplechoice_question")
+       .select("multiplechoice_question.multiplechoice_question_id","id")
+       .where('multiplechoice_question.multiplechoice_question_categories = :multiplechoice_question_categories',{multiplechoice_question_categories:catid})
+       .getRawMany();
+    //    console.log("ALL QS")
+    //    console.log(all_QS.length)
+       //Create List of All Question
+       let listOfAllQuestion = []
+
+       all_QS.forEach(all=>{
+        listOfAllQuestion.push(all.id)
+       })
+       //Create List of All Qs except the solved ones
+       let listOfQuestionsToAsk = []
+       listOfSolvedCorrect.forEach(idToRem=>{
+        listOfAllQuestion = this.remove_array_element(listOfAllQuestion,idToRem)
+        })
+/*
        const all_QS_Answered = await getRepository(Tg_MultiplechoiceEntity)
        .createQueryBuilder("tg_multiplechoice")
        .select("test_table.test_solved_test_id","id")
@@ -173,9 +222,11 @@ export class Tg_MultiplechoiceService {
        .innerJoin(Multiplechoice_Question_AnswerEntity,'mult_qs_ans','mult_qs_ans_given.tg_multiplechoice_answered_answer_id = multiplechoice_question_answer_id::VARCHAR')
        .where('test_table.test_user_id = :test_user_id',{test_user_id:user_id})
        .andWhere('test_table.test_categorie = :test_categorie',{test_categorie:catid})
+       .andWhere('')
        .getRawMany();
        console.log("All QS Answered")
        console.log(all_QS_Answered)
+*/
        /**
         * Check wheater Questions was answered correct
         * 
@@ -230,64 +281,58 @@ export class Tg_MultiplechoiceService {
 
         //Now we can remove the list of correct answered Questions 
         //of a List of all Multiplechoice Questions.
-        let all_QS = await getRepository(Multiplechoice_QuestionEntity)
-        .createQueryBuilder("multiplechoice_question")
-        .select("multiplechoice_question.multiplechoice_question_id","id")
-        .where('multiplechoice_question.multiplechoice_question_categories = :multiplechoice_question_categories',{multiplechoice_question_categories:catid})
-        .getRawMany();
-        console.log("ALL QS")
-        console.log(all_QS.length)
-
-        let all_QS_only_ids = []
-        all_QS.forEach(eele=>{
-            all_QS_only_ids.push(eele.id)
-        })
-        console.log("All QS ONly ID")
-        console.log(all_QS_only_ids.length)
-
-
-        const listOfAllIds = []
-        all_QS_Answered.forEach(e=>{
-           listOfAllIds.push(e.id)
-        })
-        //console.log(listOfAllIds)
-         //Get unique List of solved Tests
-        let a_filterd = this.uniqueArray(listOfAllIds)
-        console.log("ALL SOLVED TEST")
-        console.log(a_filterd)
-        console.log("Above Unique")
-        //Create a list of all QS beeing answerd wrong.
-        let idToRemove = []
-        //Answered right
-        let answeredCorr = []
-        all_QS_Answered.forEach(e=>{
-            if(e.answergiven != e.answercorrect){
-                idToRemove.push(e.id)
-            }else{
-                answeredCorr.push(e.id)
-            }
-        })
         
-        //idToRemove sind falsch gegebene antworten --> müssen entfernt werden
-        let wrong = this.uniqueArray(idToRemove)
-        //AnsweredCorr sind nicht falsch gegebene Antworten 
-        let possible_right = this.uniqueArray(answeredCorr)
+//----
+        // let all_QS_only_ids = []
+        // all_QS.forEach(eele=>{
+        //     all_QS_only_ids.push(eele.id)
+        // })
+        // console.log("All QS ONly ID")
+        // console.log(all_QS_only_ids.length)
 
-        let def_right = []
-        possible_right.forEach(ele=>{
-            const found = wrong.find(wele=> wele == ele)
-            console.log(found)
-            if(found === undefined){
-                //Wenn found undefined ist, ist ele nicht in wrong --> 
-                //Es ist also richtig
-                def_right.push(ele)
-            }
-        })
+
+        // const listOfAllIds = []
+        // all_QS_Answered.forEach(e=>{
+        //    listOfAllIds.push(e.id)
+        // })
+        // //console.log(listOfAllIds)
+        //  //Get unique List of solved Tests
+        // let a_filterd = this.uniqueArray(listOfAllIds)
+        // console.log("ALL SOLVED TEST")
+        // console.log(a_filterd)
+        // console.log("Above Unique")
+        // //Create a list of all QS beeing answerd wrong.
+        // let idToRemove = []
+        // //Answered right
+        // let answeredCorr = []
+        // all_QS_Answered.forEach(e=>{
+        //     if(e.answergiven != e.answercorrect){
+        //         idToRemove.push(e.id)
+        //     }else{
+        //         answeredCorr.push(e.id)
+        //     }
+        // })
+        
+        // //idToRemove sind falsch gegebene antworten --> müssen entfernt werden
+        // let wrong = this.uniqueArray(idToRemove)
+        // //AnsweredCorr sind nicht falsch gegebene Antworten 
+        // let possible_right = this.uniqueArray(answeredCorr)
+
+        // let def_right = []
+        // possible_right.forEach(ele=>{
+        //     const found = wrong.find(wele=> wele == ele)
+        //     console.log(found)
+        //     if(found === undefined){
+        //         //Wenn found undefined ist, ist ele nicht in wrong --> 
+        //         //Es ist also richtig
+        //         def_right.push(ele)
+        //     }
+        // })
      
-        //Wir entfernen alle richtige um nur unbeantwortete zu erhalten.
-        def_right.forEach(idToRem=>{
-            all_QS_only_ids = this.remove_array_element(all_QS_only_ids,idToRem)
-        })
+        // //Wir entfernen alle richtige um nur unbeantwortete zu erhalten.
+        // def_right.forEach(idToRem=>{
+        //     all_QS_only_ids = this.remove_array_element(all_QS_only_ids,idToRem)
+        // })
         // console.log("All solved Not correct")
         // console.log(idToRemove)
         // console.log("Possibly solved correct")
@@ -306,11 +351,11 @@ export class Tg_MultiplechoiceService {
         // possible_right.forEach(ele=>{
         //     all_QS_only_ids = this.remove_array_element(all_QS_only_ids,ele)
         // })
+//--
+        const randomElement = listOfAllQuestion[Math.floor(Math.random() * listOfAllQuestion.length)];
         
-        const randomElement = all_QS_only_ids[Math.floor(Math.random() * all_QS_only_ids.length)];
-        
-        console.log("Random Ele:")        
-        console.log(randomElement)
+        // console.log("Random Ele:")        
+        // console.log(randomElement)
         // console.log("Array gekürzt:")
         // console.log(all_QS_only_ids.length)
         // console.log("Array ungekürzt:")
