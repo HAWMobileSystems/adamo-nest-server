@@ -26,52 +26,89 @@ export default class SeedModellignQuestion implements Seeder {
         .where("category.category_name = :category_name",{category_name:'Professional'})
         .getOne();
         console.log("Grabbing Advanced Category ID");
-    
-        const seedRule = await connection
-        .createQueryBuilder()
-        .insert()
-        .into(Modelling_RulesEntity)
-        .values([
-           {
-            modelling_rule_text: "Standart Regeln für BPMN",
-            },
-        ])
-        .execute();
-        console.log("Seeding Rules \n");
 
-        const mult_qs_id = await getRepository(Multiplechoice_QuestionEntity)
-        .createQueryBuilder("multiplechoice_question")
-        .where("multiplechoice_question.multiplechoice_question_text = :multiplechoice_question_text",{multiplechoice_question_text:'Erste Sinnvolle MC Question'})
-        .getOne();
-
-        console.log("Grabbing Multiplechoice Qs Text");
-        console.log(seedRule.identifiers[0].modelling_rule_id)
-        const seedrule_id = await getRepository(Modelling_RulesEntity)
-        .createQueryBuilder("modelling_rules")
-        .where("modelling_rules.modelling_rule_id= :modelling_rule_id",{modelling_rule_id:seedRule.identifiers[0].modelling_rule_id})
-        .getOne(); 
-        console.log(seedrule_id)
-        console.log("Grabbing Rule ID \n");
+        /**
+         * 
+         */
         const seedQsRule = await connection
         .createQueryBuilder()
         .insert()
         .into(Modelling_Question_RulesEntity)
         .values([
             {
-                modelling_question_used:"standart",
-                modelling_rule_id: seedrule_id.modelling_rule_id,
+                modelling_question_rule_name:"Rule for first Question"
+            },
+            {
+                modelling_question_rule_name:"Rule for second Question"
             }
         ])
-        .execute();    
-
+        .execute();
+        /**
+         * Adding XML Files as modelling rules 
+         * each Modelling Qs has therefor 1 Rule
+         * --> The correct (or planned, so to speak) XML File
+         */
+        console.log("Seeding Rules \n");
+        const seedRule = await connection
+        .createQueryBuilder()
+        .insert()
+        .into(Modelling_RulesEntity)
+        .values([
+           {
+            modelling_rule_id:seedQsRule.identifiers[0].modelling_question_id,
+            modelling_rule_text: "Standart Regeln für BPMN",
+            },
+            {
+                modelling_rule_id:seedQsRule.identifiers[1].modelling_question_id,
+                modelling_rule_text: "Extendet Regeln für BPMN",
+                },
+        ])
+        .execute();
+        /**
+         * After Adding 1 Rule we can now add set rule to a Modelling QUestion RUleSet
+         */
 
         
-        const seedqsrule_id = await getRepository(Modelling_Question_RulesEntity)
-        .createQueryBuilder("modelling_question_rules")
-        .where("modelling_question_rules.modelling_rule_id = :modelling_rule_id",{modelling_rule_id: seedrule_id.modelling_rule_id})
-        .getOne();
-        console.log(seedqsrule_id)
-        console.log("Grabbing Question Specific Rule");
+
+        // const mult_qs_id = await getRepository(Multiplechoice_QuestionEntity)
+        // .createQueryBuilder("multiplechoice_question")
+        // .where("multiplechoice_question.multiplechoice_question_text = :multiplechoice_question_text",{multiplechoice_question_text:'Erste Sinnvolle MC Question'})
+        // .getOne();
+
+        /**
+         * M
+         * 
+         */
+        // const seedrule_id = await getRepository(Modelling_RulesEntity)
+        // .createQueryBuilder("modelling_rules")
+        // .where("modelling_rules.modelling_rule_id= :modelling_rule_id",{modelling_rule_id:seedRule.identifiers[0].modelling_rule_id})
+        // .getOne(); 
+
+
+
+        //console.log(seedrule_id)
+        //console.log("Grabbing Rule ID \n");
+        // const seedQsRule = await connection
+        // .createQueryBuilder()
+        // .insert()
+        // .into(Modelling_Question_RulesEntity)
+        // .values([
+        //     {
+        //         modelling_question_used:"standart",
+        //         modelling_rule_id: seedrule_id.modelling_rule_id,
+        //     }
+        // ])
+        // .execute();    
+        // console.log(seedRule)
+        // console.log("hehe")
+        // console.log(seedRule.identifiers[0].modelling_rule_id)
+        // const seedqsrule_id = await getRepository(Modelling_Question_RulesEntity)
+        // .createQueryBuilder("modelling_question_rules")
+        // .where("modelling_question_rules.modelling_rule_id = :modelling_rule_id",{modelling_rule_id: seedRule.identifiers[0].modelling_rule_id})
+        // .getOne();
+
+        // console.log(seedqsrule_id)
+        // console.log("Grabbing Question Specific Rule");
      
         const otherdata = await connection
         .createQueryBuilder()
@@ -87,7 +124,7 @@ export default class SeedModellignQuestion implements Seeder {
                 mod_qs_question_text_de:`<p>Eine <strong>Kundenanfrage</strong> geht ein (Start-Event). Die <strong>Bestellung</strong> wird <strong>vorbereitet</strong> (Task) und anschließend <strong>versendet</strong> (Task). Der <strong>Prozess endet</strong> mit der <strong>abgeschlossenen Kundenanfrage</strong> (End-Event)</p>`,
                 mod_qs_question_description:"1. Processing a customer inquiry",
                 mod_qs_question_description_de:"1. Bearbeiten einer Kundenanfrage",
-                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
             },
 
             // 2. Processing a customer inquiry with branching
@@ -98,7 +135,7 @@ export default class SeedModellignQuestion implements Seeder {
                 <p>Anschließend wird geprüft, ob das bestellte <strong>Produkt vorhanden</strong> ist (XOR-Gateway). Wenn <strong>ja</strong>, wird die <strong>Bestellung versendet</strong> (Task). Falls <strong>nein</strong>, wird die <strong>Bestellung abgelehnt</strong> (Task). Beide Fälle werden wieder zusammengeführt (XOR-Gateway). Der <strong>Prozess endet</strong> mit der <strong>abgeschlossenen Kundenanfrage</strong> (End-Event).</p>`,
                 mod_qs_question_description:"2. Processing a customer inquiry with branching",
                 mod_qs_question_description_de:"2. Bearbeiten einer Kundenanfrage mit Verzweigung",
-                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[1].modelling_question_id,
             },
             // 3. Customer inquiry with option for process repetition
             {
@@ -111,7 +148,7 @@ export default class SeedModellignQuestion implements Seeder {
                 <p>Die Pfade nach dem Versenden der Bestellung und dem abgelehnten Produktvorschlag werden vereinigt (XOR-Gateway). Der <strong>Prozess endet</strong> mit einer <strong>abgeschlossenen Kundenanfrage</strong> (End-Event)</p>`,
                 mod_qs_question_description:"3. Customer inquiry with option for process repetition",
                 mod_qs_question_description_de:"3. Kundenanfrage mit Option auf Prozesswiederholung",
-                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
             },
             // 4. Customer inquiry with parallel processes
             {
@@ -135,7 +172,7 @@ export default class SeedModellignQuestion implements Seeder {
                 <p>Der Pfad nach dem Versenden der Bestellung und Versandbestätigung wird mit dem Pfad des abgelehnten Produktvorschlags <strong>vereinigt</strong> (XOR-Gateway). Der <strong>Prozess endet</strong> mit einer <strong>abgeschlossenen Kundenanfrage</strong> (End-Event)</p><p>&nbsp;</p>`,
                 mod_qs_question_description:"4. Customer inquiry with parallel processes",
                 mod_qs_question_description_de:"4. Kundenanfrage mit parallelen Vorgängen",
-                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
             },
             // 5. Order process including manual operation
             {
@@ -154,7 +191,7 @@ export default class SeedModellignQuestion implements Seeder {
                 <p>Der Pfad nach dem Versenden der Bestellung und Versandbestätigung wird mit dem Pfad des abgelehnten Produktvorschlags <strong>vereinigt</strong> (XOR-Gateway). Der <strong>Prozess endet</strong> mit einer <strong>abgeschlossenen Kundenanfrage</strong> (End-Event)</p>`,
                 mod_qs_question_description:"5. Order process including manual operation",
                 mod_qs_question_description_de:"5. Bestellprozess inklusive manuellem Vorgang",
-                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
             },
             // 6. Order process inluding user task
             {
@@ -173,7 +210,7 @@ export default class SeedModellignQuestion implements Seeder {
                 <p>Der Pfad nach dem Versenden der Bestellung und Versandbestätigung wird mit dem Pfad des abgelehnten Produktvorschlags <strong>vereinigt</strong> (XOR-Gateway). Der <strong>Prozess endet</strong> mit einer <strong>abgeschlossenen Kundenanfrage</strong> (End-Event).</p>`,
                 mod_qs_question_description:"6. Order process including user task",
                 mod_qs_question_description_de:"6. Bestellprozess inklusive User Task",
-                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
             },
             // 7. Order process including send an receive task
             {
@@ -192,7 +229,7 @@ export default class SeedModellignQuestion implements Seeder {
                 <p>Der Pfad nach dem Versenden der Bestellung und Versandbestätigung wird mit dem Pfad des abgelehnten Produktvorschlags <strong>vereinigt</strong> (XOR-Gateway). Der <strong>Prozess endet</strong> mit einer <strong>abgeschlossenen Kundenanfrage</strong> (End-Event).</p>`,
                 mod_qs_question_description:"7. Order process including Send and Receive Task",
                 mod_qs_question_description_de:"7. Bestellprozess inklusive Send und Receive Task",
-                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
             },
             // 8. Order process including script task
             {
@@ -211,7 +248,7 @@ export default class SeedModellignQuestion implements Seeder {
                 <p>Der Pfad nach dem Versenden der Bestellung und Versandbestätigung wird mit dem Pfad des abgelehnten Produktvorschlags <strong>vereinigt</strong> (XOR-Gateway). Der <strong>Prozess endet</strong> mit einer <strong>abgeschlossenen Kundenanfrage</strong> (End-Event)</p>`,
                 mod_qs_question_description:"8. Order process including Script Task",
                 mod_qs_question_description_de:"8. Bestellprozess inklusive Script Task",
-                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
             },
             // 9. Order process including pools and lanes
             {
@@ -230,7 +267,7 @@ export default class SeedModellignQuestion implements Seeder {
                 <p>Der Pfad nach dem Abschließen der Kundenanfrage wird mit dem Pfad des abgelehnten Produktvorschlags <strong>vereinigt</strong> (XOR-Gateway). Der <strong>Prozess endet</strong> im Kundenservice mit einer <strong>abgeschlossenen Kundenanfrage&nbsp;</strong>(End-Event).</p>`,
                 mod_qs_question_description:"9. Order process including pool and lanes",
                 mod_qs_question_description_de:"9. Bestellprozess inklusive Pool und Lanes",
-                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
             },
             // 10. Order process including several pools and lanes
             {
@@ -247,7 +284,7 @@ export default class SeedModellignQuestion implements Seeder {
                 <p>Falls <strong>nein</strong>, wird eine<strong>&nbsp;Nachlieferung beantragt&nbsp;</strong>(Task). Nach dem Task wird eine <strong>Nachricht an&nbsp;</strong>den<strong>&nbsp;Lieferanten</strong> gesendet (Intermediate Message Throw Event). Der <strong>Lieferant</strong> <strong>erhält</strong> die <strong>Nachricht</strong> (Intermediate Message Catch Event), <strong>nimmt</strong> die <strong>Nachbestellung auf</strong> (Task) und <strong>liefert</strong> das <strong>Produkt</strong> (Task). Der <strong>Lieferant benachrichtigt</strong> (Intermediate Message Throw Event) den <strong>Kundenservice</strong> der PC Build GmbH. Der <strong>Kundenservice erhält</strong> die <strong>Benachrichtigung</strong> (Intermediate Message Catch Event), bei der es nun wieder mit der Prüfung, ob das bestellte <strong>Produkt vorhanden</strong> ist, weitergeht</p>`,
                 mod_qs_question_description:"10. Order process including several pools and lanes",
                 mod_qs_question_description_de:"10. Bestellprozess inklusive mehrerer Pools und Lanes",
-                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
             },
             // 11. Final order process including multiple pools and lanes
             {
@@ -272,7 +309,7 @@ export default class SeedModellignQuestion implements Seeder {
                 <p>Falls <strong>nein</strong>, wird der Prozesspfad mit dem Pfad der abgeschlossenen Kundenanfrage <strong>vereinigt</strong> (XOR-Gateway). Mit der <strong>abgeschlossenen Kundenanfrage</strong> <strong>endet&nbsp;</strong>der<strong>&nbsp;Prozess&nbsp;</strong>(End Event).</p>`,
                 mod_qs_question_description:"11. Final order process including multiple pools and lanes",
                 mod_qs_question_description_de:"11. Finaler Bestellprozess inklusive mehrerer Pools und Lanes",
-                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
             },
 
             // --- Level 2 - Advanced ---
@@ -289,7 +326,7 @@ export default class SeedModellignQuestion implements Seeder {
                 Wir nehmen die <strong>Beschwerde</strong> auf (Task) und bearbeiten die Beschwerde im nächsten Schritt (Task). Im Anschluss <strong>formulieren&nbsp;</strong>wir die <strong>Antwort&nbsp;</strong>(Task).Alle drei Tasks werden als “User-Task” gebildet. Der Prozess <strong>endet&nbsp;</strong>damit, dass wir dem Kunden eine <strong>Antwort senden&nbsp;</strong>(Message-End-Event).</p>`,
                 mod_qs_question_description:"1. Customer Complaints",
                 mod_qs_question_description_de:"1. Kundenreklamation",
-                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
             },
              // 2. Customer complaints extended by business rule
             {
@@ -303,7 +340,7 @@ export default class SeedModellignQuestion implements Seeder {
                 mod_qs_question_text_de:`<p><strong>PC Build GmbH&nbsp;</strong>(Pool).&nbsp;Es geht eine <strong>Kundenreklamation&nbsp;</strong>bei uns ein (Message-Start-Event). Wir nehmen die <strong>Beschwerde</strong> auf (User Task), die <strong>Beschwerde&nbsp;</strong>wird durch eine zuvor festgelegte Regel <strong>kategorisiert&nbsp;</strong>(Business Rule Task) und wir bearbeiten die Beschwerde (User Task). Im Anschluss <strong>formulieren&nbsp;</strong>wir die <strong>Antwort&nbsp;</strong>(User Task). Der Prozess endet damit, dass wir dem Kunden eine <strong>Antwort senden&nbsp;</strong>(Message-End-Event).</p>`,
                 mod_qs_question_description:"2. Customer Complaints extended by business rule",
                 mod_qs_question_description_de:"2. Kundenreklamation durch Business Rule erweitert",
-                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
             },
             // 3. Customer complaints extended by data object
             {
@@ -327,7 +364,7 @@ export default class SeedModellignQuestion implements Seeder {
                 `,
                 mod_qs_question_description:"3. Customer Complaints extended by data object",
                 mod_qs_question_description_de:"3. Kundenreklamation um Datenobjekt erweitert",
-                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
             },
              // 4. Customer complaints extended by timer event
             {
@@ -352,7 +389,7 @@ export default class SeedModellignQuestion implements Seeder {
                 <p>Wir versenden die <strong>Antwort</strong> (Send-Task). Danach <strong>warten&nbsp;</strong>wir so lange auf eine Antwort des Kunden, bis eine <strong>Nachricht eintrifft&nbsp;</strong>(Intermediate Timer-Event). Der Prozess endet damit, dass wir die <strong>Reklamation abschließen&nbsp;</strong>(End-Event).</p>`,
                 mod_qs_question_description:"4. Customer Complaints extended by Timer-Event",
                 mod_qs_question_description_de:"4. Kundenreklamation um Timer Event erweitert",
-                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
             },
             // 5. Customer complaints extended by intermediate event
             {
@@ -378,7 +415,7 @@ export default class SeedModellignQuestion implements Seeder {
                 <p>&nbsp;</p>`,
                 mod_qs_question_description:"5. Customer Complaints extended by Intermediate-Event",
                 mod_qs_question_description_de:"5. Kundenreklamation um Intermediate Error Event erweitert",
-                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
             },
             // 6. Customer complaints extended by inclusive gateway
             {
@@ -411,7 +448,7 @@ export default class SeedModellignQuestion implements Seeder {
                 <p>&nbsp;</p>`,
                 mod_qs_question_description:"6. Customer Complaints extended by Inclusive-Gateway",
                 mod_qs_question_description_de:"6. Kundenreklamation um Inclusive Gateway erweitert",
-                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
             },
             // 7. Customer complaints extended by terminate event
             {
@@ -447,7 +484,7 @@ export default class SeedModellignQuestion implements Seeder {
                 <p>Wenn eine Antwort rechtzeitig ankommt, kommen wir zurück vor den Task <strong>“Beschwerde aufnehmen”&nbsp;</strong>(XOR-Gateway).</p>`,
                 mod_qs_question_description:"7. Customer Complaints extended by Terminate-Event",
                 mod_qs_question_description_de:"7. Kundenreklamation um Terminate Event erweitert",
-                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
             },
             // 8. Customer complaints extended by data stores
             {
@@ -486,7 +523,7 @@ export default class SeedModellignQuestion implements Seeder {
                 <p>&nbsp;</p>`,
                 mod_qs_question_description:"8. Customer Complaints extended by Data-Stores",
                 mod_qs_question_description_de:"8. Kundenreklamation um Data Stores erweitert",
-                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
             },
             // 9. Customer complaints extended by service task
             {
@@ -528,7 +565,7 @@ export default class SeedModellignQuestion implements Seeder {
                 <p>Wenn eine Antwort rechtzeitig ankommt, kommen wir zurück vor den Task <strong>“Beschwerde aufnehmen”&nbsp;</strong>(XOR-Gateway).</p>`,
                 mod_qs_question_description:"9. Customer Complaints extended by Service-Task",
                 mod_qs_question_description_de:"9. Kundenreklamation um Service Task erweitert",
-                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
             },
             // 10. Customer complaints extended by sub-process
             {
@@ -575,7 +612,7 @@ export default class SeedModellignQuestion implements Seeder {
                 <p>&nbsp;</p>`,
                 mod_qs_question_description:"10. Customer Complaints extended by Sub-Process",
                 mod_qs_question_description_de:"10. Kundenprozess um Subprozess erweitert",
-                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
             },
 
 
@@ -590,7 +627,7 @@ export default class SeedModellignQuestion implements Seeder {
                 mod_qs_question_text_de:`<p><strong>PC Build GmbH</strong> (Pool). Eine<strong>&nbsp;Bestellung geht ein</strong> (Message Start Event). Dann <strong>weisen</strong> wir manuell einen <strong>Picker zu</strong> (Manuel Task). Daraufhin prüfen wir ob ein <strong>Produkt verfügbar</strong> ist (Conditional Event). Bevor der Prozess über “<strong>Produkt entnommen</strong>” abschließt (End Event), <strong>entnehmen&nbsp;</strong>wir das<strong>&nbsp;Produkt</strong> (Manuel Task).</p>`,
                 mod_qs_question_description:"1. Availability of goods, therefore it is offered for sale again in the online shop",
                 mod_qs_question_description_de:"1. Warenverfügbarkeit, dadurch wird sie wieder im Onlineshop zum Verkauf angeboten.",
-                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
             },
             // 2. Order will be canceled if the product is not available
             {
@@ -607,7 +644,7 @@ export default class SeedModellignQuestion implements Seeder {
                 <p>Nach der <strong>Produktentnahme</strong><strong>versenden</strong> wir das <strong>Produkt</strong> (Manual Task) und schließe den Prozess mit “<strong>Bestellungsvorgang</strong><strong>abgeschlossen</strong>” ab (End Event).</p>`,
                 mod_qs_question_description:"2. Order will be cancelled if the product is not available",
                 mod_qs_question_description_de:"2. Auftrag wird abgebrochen, falls das Produkt nicht verfügbar ist.",
-                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
             },
             // 3. The order must be released from a certain size by several, but not by all instances
             {
@@ -634,7 +671,7 @@ export default class SeedModellignQuestion implements Seeder {
                 <p>Nach der Produktentnahme<strong>&nbsp;versenden</strong> wir das Produkt (Manual Task) und schließe den Prozess der Auftragsbearbeitung mit “<strong>Bestellungsvorgang abgeschlossen</strong>” ab (End Event).</p>`,
                 mod_qs_question_description:"3. The order must be released from a certain size by several, but not by all instances",
                 mod_qs_question_description_de:"3. Der Auftrag muss ab einer bestimmten Größe durch mehrere, allerdings nicht durch alle Instanzen freigegeben werden.",
-                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
             },
             // 4. Triggering of several processes by signal events
             {
@@ -672,7 +709,7 @@ export default class SeedModellignQuestion implements Seeder {
                 <p><strong>Schließe</strong> den Prozess der Auftragsbearbeitung “<strong>Versende Produkt</strong>” (Manual Task) mit “<strong>Bestellungsvorgang abgeschlossen</strong>” <strong>ab</strong> (End Event)</p>`,
                 mod_qs_question_description:"4. Triggering of several processes by signal events",
                 mod_qs_question_description_de:"4. Anstoßen mehrerer Prozesse durch Signal Events",
-                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
             },
             // 5. Extended payment process including varians
             {
@@ -714,7 +751,7 @@ export default class SeedModellignQuestion implements Seeder {
                 <p><strong>Schließe</strong> den Prozess der Auftragsbearbeitung “<strong>Versende Produkt</strong>” (Manual Task) mit “<strong>Bestellungsvorgang abgeschlossen</strong>” <strong>ab</strong> (End Event)</p>`,
                 mod_qs_question_description:"5. Extended payment process including variants",
                 mod_qs_question_description_de:"5. Erweiterter Bezahlvorgang inklusive Varianten",
-                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
             },
             // 6. Escalate to CEO
             {
@@ -760,7 +797,7 @@ export default class SeedModellignQuestion implements Seeder {
                 <p><strong>Schließe</strong> den Prozess der Auftragsbearbeitung “<strong>Versende Produkt</strong>” (Manual Task) mit “<strong>Bestellungsvorgang abgeschlossen</strong>” <strong>ab</strong> (End Event)</p>`,
                 mod_qs_question_description:"6. Escalate to CEO",
                 mod_qs_question_description_de:"6. An CEO eskalieren",
-                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
             },
             // 7. Collection agency
             {
@@ -807,10 +844,41 @@ export default class SeedModellignQuestion implements Seeder {
                 <p><strong>Schließe</strong> den Prozess der Auftragsbearbeitung “<strong>Versende Produkt</strong>” (Manual Task) mit “<strong>Bestellungsvorgang abgeschlossen</strong>” <strong>ab</strong> (End Event)</p>`,
                 mod_qs_question_description:"7. Collection agency",
                 mod_qs_question_description_de:"7. Inkassounternehmen",
-                mod_qs_custom_ruleset: seedqsrule_id.modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
             },
 
         ])
         .execute();
+        // //Seed Rules --> XML zum vergleichen.
+        // const seedRules = await connection
+        // .createQueryBuilder()
+        // .insert()
+        // .into(Modelling_RulesEntity)
+        // .values([
+        //    {
+        //     modelling_rule_text: "Standart Regeln für BPMN",
+        //     },
+        // ])
+        // .execute();
+        // console.log("Seeding Rules \n");
+
+        // console.log(seedRules.identifiers[0].modelling_rule_id)
+        // const seedrule_ids = await getRepository(Modelling_RulesEntity)
+        // .createQueryBuilder("modelling_rules")
+        // .where("modelling_rules.modelling_rule_id= :modelling_rule_id",{modelling_rule_id:seedRules.identifiers[0].modelling_rule_id})
+        // .getOne(); 
+        // console.log(seedrule_id)
+        // console.log("Grabbing Rule ID \n");
+        // const seedQsRules = await connection
+        // .createQueryBuilder()
+        // .insert()
+        // .into(Modelling_Question_RulesEntity)
+        // .values([
+        //     {
+        //         modelling_question_used: otherdata.identifiers[0].mod_qs_id,
+        //         modelling_rule_id: seedRule.identifiers[0].modelling_rule_id,
+        //     }
+        // ])
+        // .execute();    
     }
 }
