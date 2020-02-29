@@ -46,8 +46,10 @@ export class Tg_ModellingService {
         let result = await getRepository(Modelling_QuestionEntity)
         .createQueryBuilder('modelling_question')
         .select("modelling_question.mod_qs_question_text_de","question_text")
+        //.addSelect("modelling_question.mod_qs_question_text_de","question_text_de")
         .addSelect("mod_qs_rules.modelling_question_rule_name","qs_rule_name")
         .addSelect("mod_rules.modelling_rule_text","mod_r_text")
+        .addSelect("mod_rules.modelling_rule_text_de","mod_r_text_de")
         .innerJoin(Modelling_Question_RulesEntity,"mod_qs_rules","modelling_question.mod_qs_custom_ruleset = mod_qs_rules.modelling_question_id::VARCHAR")
         .innerJoin(Modelling_RulesEntity,"mod_rules","mod_qs_rules.modelling_question_id::VARCHAR = mod_rules.modelling_rule_id")
         .getRawMany();
