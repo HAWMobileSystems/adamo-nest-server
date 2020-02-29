@@ -110,20 +110,6 @@ export default class SeedMultipleChoiceQuestionAdvanced implements Seeder {
             multiplechoice_question_text_de: `<p style="font-size:14pt;">Wann wird der Business Rule Task verwendet?</p>`,
             multiplechoice_question_categories:getCategory_id.category_id, 
         },
-
-        // --- 13. Question --- Parallel Gateway
-        {
-            multiplechoice_question_text: `<p style="font-size:14pt;">What is the name of the following gateway?</p>`,
-            multiplechoice_question_text_de: `<p style="font-size:14pt;"></p>`,
-            multiplechoice_question_categories:getCategory_id.category_id,
-        },
-
-        // --- 14. Question --- Task
-        {
-            multiplechoice_question_text: `<p style="font-size:14pt;">What is represented with a Task?</p>`,
-            multiplechoice_question_text_de: `<p style="font-size:14pt;"></p>`,
-            multiplechoice_question_categories:getCategory_id.category_id,
-        },
             
         ])
         .execute();
@@ -160,8 +146,8 @@ export default class SeedMultipleChoiceQuestionAdvanced implements Seeder {
             // --- 2. Question --- Answers --- Data Object
             {
                 multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[1].multiplechoice_question_id,
-                multiplechoice_question_answer_text:"A place where the process has read and write access",
-                multiplechoice_question_answer_text_de:"Ein Ort, an dem der Prozess Lese- und Schreibzugriff hat",
+                multiplechoice_question_answer_text:"A place where the process has read and write access.",
+                multiplechoice_question_answer_text_de:"Ein Ort, an dem der Prozess Lese- und Schreibzugriff hat.",
                 multiplechoice_question_answer_true:false
             },
             {
@@ -173,7 +159,7 @@ export default class SeedMultipleChoiceQuestionAdvanced implements Seeder {
             {
                 multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[1].multiplechoice_question_id,
                 multiplechoice_question_answer_text:"Information that flows through the process.",
-                multiplechoice_question_answer_text_de:"Informationen, die durch den Prozess fließen",
+                multiplechoice_question_answer_text_de:"Informationen, die durch den Prozess fließen.",
                 multiplechoice_question_answer_true:true
             },
             {
@@ -199,25 +185,25 @@ export default class SeedMultipleChoiceQuestionAdvanced implements Seeder {
             {
                 multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[2].multiplechoice_question_id,
                 multiplechoice_question_answer_text:"Indicates that a message is sent at the end of the process.",
-                multiplechoice_question_answer_text_de:"Zeigt an, dass am Ende des Prozesses eine Nachricht gesendet wird",
+                multiplechoice_question_answer_text_de:"Zeigt an, dass am Ende des Prozesses eine Nachricht gesendet wird.",
                 multiplechoice_question_answer_true:true
             },
             {
                 multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[2].multiplechoice_question_id,
                 multiplechoice_question_answer_text:"Indicates that a data object is crated at the end of the process.",
-                multiplechoice_question_answer_text_de:"Zeigt an, dass ein Datenobjekt am Ende des Prozesses erstellt wird",
+                multiplechoice_question_answer_text_de:"Zeigt an, dass ein Datenobjekt am Ende des Prozesses erstellt wird.",
                 multiplechoice_question_answer_true:false
             },
             {
                 multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[2].multiplechoice_question_id,
                 multiplechoice_question_answer_text:"Indicates that a message is received at the end of the process.",
-                multiplechoice_question_answer_text_de:"Zeigt an, dass am Ende des Prozesses eine Nachricht empfangen wird",
+                multiplechoice_question_answer_text_de:"Zeigt an, dass am Ende des Prozesses eine Nachricht empfangen wird.",
                 multiplechoice_question_answer_true:false
             },
             {
                 multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[2].multiplechoice_question_id,
-                multiplechoice_question_answer_text:"Ends the process and all its activities immediately",
-                multiplechoice_question_answer_text_de:"Beendet den Prozess und alle seine Aktivitäten sofort",
+                multiplechoice_question_answer_text:"Ends the process and all its activities immediately.",
+                multiplechoice_question_answer_text_de:"Beendet den Prozess und alle seine Aktivitäten sofort.",
                 multiplechoice_question_answer_true:false
             },
 
@@ -309,19 +295,19 @@ export default class SeedMultipleChoiceQuestionAdvanced implements Seeder {
             {
                 multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[6].multiplechoice_question_id,
                 multiplechoice_question_answer_text:"The Service Task uses some sort of service that could be a web service or an automated application.",
-                multiplechoice_question_answer_text_de:"Der Service Task verwendet eine Art von Dienst, der ein Webdienst oder eine automatisierte Anwendung sein kann",
+                multiplechoice_question_answer_text_de:"Der Service Task verwendet eine Art von Dienst, der ein Webdienst oder eine automatisierte Anwendung sein kann.",
                 multiplechoice_question_answer_true:true
             },
             {
                 multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[6].multiplechoice_question_id,
                 multiplechoice_question_answer_text:"The Service Task is a task where a human performer performs the task with the assistance of a software application.",
-                multiplechoice_question_answer_text_de:"Der Service Task ist ein Task, bei dem eine Person die Aufgabe mit Hilfe einer Softwareanwendung ausführt",
+                multiplechoice_question_answer_text_de:"Der Service Task ist ein Task, bei dem eine Person die Aufgabe mit Hilfe einer Softwareanwendung ausführt.",
                 multiplechoice_question_answer_true:false
             },
             {
                 multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[6].multiplechoice_question_id,
                 multiplechoice_question_answer_text:"The Service Task is expected to be performed without the aid of any business process execution engine o rany application.",
-                multiplechoice_question_answer_text_de:"Der Service Task ist ein Task, bei dem eine Aufgabe ohne die Hilfe einer Geschäftsprozessausführungs-Engine oder einer Anwendung ausgeführt wird",
+                multiplechoice_question_answer_text_de:"Der Service Task ist ein Task, bei dem eine Aufgabe ohne die Hilfe einer Geschäftsprozessausführungs-Engine oder einer Anwendung ausgeführt wird.",
                 multiplechoice_question_answer_true:false
             },
 
@@ -347,7 +333,7 @@ export default class SeedMultipleChoiceQuestionAdvanced implements Seeder {
             {
                 multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[7].multiplechoice_question_id,
                 multiplechoice_question_answer_text:"Process Flow",
-                multiplechoice_question_answer_text_de:"",
+                multiplechoice_question_answer_text_de:"Process Flow",
                 multiplechoice_question_answer_true:false
             },
             // --- 9. Question --- Answers --- Intermediate Error Event
@@ -373,20 +359,20 @@ export default class SeedMultipleChoiceQuestionAdvanced implements Seeder {
             {
                 multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[9].multiplechoice_question_id,
                 multiplechoice_question_answer_text:"Ends the process immediately.",
-                multiplechoice_question_answer_text_de:"Beendet den Prozess sofort",
+                multiplechoice_question_answer_text_de:"Beendet den Prozess sofort.",
                 multiplechoice_question_answer_true:false
             },
             {
                 multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[5].multiplechoice_question_id,
                 multiplechoice_question_answer_text:"Ends the process and all its activities immediately.",
-                multiplechoice_question_answer_text_de:"Beendet den Prozess und alle seine Aktivitäten sofort",
-                multiplechoice_question_answer_true:false
+                multiplechoice_question_answer_text_de:"Beendet den Prozess und alle seine Aktivitäten sofort.",
+                multiplechoice_question_answer_true:true
             },
             {
                 multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[9].multiplechoice_question_id,
                 multiplechoice_question_answer_text:"Ends the tasks in a lane.",
-                multiplechoice_question_answer_text_de:"Beendet die Tasks in einer Lane",
-                multiplechoice_question_answer_true:true
+                multiplechoice_question_answer_text_de:"Beendet die Tasks in einer Lane.",
+                multiplechoice_question_answer_true:false
             },
             // --- 11. Question --- Answers --- Sub Process
             {
@@ -418,19 +404,19 @@ export default class SeedMultipleChoiceQuestionAdvanced implements Seeder {
             {
                 multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[11].multiplechoice_question_id,
                 multiplechoice_question_answer_text:"When business rules are applied to specific process activities.",
-                multiplechoice_question_answer_text_de:"Wenn Geschäftsregeln bei spezifischen Prozessaktivitäten angewendet werden",
-                multiplechoice_question_answer_true:false
-            },
-            {
-                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[11].multiplechoice_question_id,
-                multiplechoice_question_answer_text:"When business rules are applied to the whole process.",
-                multiplechoice_question_answer_text_de:"Wenn Geschäftsregeln beim gesamten Prozess angewendet werden",
+                multiplechoice_question_answer_text_de:"Wenn Geschäftsregeln bei spezifischen Prozessaktivitäten angewendet werden.",
                 multiplechoice_question_answer_true:true
             },
             {
                 multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[11].multiplechoice_question_id,
+                multiplechoice_question_answer_text:"When business rules are applied to the whole process.",
+                multiplechoice_question_answer_text_de:"Wenn Geschäftsregeln beim gesamten Prozess angewendet werden.",
+                multiplechoice_question_answer_true:false
+            },
+            {
+                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[11].multiplechoice_question_id,
                 multiplechoice_question_answer_text:"When business rules are applied on gateways.",
-                multiplechoice_question_answer_text_de:"Wenn Geschäftsregeln bei Gateways angewendet werden",
+                multiplechoice_question_answer_text_de:"Wenn Geschäftsregeln bei Gateways angewendet werden.",
                 multiplechoice_question_answer_true:false
             },
         ])
