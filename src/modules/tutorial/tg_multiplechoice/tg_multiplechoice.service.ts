@@ -173,36 +173,40 @@ export class Tg_MultiplechoiceService {
        const all_QS_Answered_Correct = await getRepository(Tg_MultiplechoiceEntity)
        .createQueryBuilder("tg_multiplechoice")
        .select("test_table.test_solved_test_id","id")
+       .addSelect("tg_multiplechoice.tg_multiplechoice_solved_correct","correct")
        .innerJoin(TestEntity,'test_table', 'tg_multiplechoice.tg_multiplechoice_id::VARCHAR = test_table.test_solved_test_id ')
        //.innerJoin(Multiplechoice_Question_AnswerEntity,'mult_qs_ans','mult_qs_ans_given.tg_multiplechoice_answered_answer_id = multiplechoice_question_answer_id::VARCHAR')
        .where('test_table.test_user_id = :test_user_id',{test_user_id:user_id})
        .andWhere('test_table.test_categorie = :test_categorie',{test_categorie:catid})
-       .andWhere('tg_multiplechoice.tg_multiplechoice_solved_correct = true')
        .getRawMany();
     //    console.log("All QS Answered Correct")
     //    console.log(all_QS_Answered_Correct.length)
        //Create List of Correct Answered
        let listOfSolvedCorrect = []
-
+       let listOfAllQuestion = []
        all_QS_Answered_Correct.forEach(solvedC=>{
-           listOfSolvedCorrect.push(solvedC.id)
+           let val = (solvedC.correct == "true")
+            if(val == true){
+            listOfSolvedCorrect.push(solvedC.id)
+            }
+            listOfAllQuestion.push(solvedC.id)
        })
     //    console.log("Solved COrr")
     //    console.log(listOfSolvedCorrect)
        // Get List of All Questions
-       let all_QS = await getRepository(Multiplechoice_QuestionEntity)
+       /**let all_QS = await getRepository(Multiplechoice_QuestionEntity)
        .createQueryBuilder("multiplechoice_question")
        .select("multiplechoice_question.multiplechoice_question_id","id")
        .where('multiplechoice_question.multiplechoice_question_categories = :multiplechoice_question_categories',{multiplechoice_question_categories:catid})
-       .getRawMany();
+       .getRawMany();**/
     //    console.log("ALL QS")
     //    console.log(all_QS.length)
        //Create List of All Question
-       let listOfAllQuestion = []
+      
 
-       all_QS.forEach(all=>{
-        listOfAllQuestion.push(all.id)
-       })
+    //    all_QS.forEach(all=>{
+    //     listOfAllQuestion.push(all.id)
+    //    })
        //Create List of All Qs except the solved ones
        let listOfQuestionsToAsk = []
        listOfSolvedCorrect.forEach(idToRem=>{
