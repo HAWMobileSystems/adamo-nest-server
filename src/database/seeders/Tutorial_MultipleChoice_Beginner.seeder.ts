@@ -359,7 +359,7 @@ export default class SeedMultipleChoiceQuestionBeginner implements Seeder {
                 multiplechoice_question_answer_true:false
             },
             {
-                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[5].multiplechoice_question_id,
+                multiplechoice_question_answer_question_id:seedMult_Qs.identifiers[9].multiplechoice_question_id,
                 multiplechoice_question_answer_text:"All",
                 multiplechoice_question_answer_text_de:"Alle",
                 multiplechoice_question_answer_true:false
