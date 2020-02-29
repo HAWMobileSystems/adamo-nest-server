@@ -11,7 +11,6 @@ import { Exclude } from "class-transformer";
 export class Modelling_QuestionEntity extends AbstractEntity<Modelling_QuestionDto>{
 
     @PrimaryGeneratedColumn('uuid')
-    @OneToMany(type => Modelling_Question_RulesEntity, mod => mod.modelling_question_used)
     public mod_qs_id: string;
 
     @ApiModelProperty()
@@ -37,7 +36,7 @@ export class Modelling_QuestionEntity extends AbstractEntity<Modelling_QuestionD
 
     @ApiModelProperty()
     @Column()
-    @OneToMany(type => Modelling_RulesEntity, modelling_rule => modelling_rule.modelling_rule_id)
+    @OneToMany(type => Modelling_Question_RulesEntity, mod => mod.modelling_question_id)
     public mod_qs_custom_ruleset: string;
 
     @Exclude()

@@ -8,13 +8,20 @@ import { Exclude } from "class-transformer";
 @Entity({name:'modelling_rules'})
 export class Modelling_RulesEntity extends AbstractEntity<Modelling_RulesDto>{
 
-    @PrimaryGeneratedColumn('uuid')
-    @OneToMany(type => Modelling_Question_RulesEntity, mod => mod.modelling_question_id)
+    // @PrimaryGeneratedColumn('uuid')
+    // public modelling_rule_unique_id: string;
+
+    @ApiModelProperty()
+    @Column()
     public modelling_rule_id: string;
 
     @ApiModelProperty()
     @Column()
     public modelling_rule_text: string;
+
+    @ApiModelProperty()
+    @Column()
+    public modelling_rule_text_de: string;
 
     @Exclude()
     dtoClass = Modelling_RulesDto;

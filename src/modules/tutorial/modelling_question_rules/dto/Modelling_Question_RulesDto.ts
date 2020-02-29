@@ -8,11 +8,11 @@ export class Modelling_Question_RulesDto extends AbstractDto {
     public modelling_question_id: string;
 
     @ApiModelPropertyOptional()
-    public modelling_rule_id: string;
+    public modelling_question_rule_name: string;
 
     constructor(modelling: Modelling_Question_RulesEntity) {
         super(modelling);
         this.modelling_question_id = modelling.modelling_question_id;
-        this.modelling_rule_id = modelling.modelling_rule_id;
+        this.modelling_question_rule_name = modelling.modelling_question_rule_name;
     }
 }

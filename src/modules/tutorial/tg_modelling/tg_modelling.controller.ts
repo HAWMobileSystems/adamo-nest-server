@@ -38,4 +38,10 @@ export class Tg_ModellingController {_
     solveSpecificModellingQuestion(@Param('user_id') id,@Param('qs_id') qs_id){
         return this.tg_modellingService.solveQuestion(id,qs_id)
     }
+
+    @Get('modellingQsWithRuleTest')
+    getModQS(){
+        return this.tg_modellingService.getModQS()
+    }
+
 }
