@@ -23,6 +23,14 @@ export class Modelling_RulesEntity extends AbstractEntity<Modelling_RulesDto>{
     @Column()
     public modelling_rule_text_de: string;
 
+    @ApiModelProperty()
+    @Column()
+    public modelling_rule_svg: string;
+
+    @ApiModelProperty()
+    @Column()
+    public modelling_rule_svg_de: string;
+
     @Exclude()
     dtoClass = Modelling_RulesDto;
 }
