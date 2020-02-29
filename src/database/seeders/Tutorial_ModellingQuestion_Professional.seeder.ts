@@ -29,6 +29,33 @@ export default class SeedModellingQuestionProfessional implements Seeder {
             },
             {
                 modelling_question_rule_name:"Rule for second Question"
+            },
+            {
+                modelling_question_rule_name:"Rule for third Question"
+            },
+            {
+                modelling_question_rule_name:"Rule for fourth Question"
+            },
+            {
+                modelling_question_rule_name:"Rule for fifth Question"
+            },
+            {
+                modelling_question_rule_name:"Rule for sixth Question"
+            },
+            {
+                modelling_question_rule_name:"Rule for seventh Question"
+            },
+            {
+                modelling_question_rule_name:"Rule for eight Question"
+            },
+            {
+                modelling_question_rule_name:"Rule for nineth Question"
+            },
+            {
+                modelling_question_rule_name:"Rule for ten Question"
+            },
+            {
+                modelling_question_rule_name:"Rule for eleventh Question"
             }
         ])
         .execute();
