@@ -170,7 +170,7 @@ export default class SeedModellignQuestionAdvanced implements Seeder {
                 mod_qs_question_text_de:`<p><strong>PC Build GmbH&nbsp;</strong>(Pool).&nbsp;Es geht eine <strong>Kundenreklamation&nbsp;</strong>bei uns ein (Message-Start-Event). Wir nehmen die <strong>Beschwerde</strong> auf (User Task), die <strong>Beschwerde&nbsp;</strong>wird durch eine zuvor festgelegte Regel <strong>kategorisiert&nbsp;</strong>(Business Rule Task) und wir bearbeiten die Beschwerde (User Task). Im Anschluss <strong>formulieren&nbsp;</strong>wir die <strong>Antwort&nbsp;</strong>(User Task). Der Prozess endet damit, dass wir dem Kunden eine <strong>Antwort senden&nbsp;</strong>(Message-End-Event).</p>`,
                 mod_qs_question_description:"2. Customer Complaints extended by business rule",
                 mod_qs_question_description_de:"2. Kundenreklamation durch Business Rule erweitert",
-                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[1].modelling_question_id,
             },
             // 3. Customer complaints extended by data object
             {
@@ -194,7 +194,7 @@ export default class SeedModellignQuestionAdvanced implements Seeder {
                 `,
                 mod_qs_question_description:"3. Customer Complaints extended by data object",
                 mod_qs_question_description_de:"3. Kundenreklamation um Datenobjekt erweitert",
-                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[2].modelling_question_id,
             },
              // 4. Customer complaints extended by timer event
             {
@@ -219,7 +219,7 @@ export default class SeedModellignQuestionAdvanced implements Seeder {
                 <p>Wir versenden die <strong>Antwort</strong> (Send-Task). Danach <strong>warten&nbsp;</strong>wir so lange auf eine Antwort des Kunden, bis eine <strong>Nachricht eintrifft&nbsp;</strong>(Intermediate Timer-Event). Der Prozess endet damit, dass wir die <strong>Reklamation abschließen&nbsp;</strong>(End-Event).</p>`,
                 mod_qs_question_description:"4. Customer Complaints extended by Timer-Event",
                 mod_qs_question_description_de:"4. Kundenreklamation um Timer Event erweitert",
-                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[3].modelling_question_id,
             },
             // 5. Customer complaints extended by intermediate event
             {
@@ -245,7 +245,7 @@ export default class SeedModellignQuestionAdvanced implements Seeder {
                 <p>&nbsp;</p>`,
                 mod_qs_question_description:"5. Customer Complaints extended by Intermediate-Event",
                 mod_qs_question_description_de:"5. Kundenreklamation um Intermediate Error Event erweitert",
-                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[4].modelling_question_id,
             },
             // 6. Customer complaints extended by inclusive gateway
             {
@@ -278,7 +278,7 @@ export default class SeedModellignQuestionAdvanced implements Seeder {
                 <p>&nbsp;</p>`,
                 mod_qs_question_description:"6. Customer Complaints extended by Inclusive-Gateway",
                 mod_qs_question_description_de:"6. Kundenreklamation um Inclusive Gateway erweitert",
-                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[5].modelling_question_id,
             },
             // 7. Customer complaints extended by terminate event
             {
@@ -314,7 +314,7 @@ export default class SeedModellignQuestionAdvanced implements Seeder {
                 <p>Wenn eine Antwort rechtzeitig ankommt, kommen wir zurück vor den Task <strong>“Beschwerde aufnehmen”&nbsp;</strong>(XOR-Gateway).</p>`,
                 mod_qs_question_description:"7. Customer Complaints extended by Terminate-Event",
                 mod_qs_question_description_de:"7. Kundenreklamation um Terminate Event erweitert",
-                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[6].modelling_question_id,
             },
             // 8. Customer complaints extended by data stores
             {
@@ -353,7 +353,7 @@ export default class SeedModellignQuestionAdvanced implements Seeder {
                 <p>&nbsp;</p>`,
                 mod_qs_question_description:"8. Customer Complaints extended by Data-Stores",
                 mod_qs_question_description_de:"8. Kundenreklamation um Data Stores erweitert",
-                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[7].modelling_question_id,
             },
             // 9. Customer complaints extended by service task
             {
@@ -395,7 +395,7 @@ export default class SeedModellignQuestionAdvanced implements Seeder {
                 <p>Wenn eine Antwort rechtzeitig ankommt, kommen wir zurück vor den Task <strong>“Beschwerde aufnehmen”&nbsp;</strong>(XOR-Gateway).</p>`,
                 mod_qs_question_description:"9. Customer Complaints extended by Service-Task",
                 mod_qs_question_description_de:"9. Kundenreklamation um Service Task erweitert",
-                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[8].modelling_question_id,
             },
             // 10. Customer complaints extended by sub-process
             {
@@ -442,7 +442,7 @@ export default class SeedModellignQuestionAdvanced implements Seeder {
                 <p>&nbsp;</p>`,
                 mod_qs_question_description:"10. Customer Complaints extended by Sub-Process",
                 mod_qs_question_description_de:"10. Kundenprozess um Subprozess erweitert",
-                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[9].modelling_question_id,
             }
         ])
         .execute();

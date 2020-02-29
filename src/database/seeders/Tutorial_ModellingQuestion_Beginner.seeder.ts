@@ -181,7 +181,7 @@ export default class SeedModellignQuestionBeginner implements Seeder {
                 <p>Die Pfade nach dem Versenden der Bestellung und dem abgelehnten Produktvorschlag werden vereinigt (XOR-Gateway). Der <strong>Prozess endet</strong> mit einer <strong>abgeschlossenen Kundenanfrage</strong> (End-Event)</p>`,
                 mod_qs_question_description:"3. Customer inquiry with option for process repetition",
                 mod_qs_question_description_de:"3. Kundenanfrage mit Option auf Prozesswiederholung",
-                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[2].modelling_question_id,
             },
             // 4. Customer inquiry with parallel processes
             {
@@ -205,7 +205,7 @@ export default class SeedModellignQuestionBeginner implements Seeder {
                 <p>Der Pfad nach dem Versenden der Bestellung und Versandbestätigung wird mit dem Pfad des abgelehnten Produktvorschlags <strong>vereinigt</strong> (XOR-Gateway). Der <strong>Prozess endet</strong> mit einer <strong>abgeschlossenen Kundenanfrage</strong> (End-Event)</p><p>&nbsp;</p>`,
                 mod_qs_question_description:"4. Customer inquiry with parallel processes",
                 mod_qs_question_description_de:"4. Kundenanfrage mit parallelen Vorgängen",
-                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[3].modelling_question_id,
             },
             // 5. Order process including manual operation
             {
@@ -224,7 +224,7 @@ export default class SeedModellignQuestionBeginner implements Seeder {
                 <p>Der Pfad nach dem Versenden der Bestellung und Versandbestätigung wird mit dem Pfad des abgelehnten Produktvorschlags <strong>vereinigt</strong> (XOR-Gateway). Der <strong>Prozess endet</strong> mit einer <strong>abgeschlossenen Kundenanfrage</strong> (End-Event)</p>`,
                 mod_qs_question_description:"5. Order process including manual operation",
                 mod_qs_question_description_de:"5. Bestellprozess inklusive manuellem Vorgang",
-                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[4].modelling_question_id,
             },
             // 6. Order process inluding user task
             {
@@ -243,7 +243,7 @@ export default class SeedModellignQuestionBeginner implements Seeder {
                 <p>Der Pfad nach dem Versenden der Bestellung und Versandbestätigung wird mit dem Pfad des abgelehnten Produktvorschlags <strong>vereinigt</strong> (XOR-Gateway). Der <strong>Prozess endet</strong> mit einer <strong>abgeschlossenen Kundenanfrage</strong> (End-Event).</p>`,
                 mod_qs_question_description:"6. Order process including user task",
                 mod_qs_question_description_de:"6. Bestellprozess inklusive User Task",
-                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[5].modelling_question_id,
             },
             // 7. Order process including send an receive task
             {
@@ -262,7 +262,7 @@ export default class SeedModellignQuestionBeginner implements Seeder {
                 <p>Der Pfad nach dem Versenden der Bestellung und Versandbestätigung wird mit dem Pfad des abgelehnten Produktvorschlags <strong>vereinigt</strong> (XOR-Gateway). Der <strong>Prozess endet</strong> mit einer <strong>abgeschlossenen Kundenanfrage</strong> (End-Event).</p>`,
                 mod_qs_question_description:"7. Order process including Send and Receive Task",
                 mod_qs_question_description_de:"7. Bestellprozess inklusive Send und Receive Task",
-                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[6].modelling_question_id,
             },
             // 8. Order process including script task
             {
@@ -281,7 +281,7 @@ export default class SeedModellignQuestionBeginner implements Seeder {
                 <p>Der Pfad nach dem Versenden der Bestellung und Versandbestätigung wird mit dem Pfad des abgelehnten Produktvorschlags <strong>vereinigt</strong> (XOR-Gateway). Der <strong>Prozess endet</strong> mit einer <strong>abgeschlossenen Kundenanfrage</strong> (End-Event)</p>`,
                 mod_qs_question_description:"8. Order process including Script Task",
                 mod_qs_question_description_de:"8. Bestellprozess inklusive Script Task",
-                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[7].modelling_question_id,
             },
             // 9. Order process including pools and lanes
             {
@@ -300,7 +300,7 @@ export default class SeedModellignQuestionBeginner implements Seeder {
                 <p>Der Pfad nach dem Abschließen der Kundenanfrage wird mit dem Pfad des abgelehnten Produktvorschlags <strong>vereinigt</strong> (XOR-Gateway). Der <strong>Prozess endet</strong> im Kundenservice mit einer <strong>abgeschlossenen Kundenanfrage&nbsp;</strong>(End-Event).</p>`,
                 mod_qs_question_description:"9. Order process including pool and lanes",
                 mod_qs_question_description_de:"9. Bestellprozess inklusive Pool und Lanes",
-                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[8].modelling_question_id,
             },
             // 10. Order process including several pools and lanes
             {
@@ -317,7 +317,7 @@ export default class SeedModellignQuestionBeginner implements Seeder {
                 <p>Falls <strong>nein</strong>, wird eine<strong>&nbsp;Nachlieferung beantragt&nbsp;</strong>(Task). Nach dem Task wird eine <strong>Nachricht an&nbsp;</strong>den<strong>&nbsp;Lieferanten</strong> gesendet (Intermediate Message Throw Event). Der <strong>Lieferant</strong> <strong>erhält</strong> die <strong>Nachricht</strong> (Intermediate Message Catch Event), <strong>nimmt</strong> die <strong>Nachbestellung auf</strong> (Task) und <strong>liefert</strong> das <strong>Produkt</strong> (Task). Der <strong>Lieferant benachrichtigt</strong> (Intermediate Message Throw Event) den <strong>Kundenservice</strong> der PC Build GmbH. Der <strong>Kundenservice erhält</strong> die <strong>Benachrichtigung</strong> (Intermediate Message Catch Event), bei der es nun wieder mit der Prüfung, ob das bestellte <strong>Produkt vorhanden</strong> ist, weitergeht</p>`,
                 mod_qs_question_description:"10. Order process including several pools and lanes",
                 mod_qs_question_description_de:"10. Bestellprozess inklusive mehrerer Pools und Lanes",
-                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[9].modelling_question_id,
             },
             // 11. Final order process including multiple pools and lanes
             {
@@ -342,7 +342,7 @@ export default class SeedModellignQuestionBeginner implements Seeder {
                 <p>Falls <strong>nein</strong>, wird der Prozesspfad mit dem Pfad der abgeschlossenen Kundenanfrage <strong>vereinigt</strong> (XOR-Gateway). Mit der <strong>abgeschlossenen Kundenanfrage</strong> <strong>endet&nbsp;</strong>der<strong>&nbsp;Prozess&nbsp;</strong>(End Event).</p>`,
                 mod_qs_question_description:"11. Final order process including multiple pools and lanes",
                 mod_qs_question_description_de:"11. Finaler Bestellprozess inklusive mehrerer Pools und Lanes",
-                mod_qs_custom_ruleset: seedQsRule.identifiers[0].modelling_question_id,
+                mod_qs_custom_ruleset: seedQsRule.identifiers[10].modelling_question_id,
             }
         ])
         .execute();
