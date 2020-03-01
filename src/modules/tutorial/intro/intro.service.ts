@@ -68,20 +68,21 @@ export class IntroService {
         .where('test_table.test_user_id = :test_user_id',{test_user_id:user_id})
         .andWhere("mod_qs_table.mod_qs_categories IN (:...mod_qs_categories)",{mod_qs_categories:cat_ids_array})
         .getRawMany();
-        console.log(all_QS_Answered)
+        
         const all_QS = await getRepository(Modelling_QuestionEntity)
         .createQueryBuilder("modelling_question")
         .select("cat_table.category_name","catName")
         .addSelect("modelling_question.mod_qs_id","id")
+        .addSelect("modelling_question.mod_qs_identifier",'identifier')
         .addSelect(request_allQS,"name")
         .addSelect("0","score")
         .innerJoin(CategoryEntity,'cat_table', 'modelling_question.mod_qs_categories = cat_table.category_id::VARCHAR')
         .getRawMany();
-        console.log("Parsing Results")
+
         console.log(all_QS)
         const returnArray = new returnAsArray();
         all_QS.forEach(e=>{
-            let ele = new parseReturn(e.catName,e.id,e.name)
+            let ele = new parseReturn(e.catName,e.id,e.name,e.identifier)
             returnArray.append(ele)
         })
         //console.log("Adding Score")
@@ -101,8 +102,6 @@ export class IntroService {
         .innerJoin(CategoryEntity,'cat_table', 'test_table.test_categorie = cat_table.category_id::VARCHAR')
         .where('test_table.test_user_id = :test_user_id',{test_user_id:user_id})
         .getRawMany()
-        // console.log("intro_status")
-        // console.log(returnArray)
 
         //Get ALL Possible Questions.
         const count_All_Mult_Qs = await getRepository(Multiplechoice_QuestionEntity)
@@ -164,34 +163,6 @@ export class IntroService {
         let pfirstProf = await this.getNumberOfWrongAnswersByCat(cat_professional,user_id,request)
         firstProf = pfirstProf
 
-        // category_IDs.forEach(async e=>{
-        //     switch(e.category_name){
-        //         case "Beginner":{
-        //             let num: any = await this.getNumberOfWrongAnswersByCat(e.category_id,user_id,request)
-        //             if(num == null){
-        //                 num = 0
-        //             }
-        //             firstBeg = countBeginner-num;
-        //             break;
-        //         }
-        //         case "Advanced":{
-        //             let num: any = await this.getNumberOfWrongAnswersByCat(e.category_id,user_id,request)
-        //             if(num == null){
-        //                 num = 0
-        //             }
-        //             firstAdv = countAdvanced-num;
-        //             break;
-        //         }
-        //         case "Professional":{
-        //             let num: any = await this.getNumberOfWrongAnswersByCat(e.category_id,user_id,request)
-        //             if(num == null){
-        //                 num = 0
-        //             }
-        //             firstProf = countProfessi-num;
-        //             break;
-        //         }
-        //     }
-        // })
         console.log("Settttt")
         console.log(firstBeg)
 
@@ -201,21 +172,24 @@ export class IntroService {
                 case "Beginner":{
                     let score = firstBeg+"/"+countBeginner
                     array_ele.setMcTest(score)
+                   
                     break;
                 }
                 case "Advanced":{
                     let score = firstAdv+"/"+countAdvanced
                     array_ele.setMcTest(score)
+                    
                     break;
                 }
                 case "Professional":{
                     let score = firstProf+"/"+countProfessi
                     array_ele.setMcTest(score)
+                    
                     break;
                 }
             }
         })
-
+        console.log(returnArray.array)
         return returnArray.array
     }
 
@@ -372,13 +346,15 @@ export class IntroService {
 class parseReturn{
     catName:String
     id:String
+    identifier:number
     name:String
     score:Number
     intro:Boolean
     mctest:String   
-    constructor(catName:String,id:String,name:String){
+    constructor(catName:String,id:String,name:String,identifier:number){
         this.catName = catName
         this.id = id
+        this.identifier = identifier
         this.name = name 
         this.score = 0
         this.intro = false
