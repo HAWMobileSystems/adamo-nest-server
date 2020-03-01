@@ -72,7 +72,7 @@ export class IntroService {
         const all_QS = await getRepository(Modelling_QuestionEntity)
         .createQueryBuilder("modelling_question")
         .select("cat_table.category_name","catName")
-        .addSelect("cat_table.category_identifier","cat_identifier")
+        .addSelect("cat_table.category_identifier","catIdentifier")
         .addSelect("modelling_question.mod_qs_id","id")
         .addSelect("modelling_question.mod_qs_identifier",'identifier')
         .addSelect(request_allQS,"name")
@@ -83,7 +83,7 @@ export class IntroService {
         console.log(all_QS)
         const returnArray = new returnAsArray();
         all_QS.forEach(e=>{
-            let ele = new parseReturn(e.catName,e.id,e.name,e.identifier,e.cat_identifier)
+            let ele = new parseReturn(e.catName,e.id,e.name,e.identifier,e.catIdentifier)
             returnArray.append(ele)
         })
         //console.log("Adding Score")
