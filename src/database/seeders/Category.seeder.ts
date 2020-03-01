@@ -12,12 +12,15 @@ export default class SeedCategory implements Seeder {
         .values([
            {
                 category_name:"Beginner",
+                category_identifier:1
             },
             {
                 category_name:"Advanced",
+                category_identifier:2
            },
             {
                 category_name:"Professional",
+                category_identifier:3
             },
         ])
         .execute();
