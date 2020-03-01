@@ -174,6 +174,7 @@ export default class SeedModellignQuestionBeginner implements Seeder {
             // --- Level 1 - Beginner ---
             // 1. Processing a customer inquiry
             {
+                mod_qs_identifier:1,
                 mod_qs_categories: getCategory_id.category_id,
                 mod_qs_question_text:`<p>A <strong>customer request</strong> is received (Start-Event). The <strong>order</strong> is being <strong>prepared</strong> (Task) and then <strong>send</strong> (Task). The <strong>process ends</strong> with the <strong>completed customer request</strong> (End-Event).</p>`, 
                 mod_qs_question_text_de:`<p>Eine <strong>Kundenanfrage</strong> geht ein (Start-Event). Die <strong>Bestellung</strong> wird <strong>vorbereitet</strong> (Task) und anschließend <strong>versendet</strong> (Task). Der <strong>Prozess endet</strong> mit der <strong>abgeschlossenen Kundenanfrage</strong> (End-Event)</p>`,
@@ -184,6 +185,7 @@ export default class SeedModellignQuestionBeginner implements Seeder {
 
             // 2. Processing a customer inquiry with branching
             {
+                mod_qs_identifier:2,
                 mod_qs_categories: getCategory_id.category_id,
                 mod_qs_question_text:`<p>A <strong>customer request</strong> is received (Start-Event). Afterwards the <strong>order</strong> is <strong>prepared</strong> (Task). Then it is checked whether the ordered <strong>product</strong> is <strong>available</strong> (XOR gateway). <strong>If so</strong>, the <strong>order</strong> is <strong>sent</strong> (Task). <strong>If not</strong>, the <strong>order</strong> is <strong>rejected</strong> (task). Both cases are merged again (XOR gateway). The <strong>process ends</strong> with the <strong>completed customer request</strong> (End-Event).</p>`,
                 mod_qs_question_text_de:`<p>Eine <strong>Kundenanfrage</strong> geht ein (Start-Event). Danach wird die <strong>Bestellung vorbereitet</strong> (Task).</p>
@@ -194,6 +196,7 @@ export default class SeedModellignQuestionBeginner implements Seeder {
             },
             // 3. Customer inquiry with option for process repetition
             {
+                mod_qs_identifier:3,
                 mod_qs_categories: getCategory_id.category_id,
                 mod_qs_question_text:`<p>A <strong>customer request</strong> is received (Start-Event). Afterwards the <strong>order</strong> is <strong>prepared</strong> (task).</p>
                 <p>Then it is checked whether the ordered <strong>product</strong> is <strong>available</strong> (XOR gateway). <strong>If so</strong>, the <strong>order</strong> is <strong>sent</strong> (Task). <strong>If not</strong>, the <strong>order</strong> is <strong>rejected</strong> and <strong>another product</strong> is <strong>proposed</strong> to the customer (2 tasks). Is the customer <strong>interested</strong> in the proposed <strong>product</strong>? (XOR gateway). If there is <strong>interest</strong>, the process returns to the <strong>order preparation</strong>.&nbsp;</p>
@@ -207,6 +210,7 @@ export default class SeedModellignQuestionBeginner implements Seeder {
             },
             // 4. Customer inquiry with parallel processes
             {
+                mod_qs_identifier:4,
                 mod_qs_categories: getCategory_id.category_id,
                 mod_qs_question_text:`<p>A <strong>customer request</strong> is received (Start-Event). Afterwards the <strong>order</strong> is <strong>prepared</strong> (Task).</p>
                 <p>Then it is checked whether the ordered <strong>product</strong> is <strong>available</strong> (XOR gateway).&nbsp;</p>
@@ -231,6 +235,7 @@ export default class SeedModellignQuestionBeginner implements Seeder {
             },
             // 5. Order process including manual operation
             {
+                mod_qs_identifier:5,
                 mod_qs_categories: getCategory_id.category_id,
                 mod_qs_question_text:`<p>A <strong>customer request</strong> is received (Start-Event). After that the <strong>order</strong> is <strong>prepared</strong> (Task).</p>
                 <p>Then it is checked whether the ordered <strong>product</strong> is <strong>available</strong> (XOR gateway).&nbsp;</p><p>&nbsp;</p>
@@ -250,6 +255,7 @@ export default class SeedModellignQuestionBeginner implements Seeder {
             },
             // 6. Order process inluding user task
             {
+                mod_qs_identifier:6,
                 mod_qs_categories: getCategory_id.category_id,
                 mod_qs_question_text:`<p>A <strong>customer request</strong> is received (Start-Event). Afterwards the <strong>order</strong> is <strong>prepared</strong> (Task).</p>
                 <p>Then it is checked whether the ordered <strong>product&nbsp;</strong>is<strong>&nbsp;available</strong> (XOR gateway).&nbsp;</p><p>&nbsp;</p>
@@ -269,6 +275,7 @@ export default class SeedModellignQuestionBeginner implements Seeder {
             },
             // 7. Order process including send an receive task
             {
+                mod_qs_identifier:7,
                 mod_qs_categories: getCategory_id.category_id,
                 mod_qs_question_text:`<p>A <strong>customer request</strong> is received (Start-Event). Afterwards the <strong>order</strong> is <strong>prepared</strong> (Receive Task).</p>
                 <p>Then it is checked whether the ordered <strong>product&nbsp;</strong>is<strong>&nbsp;available</strong> (XOR gateway).&nbsp;</p><p>&nbsp;</p>
@@ -288,6 +295,7 @@ export default class SeedModellignQuestionBeginner implements Seeder {
             },
             // 8. Order process including script task
             {
+                mod_qs_identifier:8,
                 mod_qs_categories: getCategory_id.category_id,
                 mod_qs_question_text:`<p>A <strong>customer request</strong> is received (Start-Event). Afterwards the <strong>order</strong> is <strong>prepared</strong> (Receive Task).</p>
                 <p>Then it is checked whether the ordered <strong>product&nbsp;</strong>is<strong>&nbsp;available</strong> (XOR gateway).&nbsp;</p>
@@ -307,6 +315,7 @@ export default class SeedModellignQuestionBeginner implements Seeder {
             },
             // 9. Order process including pools and lanes
             {
+                mod_qs_identifier:9,
                 mod_qs_categories: getCategory_id.category_id,
                 mod_qs_question_text:`<p>The <strong>PC Build GmbH</strong> (pool) consists of a <strong>shipping department</strong> and a <strong>customer service</strong> department (2 lanes)</p>
                 <p>The <strong>process starts</strong> with the <strong>receipt</strong> of a <strong>customer request</strong> (Start-Event) by the <strong>customer service</strong>. The customer service <strong>prepares</strong> the <strong>order</strong> (Receive Task). It then checks whether the ordered <strong>product</strong> is <strong>available</strong> (XOR gateway).&nbsp;</p><p>&nbsp;</p>
@@ -326,6 +335,7 @@ export default class SeedModellignQuestionBeginner implements Seeder {
             },
             // 10. Order process including several pools and lanes
             {
+                mod_qs_identifier:10,
                 mod_qs_categories: getCategory_id.category_id,
                 mod_qs_question_text:`<p>The <strong>PC Build GmbH</strong> (pool) consists of a <strong>shipping department</strong> and a <strong>customer service</strong> department (2 lanes). There is also a <strong>supplier</strong> (pool).</p>
                 <p>The <strong>process starts</strong> with the <strong>receipt</strong> of a <strong>customer request</strong> (Start-Event) by the <strong>customer service</strong>. The customer service <strong>prepares</strong> the <strong>order</strong> (Receive Task). It then checks whether the ordered <strong>product</strong> is <strong>available</strong> (XOR gateway).&nbsp;</p><p>&nbsp;</p>
@@ -343,6 +353,7 @@ export default class SeedModellignQuestionBeginner implements Seeder {
             },
             // 11. Final order process including multiple pools and lanes
             {
+                mod_qs_identifier:11,
                 mod_qs_categories: getCategory_id.category_id,
                 mod_qs_question_text:`<p><strong>PC Build GmbH</strong> (Pool) is composed of a <strong>shipping department</strong> and a <strong>customer service</strong> department (2 lanes). There is also a <strong>supplier</strong> (pool).</p><p>&nbsp;</p>
                 <p>The <strong>process starts</strong> with the <strong>receipt</strong> of a <strong>customer request</strong> (Start-Event) by the <strong>customer service</strong>. The <strong>customer service</strong> <strong>prepares</strong> the <strong>order</strong> (Receive Task). It then checks whether the ordered <strong>product</strong> is <strong>available</strong> (XOR gateway).&nbsp;</p><p>&nbsp;</p>

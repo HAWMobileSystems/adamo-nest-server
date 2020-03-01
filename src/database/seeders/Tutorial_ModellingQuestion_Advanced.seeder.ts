@@ -166,6 +166,7 @@ export default class SeedModellignQuestionAdvanced implements Seeder {
             // --- Level 2 - Advanced ---
             // 1. Customer complaints
             {
+                mod_qs_identifier:1,
                 mod_qs_categories: getCategory_id_adv.category_id,
                 mod_qs_question_text:`<p>
                   <br>We <strong>receive</strong> a <strong>customer complaint</strong> (Message-Start-Event). We <strong>take up</strong> the <strong>complaint</strong> (Task) and <strong>handle</strong> the <strong>complaint</strong> in the next step (Task).&nbsp;</p>
@@ -181,6 +182,7 @@ export default class SeedModellignQuestionAdvanced implements Seeder {
             },
              // 2. Customer complaints extended by business rule
             {
+                mod_qs_identifier:2,
                 mod_qs_categories: getCategory_id_adv.category_id,
                 mod_qs_question_text:`p><strong>PC Build GmbH</strong> (pool)</p>
                 <p>&nbsp;</p>
@@ -195,6 +197,7 @@ export default class SeedModellignQuestionAdvanced implements Seeder {
             },
             // 3. Customer complaints extended by data object
             {
+                mod_qs_identifier:3,
                 mod_qs_categories: getCategory_id_adv.category_id,
                 mod_qs_question_text:`<p><strong>PC Build GmbH</strong> (pool)</p>
                 <p>&nbsp;</p>
@@ -219,6 +222,7 @@ export default class SeedModellignQuestionAdvanced implements Seeder {
             },
              // 4. Customer complaints extended by timer event
             {
+                mod_qs_identifier:4,
                 mod_qs_categories: getCategory_id_adv.category_id,
                 mod_qs_question_text:`<p><strong>PC Build GmbH</strong> (pool)</p>
                 <p>&nbsp;</p>
@@ -244,6 +248,7 @@ export default class SeedModellignQuestionAdvanced implements Seeder {
             },
             // 5. Customer complaints extended by intermediate event
             {
+                mod_qs_identifier:5,
                 mod_qs_categories: getCategory_id_adv.category_id,
                 mod_qs_question_text:`<p><strong>PC Build GmbH</strong> (pool)</p>
                 <p>&nbsp;</p>
@@ -270,6 +275,7 @@ export default class SeedModellignQuestionAdvanced implements Seeder {
             },
             // 6. Customer complaints extended by inclusive gateway
             {
+                mod_qs_identifier:6,
                 mod_qs_categories: getCategory_id_adv.category_id,
                 mod_qs_question_text:`<p><strong>PC Build GmbH</strong> (pool)</p>
                 <p>&nbsp;</p>
@@ -303,6 +309,7 @@ export default class SeedModellignQuestionAdvanced implements Seeder {
             },
             // 7. Customer complaints extended by terminate event
             {
+                mod_qs_identifier:7,
                 mod_qs_categories: getCategory_id_adv.category_id,
                 mod_qs_question_text:`<p><strong>PC Build GmbH</strong> (pool)</p>
                 <p>&nbsp;</p>
@@ -339,6 +346,7 @@ export default class SeedModellignQuestionAdvanced implements Seeder {
             },
             // 8. Customer complaints extended by data stores
             {
+                mod_qs_identifier:8,
                 mod_qs_categories: getCategory_id_adv.category_id,
                 mod_qs_question_text:`<p><strong>PC Build GmbH (pool)</strong></p>
                 <p>&nbsp;</p>
@@ -378,6 +386,7 @@ export default class SeedModellignQuestionAdvanced implements Seeder {
             },
             // 9. Customer complaints extended by service task
             {
+                mod_qs_identifier:9,
                 mod_qs_categories: getCategory_id_adv.category_id,
                 mod_qs_question_text:`<p><strong>PC Build GmbH (pool)</strong></p>
                 <p><strong>&nbsp;</strong></p>
@@ -420,6 +429,7 @@ export default class SeedModellignQuestionAdvanced implements Seeder {
             },
             // 10. Customer complaints extended by sub-process
             {
+                mod_qs_identifier:10,
                 mod_qs_categories: getCategory_id_adv.category_id,
                 mod_qs_question_text:`<p><strong>PC Build GmbH</strong> (pool)</p>
                 <p>&nbsp;</p>

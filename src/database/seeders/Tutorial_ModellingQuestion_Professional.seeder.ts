@@ -239,6 +239,7 @@ export default class SeedModellingQuestionProfessional implements Seeder {
                 // --- Level 3 - Professional --- 
                 // 1. Availablility of goods, therefore it is offered for sale again in the online shop
                 {
+                    mod_qs_identifier:1,
                     mod_qs_categories: getCategory_id_prof.category_id,
                     mod_qs_question_text: `<p><strong>PC Build GmbH</strong> (Pool). An <strong>order is received</strong> (Message Start Event). Then we <strong>assign</strong> a <strong>picker</strong> manually (Manuel Task). After that we check if a <strong>product</strong> is <strong>available</strong> (Conditional Event). Before the process is finished with "<strong>Product</strong> <strong>picked</strong>" (End Event), we <strong>pick</strong> the <strong>product</strong> (Manuel Task).</p>`,
                     mod_qs_question_text_de: `<p><strong>PC Build GmbH</strong> (Pool). Eine<strong>&nbsp;Bestellung geht ein</strong> (Message Start Event). Dann <strong>weisen</strong> wir manuell einen <strong>Picker zu</strong> (Manuel Task). Daraufhin prüfen wir ob ein <strong>Produkt verfügbar</strong> ist (Conditional Event). Bevor der Prozess über “<strong>Produkt entnommen</strong>” abschließt (End Event), <strong>entnehmen&nbsp;</strong>wir das<strong>&nbsp;Produkt</strong> (Manuel Task).</p>`,
@@ -248,6 +249,7 @@ export default class SeedModellingQuestionProfessional implements Seeder {
                 },
                 // 2. Order will be canceled if the product is not available
                 {
+                    mod_qs_identifier:2,
                     mod_qs_categories: getCategory_id_prof.category_id,
                     mod_qs_question_text: `<p><strong>PC Build GmbH</strong> (Pool). An <strong>order is received</strong> (Message Start Event). Then we <strong>assign</strong> a <strong>picker</strong> manually (Manuel Task). After that we check if a <strong>product</strong> is <strong>available</strong> (Conditional Event). Then we <strong>pick</strong> the <strong>product</strong> (Manuel Task).&nbsp;</p>
                 <p>&nbsp;</p>
@@ -265,6 +267,7 @@ export default class SeedModellingQuestionProfessional implements Seeder {
                 },
                 // 3. The order must be released from a certain size by several, but not by all instances
                 {
+                    mod_qs_identifier:3,
                     mod_qs_categories: getCategory_id_prof.category_id,
                     mod_qs_question_text: `<p><strong>PC Build GmbH</strong> (Pool); Lanes: '<strong>order processing</strong>'; '<strong>sales</strong>', '<strong>finance</strong>' and '<strong>CEO</strong>'. An <strong>order is received</strong> in '<strong>order processing</strong>' (Message Start Event). We then <strong>check</strong> the</p>
                 <p><strong>order</strong> for its value (Task).</p>
@@ -292,6 +295,7 @@ export default class SeedModellingQuestionProfessional implements Seeder {
                 },
                 // 4. Triggering of several processes by signal events
                 {
+                    mod_qs_identifier:4,
                     mod_qs_categories: getCategory_id_prof.category_id,
                     mod_qs_question_text: `<p><strong>PC Build GmbH</strong> (Pool); Lanes: '<strong>order processing</strong>'; '<strong>sales</strong>', '<strong>finance</strong>' and '<strong>CEO</strong>'. An <strong>order</strong> is <strong>received</strong> in '<strong>order processing</strong>'<strong>&nbsp;</strong>(Message Start Event). We then <strong>check</strong> the <strong>order</strong> for its value (Task).</p>
                 <p>&nbsp;</p>
@@ -330,6 +334,7 @@ export default class SeedModellingQuestionProfessional implements Seeder {
                 },
                 // 5. Extended payment process including varians
                 {
+                    mod_qs_identifier:5,
                     mod_qs_categories: getCategory_id_prof.category_id,
                     mod_qs_question_text: `<p><strong>PC Build GmbH</strong> (Pool); Lanes: '<strong>order processing</strong>'; '<strong>sales</strong>', '<strong>finance</strong>' and '<strong>CEO</strong>'. An <strong>order</strong> is <strong>received</strong> in '<strong>order processing</strong>'<strong>&nbsp;</strong>(Message Start Event). We then <strong>check</strong> the <strong>order</strong> for its value (Task).</p>
                 <p>&nbsp;</p>
@@ -372,6 +377,7 @@ export default class SeedModellingQuestionProfessional implements Seeder {
                 },
                 // 6. Escalate to CEO
                 {
+                    mod_qs_identifier:6,
                     mod_qs_categories: getCategory_id_prof.category_id,
                     mod_qs_question_text: `<p><strong>PC Build GmbH</strong> (Pool); Lanes: '<strong>order processing</strong>'; '<strong>sales</strong>', '<strong>finance</strong>' and '<strong>CEO</strong>'. An <strong>order</strong> is <strong>received</strong> in '<strong>order processing</strong>'<strong>&nbsp;</strong>(Message Start Event). We then <strong>check</strong> the <strong>order</strong> for its value (Task).</p>
                 <p>&nbsp;</p>
@@ -418,6 +424,7 @@ export default class SeedModellingQuestionProfessional implements Seeder {
                 },
                 // 7. Collection agency
                 {
+                    mod_qs_identifier:7,
                     mod_qs_categories: getCategory_id_prof.category_id,
                     mod_qs_question_text: `<p><strong>PC Build GmbH</strong> (Pool); Lanes: '<strong>order processing</strong>'; '<strong>sales</strong>', '<strong>finance</strong>' and '<strong>CEO</strong>'. An <strong>order</strong> is <strong>received</strong> in '<strong>order processing</strong>'<strong>&nbsp;</strong>(Message Start Event). We then <strong>check</strong> the <strong>order</strong> for its value (Task).</p>
                 <p>&nbsp;</p>
