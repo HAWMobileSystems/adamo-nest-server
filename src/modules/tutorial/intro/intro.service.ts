@@ -9,8 +9,6 @@ import { TestEntity } from '../test/test.entity';
 import { Tg_IntroEntity } from '../tg_intro/tg_intro.entity';
 import { Multiplechoice_QuestionEntity } from '../multiplechoice_question/multiplechoice_question.entity';
 import { Tg_MultiplechoiceEntity } from '../tg_multiplechoice/tg_multiplechoice.entity';
-import { Tg_Multiplechoice_AnsweredEntity } from '../tg_multiplechoice_answered/tg_multiplechoice_answered.entity';
-import { Multiplechoice_Question_AnswerEntity } from '../multiplechoice_question_answer/multiplechoice_question_answer.entity';
 
 @Injectable()
 export class IntroService {
@@ -55,7 +53,6 @@ export class IntroService {
             }
         })    
 
-        //console.log(cat_ids_array)
         const all_QS_Answered = await getRepository(Tg_ModellingEntity)
         .createQueryBuilder("tg_modelling")
         .select("cat_table.category_name","catName")
@@ -80,13 +77,12 @@ export class IntroService {
         .innerJoin(CategoryEntity,'cat_table', 'modelling_question.mod_qs_categories = cat_table.category_id::VARCHAR')
         .getRawMany();
 
-        console.log(all_QS)
         const returnArray = new returnAsArray();
         all_QS.forEach(e=>{
             let ele = new parseReturn(e.catName,e.id,e.name,e.identifier,e.catIdentifier)
             returnArray.append(ele)
         })
-        //console.log("Adding Score")
+       
         all_QS_Answered.forEach(e=>{
             returnArray.array.forEach(array_ele=>{
                 if(e.id == array_ele.id){
@@ -94,7 +90,7 @@ export class IntroService {
                 }
             })
         })
-        //console.log("Adding tutorial finished")
+    
         const intro_status = await getRepository(Tg_IntroEntity)
         .createQueryBuilder("tg_intro")
         .select("cat_table.category_name","catName")
@@ -103,7 +99,6 @@ export class IntroService {
         .innerJoin(CategoryEntity,'cat_table', 'test_table.test_categorie = cat_table.category_id::VARCHAR')
         .where('test_table.test_user_id = :test_user_id',{test_user_id:user_id})
         .getRawMany()
-
         //Get ALL Possible Questions.
         const count_All_Mult_Qs = await getRepository(Multiplechoice_QuestionEntity)
         .createQueryBuilder("multiplechoice_question")
@@ -111,10 +106,10 @@ export class IntroService {
         .addSelect("multiplechoice_question.multiplechoice_question_categories","cat_id")
         .where("multiplechoice_question.multiplechoice_question_categories IN (:...multiplechoice_question_categories)",{multiplechoice_question_categories:cat_ids_array})
         .getRawMany();
+
         let countBeginner = 0
         let countAdvanced = 0
         let countProfessi = 0
-
         count_All_Mult_Qs.forEach(ele=>{
             category_IDs.forEach(e=>{
                 if(ele.cat_id == e.category_id){
@@ -142,7 +137,6 @@ export class IntroService {
                 }
             })
         })   
-        //console.log("Set Intro Status")
         returnArray.array.forEach(array_ele=>{
             intro_status.forEach(ele=>{
                 if(array_ele.catName == ele.catName){
@@ -155,17 +149,14 @@ export class IntroService {
          * Get All Questions answered by user in the given category
         */
         let firstBeg = 0
-        let pfirstBeg = await this.getNumberOfWrongAnswersByCat(cat_beginner,user_id,request)
+        let pfirstBeg = await this.getNumberOfRightAnswersByCat(cat_beginner,user_id,request)
         firstBeg = pfirstBeg
         let firstAdv = 0
-        let pfirstAdv = await this.getNumberOfWrongAnswersByCat(cat_advanced,user_id,request)
+        let pfirstAdv = await this.getNumberOfRightAnswersByCat(cat_advanced,user_id,request)
         firstAdv = pfirstAdv
         let firstProf = 0
-        let pfirstProf = await this.getNumberOfWrongAnswersByCat(cat_professional,user_id,request)
+        let pfirstProf = await this.getNumberOfRightAnswersByCat(cat_professional,user_id,request)
         firstProf = pfirstProf
-
-        console.log("Settttt")
-        console.log(firstBeg)
 
         //console.log("Set MC Status")
         returnArray.array.forEach(array_ele=>{
@@ -223,88 +214,31 @@ export class IntroService {
         //console.log(result)
         return result;
     }
-    async getNumberOfWrongAnswersByCat(cat_id:string,user_id:string,request:string){
+    /**
+     * Return the Number of right answered (unique) QUestions  
+     * @param cat_id 
+     * @param user_id 
+     * @param request 
+     */
+    async getNumberOfRightAnswersByCat(cat_id:string,user_id:string,request:string){
+        //GetAll correct answers
         const all_QS_Answered_Correct = await getRepository(Tg_MultiplechoiceEntity)
         .createQueryBuilder("tg_multiplechoice")
         .select("test_table.test_solved_test_id","id")
-        //.addSelect("mult_qs_table.multiplechoice_question_description","name")
-        //.addSelect(request,"question")
-        // .addSelect("mult_qs_ans_given.tg_multiplechoice_answered_answerd","answergiven")
-        // .addSelect("mult_qs_ans.multiplechoice_question_answer_true","answercorrect")
         .innerJoin(TestEntity,'test_table', 'tg_multiplechoice.tg_multiplechoice_id::VARCHAR = test_table.test_solved_test_id ')
-        // .innerJoin(Multiplechoice_QuestionEntity,'multiplechoice_question','tg_multiplechoice.tg_multiplechoice_id::VARCHAR = multiplechoice_question.multiplechoice_question_id::VARCHAR')
-        // .innerJoin(Tg_Multiplechoice_AnsweredEntity,'mult_qs_ans_given','mult_qs_ans_given.tg_multiplechoice_answered_from_qs_id = tg_multiplechoice.tg_multiplechoice_id::VARCHAR')
-        // .innerJoin(Multiplechoice_Question_AnswerEntity,'mult_qs_ans','mult_qs_ans_given.tg_multiplechoice_answered_answer_id = multiplechoice_question_answer_id::VARCHAR')
         .where('test_table.test_user_id = :test_user_id',{test_user_id:user_id})
         .andWhere('test_table.test_categorie = :test_categorie',{test_categorie:cat_id})
         .andWhere('tg_multiplechoice.tg_multiplechoice_solved_correct = true')
         .getRawMany();
-        
+        //Create
         let listOfSolvedCorrect = []
-
+        //Push to array
         all_QS_Answered_Correct.forEach(solvedC=>{
            listOfSolvedCorrect.push(solvedC.id)
         })
-
+        //Get Unique
         let a_filterd = this.uniqueArray(listOfSolvedCorrect)
-        //  //console.log("ALLIDFDSDSDSDSD")
-        //  //console.log(listOfAllIds)
-        //   //Get unique List of solved Tests
-        //  let a_filterd = this.uniqueArray(listOfAllIds)
-        //  console.log("ALL SOLVED TEST ")
-        //  console.log(a_filterd)
-        //  //Create a list of all QS beeing answerd wrong.
-        //  let idToRemove = []
-        //  //Answered right
-        //  let answeredCorr = []
-        //  all_QS_Answered_for_check.forEach(e=>{
-        //      if(e.answergiven != e.answercorrect){
-        //           idToRemove.push(e.id)
-        //      }else{
-        //          answeredCorr.push(e.id)
-        //      }
-        //  })
-        //  //Make them to unique arrays
-        //  let wrong = this.uniqueArray(idToRemove)
-        //  let possible_right = this.uniqueArray(answeredCorr)
-         
-        //  let def_right = []
-        //  possible_right.forEach(ele=>{
-        //      const found = wrong.find(wele=> wele == ele)
-        //      console.log(found)
-        //      if(found === undefined){
-        //          //Wenn found undefined ist, ist ele nicht in wrong --> 
-        //          //Es ist also richtig
-        //          def_right.push(ele)
-        //      }
-        //  })
-        //  console.log("Wurstsalat")
-        //  console.log(def_right)
-        //  //Wir entfernen alle richtige um nur unbeantwortete zu erhalten.
-        //  let all_QS = await getRepository(Multiplechoice_QuestionEntity)
-        // .createQueryBuilder("multiplechoice_question")
-        // .where('multiplechoice_question.multiplechoice_question_categories = :multiplechoice_question_categories',{multiplechoice_question_categories:cat_id})
-        // .getMany();
-        // //console.log(all_QS)
-        // let return_Array = []
-        // all_QS.forEach(e=>{
-        //     return_Array.push(e.multiplechoice_question_id)
-        // })
-        // console.log("ALL QS")
-        // console.log(return_Array.length)
-        // def_right.forEach(idToRem=>{
-        //     return_Array = this.remove_array_element(return_Array,idToRem)
-        // })
-        // console.log(return_Array.length)
-        //Remove all wrong answers from Array to get only right 
-        
-        // wrong.forEach(idToRem=>{
-        //     possible_right = this.remove_array_element(possible_right,idToRem)
-        // })
-        //  console.log("Not correct Solved")
-        //  console.log(possible_right)
-         //Remove 
-         return a_filterd.length
+        return a_filterd.length
     }
 
     async find(): Promise<any[]> {
@@ -328,11 +262,11 @@ export class IntroService {
     createQueryBuilder(alias: string = 'intro', queryRunner?: QueryRunner): SelectQueryBuilder<IntroEntity> {
         return this.repository.createQueryBuilder(alias, queryRunner);
     }
-         //https://stackoverflow.com/questions/1960473/get-all-unique-values-in-a-javascript-array-remove-duplicates
-         uniqueArray(array) {
-            var result = Array.from(new Set(array));
-            return result    
-        }
+    //https://stackoverflow.com/questions/1960473/get-all-unique-values-in-a-javascript-array-remove-duplicates
+    uniqueArray(array) {
+        var result = Array.from(new Set(array));
+        return result    
+    }
     //https://www.w3resource.com/javascript-exercises/javascript-array-exercise-31.php
     remove_array_element(array, n){
         var index = array.indexOf(n);
@@ -343,7 +277,10 @@ export class IntroService {
     }
 
 }
-
+/**
+ * Class ParseReturn
+ * this can be decoded by the frontend
+ */
 class parseReturn{
     catName:String
     catIdentifier:number
@@ -373,7 +310,9 @@ class parseReturn{
         this.mctest = value
     }
 }
-
+/**
+ * Class for Returning intro als Array
+ */
 class returnAsArray{
     array:parseReturn[]
     constructor(){
@@ -408,9 +347,7 @@ class returnAsArray{
                 }
             }
         })
-        //console.log(countB)
         sorted_array.concat(countB,countA,countP)
-        //console.log(sorted_array)
         this.array = sorted_array
     }
 
