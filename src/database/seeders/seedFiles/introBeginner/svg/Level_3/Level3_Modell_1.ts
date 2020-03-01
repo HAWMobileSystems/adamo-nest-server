@@ -1,4 +1,4 @@
-import { Abstract_Modell } from "./Abstract_Modell"
+import { Abstract_Modell } from "../Abstract_Modell"
 
 export class Level3_Modell_1 extends Abstract_Modell{
 

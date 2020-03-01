@@ -4,13 +4,13 @@ import { Modelling_QuestionEntity } from '../../modules/tutorial/modelling_quest
 import { CategoryEntity } from '../../modules/tutorial/category/category.entity';
 import { Modelling_RulesEntity } from '../../modules/tutorial/modelling_rules/modelling_rules.entity';
 import { Modelling_Question_RulesEntity } from '../../modules/tutorial/modelling_question_rules/modelling_question_rules.entity';
-import { Level3_Modell_1 } from './seedFiles/introBeginner/svg/Level3_Modell_1';
-import { Level3_Modell_2 } from './seedFiles/introBeginner/svg/Level3_Modell_2';
-import { Level3_Modell_3 } from './seedFiles/introBeginner/svg/Level3_Modell_3';
-import { Level3_Modell_4 } from './seedFiles/introBeginner/svg/Level3_Modell_4'
-import { Level3_Modell_5 } from './seedFiles/introBeginner/svg/Level3_Modell_5'
-import { Level3_Modell_6 } from './seedFiles/introBeginner/svg/Level3_Modell_6'
-import { Level3_Modell_7 } from './seedFiles/introBeginner/svg/Level3_Modell_7'
+import { Level3_Modell_1 } from './seedFiles/introBeginner/svg/Level_3/Level3_Modell_1';
+import { Level3_Modell_2 } from './seedFiles/introBeginner/svg/Level_3/Level3_Modell_2';
+import { Level3_Modell_3 } from './seedFiles/introBeginner/svg/Level_3/Level3_Modell_3';
+import { Level3_Modell_4 } from './seedFiles/introBeginner/svg/Level_3/Level3_Modell_4'
+import { Level3_Modell_5 } from './seedFiles/introBeginner/svg/Level_3/Level3_Modell_5'
+import { Level3_Modell_6 } from './seedFiles/introBeginner/svg/Level_3/Level3_Modell_6'
+import { Level3_Modell_7 } from './seedFiles/introBeginner/svg/Level_3/Level3_Modell_7'
 
 export default class SeedModellingQuestionProfessional implements Seeder {
     public async run(factory: Factory, connection: Connection): Promise<any> {
