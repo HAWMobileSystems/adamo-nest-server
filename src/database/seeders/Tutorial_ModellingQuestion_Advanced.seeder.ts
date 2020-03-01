@@ -4,16 +4,16 @@ import { Modelling_QuestionEntity } from '../../modules/tutorial/modelling_quest
 import { CategoryEntity } from '../../modules/tutorial/category/category.entity';
 import { Modelling_RulesEntity} from '../../modules/tutorial/modelling_rules/modelling_rules.entity';
 import { Modelling_Question_RulesEntity } from '../../modules/tutorial/modelling_question_rules/modelling_question_rules.entity';
-import { Level2_Modell_1 } from './seedFiles/introBeginner/svg/Lvl_2/Level2_Modell_1';
-import { Level2_Modell_2 } from './seedFiles/introBeginner/svg/Lvl_2/Level2_Modell_2';
-import { Level2_Modell_3 } from './seedFiles/introBeginner/svg/Lvl_2/Level2_Modell_3';
-import { Level2_Modell_4 } from './seedFiles/introBeginner/svg/Lvl_2/Level2_Modell_4';
-import { Level2_Modell_5 } from './seedFiles/introBeginner/svg/Lvl_2/Level2_Modell_5';
-import { Level2_Modell_6 } from './seedFiles/introBeginner/svg/Lvl_2/Level2_Modell_6';
-import { Level2_Modell_7 } from './seedFiles/introBeginner/svg/Lvl_2/Level2_Modell_7';
-import { Level2_Modell_8 } from './seedFiles/introBeginner/svg/Lvl_2/Level2_Modell_8';
-import { Level2_Modell_9 } from './seedFiles/introBeginner/svg/Lvl_2/Level2_Modell_9';
-import { Level2_Modell_10 } from './seedFiles/introBeginner/svg/Lvl_2/Level2_Modell_10';
+import { Level2_Modell_1 } from './seedFiles/introBeginner/svg/Level_2/Level2_Modell_1';
+import { Level2_Modell_2 } from './seedFiles/introBeginner/svg/Level_2/Level2_Modell_2';
+import { Level2_Modell_3 } from './seedFiles/introBeginner/svg/Level_2/Level2_Modell_3';
+import { Level2_Modell_4 } from './seedFiles/introBeginner/svg/Level_2/Level2_Modell_4';
+import { Level2_Modell_5 } from './seedFiles/introBeginner/svg/Level_2/Level2_Modell_5';
+import { Level2_Modell_6 } from './seedFiles/introBeginner/svg/Level_2/Level2_Modell_6';
+import { Level2_Modell_7 } from './seedFiles/introBeginner/svg/Level_2/Level2_Modell_7';
+import { Level2_Modell_8 } from './seedFiles/introBeginner/svg/Level_2/Level2_Modell_8';
+import { Level2_Modell_9 } from './seedFiles/introBeginner/svg/Level_2/Level2_Modell_9';
+import { Level2_Modell_10 } from './seedFiles/introBeginner/svg/Level_2/Level2_Modell_10';
 
 export default class SeedModellignQuestionAdvanced implements Seeder {
     public async run(factory: Factory, connection: Connection): Promise<any> {
@@ -94,83 +94,83 @@ export default class SeedModellignQuestionAdvanced implements Seeder {
            {
                // Level 2 Modell 1
             modelling_rule_id:seedQsRule.identifiers[0].modelling_question_id,
-            modelling_rule_text: Modell_1.getXML_EN,
-            modelling_rule_text_de: Modell_1.getXML_DE,
-            modelling_rule_svg: Modell_1.getSVG_EN,
-            modelling_rule_svg_de: Modell_1.getSVG_DE
+            modelling_rule_text: Modell_1.getXML_EN(),
+            modelling_rule_text_de: Modell_1.getXML_DE(),
+            modelling_rule_svg: Modell_1.getSVG_EN(),
+            modelling_rule_svg_de: Modell_1.getSVG_DE()
             },
             {
-                // Level 2 Modell 2
-                modelling_rule_id:seedQsRule.identifiers[1].modelling_question_id,
-                modelling_rule_text: Modell_2.getXML_EN,
-                modelling_rule_text_de: Modell_2.getXML_DE,
-                modelling_rule_svg: Modell_2.getSVG_EN,
-                modelling_rule_svg_de: Modell_2.getSVG_DE
-                },
-                {
-                    // Level 2 Modell 3
-                 modelling_rule_id:seedQsRule.identifiers[2].modelling_question_id,
-                 modelling_rule_text: Modell_3.getXML_EN,
-                 modelling_rule_text_de: Modell_3.getXML_DE,
-                 modelling_rule_svg: Modell_3.getSVG_EN,
-                 modelling_rule_svg_de: Modell_3.getSVG_DE
-                 },
-                 {
-                    // Level 2 Modell 4
-                 modelling_rule_id:seedQsRule.identifiers[3].modelling_question_id,
-                 modelling_rule_text: Modell_4.getXML_EN,
-                 modelling_rule_text_de: Modell_4.getXML_DE,
-                 modelling_rule_svg: Modell_4.getSVG_EN,
-                 modelling_rule_svg_de: Modell_4.getSVG_DE
-                 },
-                 {
-                    // Level 2 Modell 5
-                 modelling_rule_id:seedQsRule.identifiers[4].modelling_question_id,
-                 modelling_rule_text: Modell_5.getXML_EN,
-                 modelling_rule_text_de: Modell_5.getXML_DE,
-                 modelling_rule_svg: Modell_5.getSVG_EN,
-                 modelling_rule_svg_de: Modell_5.getSVG_DE
-                 },
-                 {
-                    // Level 2 Modell 6
-                 modelling_rule_id:seedQsRule.identifiers[5].modelling_question_id,
-                 modelling_rule_text: Modell_6.getXML_EN,
-                 modelling_rule_text_de: Modell_6.getXML_DE,
-                 modelling_rule_svg: Modell_6.getSVG_EN,
-                 modelling_rule_svg_de: Modell_6.getSVG_DE
-                 },
-                 {
-                    // Level 2 Modell 7
-                 modelling_rule_id:seedQsRule.identifiers[6].modelling_question_id,
-                 modelling_rule_text: Modell_7.getXML_EN,
-                 modelling_rule_text_de: Modell_7.getXML_DE,
-                 modelling_rule_svg: Modell_7.getSVG_EN,
-                 modelling_rule_svg_de: Modell_7.getSVG_DE
-                 },
-                 {
-                    // Level 2 Modell 8
-                 modelling_rule_id:seedQsRule.identifiers[7].modelling_question_id,
-                 modelling_rule_text: Modell_8.getXML_EN,
-                 modelling_rule_text_de: Modell_8.getXML_DE,
-                 modelling_rule_svg: Modell_8.getSVG_EN,
-                 modelling_rule_svg_de: Modell_8.getSVG_DE
-                 },
-                 {
-                    // Level 2 Modell 9
-                 modelling_rule_id:seedQsRule.identifiers[8].modelling_question_id,
-                 modelling_rule_text: Modell_9.getXML_EN,
-                 modelling_rule_text_de: Modell_9.getXML_DE,
-                 modelling_rule_svg: Modell_9.getSVG_EN,
-                 modelling_rule_svg_de: Modell_9.getSVG_DE
-                 },
-                 {
-                    // Level 2 Modell 10
-                 modelling_rule_id:seedQsRule.identifiers[9].modelling_question_id,
-                 modelling_rule_text: Modell_10.getXML_EN,
-                 modelling_rule_text_de: Modell_10.getXML_DE,
-                 modelling_rule_svg: Modell_10.getSVG_EN,
-                 modelling_rule_svg_de: Modell_10.getSVG_DE
-                 },
+            // Level 2 Modell 2
+            modelling_rule_id:seedQsRule.identifiers[1].modelling_question_id,
+            modelling_rule_text: Modell_2.getXML_EN(),
+            modelling_rule_text_de: Modell_2.getXML_DE(),
+            modelling_rule_svg: Modell_2.getSVG_EN(),
+            modelling_rule_svg_de: Modell_2.getSVG_DE()
+            },
+            {
+            // Level 2 Modell 3
+            modelling_rule_id:seedQsRule.identifiers[2].modelling_question_id,
+            modelling_rule_text: Modell_3.getXML_EN(),
+            modelling_rule_text_de: Modell_3.getXML_DE(),
+            modelling_rule_svg: Modell_3.getSVG_EN(),
+            modelling_rule_svg_de: Modell_3.getSVG_DE()
+            },
+            {
+            // Level 2 Modell 4
+            modelling_rule_id:seedQsRule.identifiers[3].modelling_question_id,
+            modelling_rule_text: Modell_4.getXML_EN(),
+            modelling_rule_text_de: Modell_4.getXML_DE(),
+            modelling_rule_svg: Modell_4.getSVG_EN(),
+            modelling_rule_svg_de: Modell_4.getSVG_DE()
+            },
+            {
+            // Level 2 Modell 5
+            modelling_rule_id:seedQsRule.identifiers[4].modelling_question_id,
+            modelling_rule_text: Modell_5.getXML_EN(),
+            modelling_rule_text_de: Modell_5.getXML_DE(),
+            modelling_rule_svg: Modell_5.getSVG_EN(),
+            modelling_rule_svg_de: Modell_5.getSVG_DE()
+            },
+            {
+            // Level 2 Modell 6
+            modelling_rule_id:seedQsRule.identifiers[5].modelling_question_id,
+            modelling_rule_text: Modell_6.getXML_EN(),
+            modelling_rule_text_de: Modell_6.getXML_DE(),
+            modelling_rule_svg: Modell_6.getSVG_EN(),
+            modelling_rule_svg_de: Modell_6.getSVG_DE()
+            },
+            {
+            // Level 2 Modell 7
+            modelling_rule_id:seedQsRule.identifiers[6].modelling_question_id,
+            modelling_rule_text: Modell_7.getXML_EN(),
+            modelling_rule_text_de: Modell_7.getXML_DE(),
+            modelling_rule_svg: Modell_7.getSVG_EN(),
+            modelling_rule_svg_de: Modell_7.getSVG_DE()
+            },
+            {
+            // Level 2 Modell 8
+            modelling_rule_id:seedQsRule.identifiers[7].modelling_question_id,
+            modelling_rule_text: Modell_8.getXML_EN(),
+            modelling_rule_text_de: Modell_8.getXML_DE(),
+            modelling_rule_svg: Modell_8.getSVG_EN(),
+            modelling_rule_svg_de: Modell_8.getSVG_DE()
+            },
+            {
+            // Level 2 Modell 9
+            modelling_rule_id:seedQsRule.identifiers[8].modelling_question_id,
+            modelling_rule_text: Modell_9.getXML_EN(),
+            modelling_rule_text_de: Modell_9.getXML_DE(),
+            modelling_rule_svg: Modell_9.getSVG_EN(),
+            modelling_rule_svg_de: Modell_9.getSVG_DE()
+            },
+            {
+            // Level 2 Modell 10
+            modelling_rule_id:seedQsRule.identifiers[9].modelling_question_id,
+            modelling_rule_text: Modell_10.getXML_EN(),
+            modelling_rule_text_de: Modell_10.getXML_DE(),
+            modelling_rule_svg: Modell_10.getSVG_EN(),
+            modelling_rule_svg_de: Modell_10.getSVG_DE()
+            },
 
                 
         ])
