@@ -17,7 +17,7 @@ export class Tg_ModellingDto extends AbstractDto {
     public tg_modelling_validation_score: number;
 
     @ApiModelPropertyOptional()
-    public tg_modelling_editing_begin: number;
+    public tg_modelling_editing_duration: number;
     
     constructor(test: Tg_ModellingEntity) {
         super(test);
@@ -25,7 +25,7 @@ export class Tg_ModellingDto extends AbstractDto {
         this.tg_modelling_question_id = test.tg_modelling_question_id;
         this.tg_modelling_xml_providet = test.tg_modelling_xml_providet;
         this.tg_modelling_validation_score = test.tg_modelling_validation_score;
-        this.tg_modelling_editing_begin = test.tg_modelling_editing_begin;
+        this.tg_modelling_editing_duration = test.tg_modelling_editing_duration;
     }
 }
 

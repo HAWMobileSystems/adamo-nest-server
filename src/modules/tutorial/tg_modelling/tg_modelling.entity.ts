@@ -28,7 +28,7 @@ export class Tg_ModellingEntity extends AbstractEntity<Tg_ModellingDto>{
 
     @ApiModelProperty()
     @Column()
-    public tg_modelling_editing_begin: number;
+    public tg_modelling_editing_duration: number;
 
     @Exclude()
     dtoClass = Tg_ModellingDto;

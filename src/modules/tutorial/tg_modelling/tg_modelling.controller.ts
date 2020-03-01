@@ -14,6 +14,7 @@ import {
 import { ApiBearerAuth, ApiUseTags } from '@nestjs/swagger';
 import { Tg_ModellingEntity } from './tg_modelling.entity';
 import { Tg_ModellingService } from './tg_modelling.service';
+import { lawngreen } from 'color-name';
 
 @Controller('tg_modelling')
 @ApiUseTags('tg_modelling')
@@ -34,9 +35,27 @@ export class Tg_ModellingController {_
      * @param user_id and the Question:
      * @param qs_id 
      */
-    @Put(':user_id/solved/:qs_id')
-    solveSpecificModellingQuestion(@Param('user_id') id,@Param('qs_id') qs_id){
-        return this.tg_modellingService.solveQuestion(id,qs_id)
+    @Post('solve/:lang')
+    solveSpecificModellingQuestion(@Param('lang') lang, @Body() data:any){
+        console.log("Solve - tg_modelling")
+        // console.log(data.user_choice)
+        let user_id 
+        let qs_id 
+        let xml
+        console.log(data) 
+        let answer:ReturnFromModQs = new ReturnFromModQs(data.xml,data.userid,data.qs_id)
+        // data.forEach(element => {
+        //     if(element.key == 'userid'){
+        //         user_id = element.value
+        //     }else if(element.key == 'qs_id'){
+        //         qs_id = element.value
+        //     }else {
+        //         xml = element.value
+        //     }
+        // });
+        lang = 'de'
+        let dur = 10000
+        return this.tg_modellingService.solveQuestion(answer.user_id,answer.qs_id,answer.xml,lang,dur)
     }
 
     @Get('modellingQsWithRuleTest')
@@ -44,4 +63,14 @@ export class Tg_ModellingController {_
         return this.tg_modellingService.getModQS()
     }
 
+}
+class ReturnFromModQs{
+    xml: string
+    user_id: string
+    qs_id: string
+    constructor(xml_in,uid_in,qsid_in){
+        this.xml = xml_in;
+        this.user_id = uid_in;
+        this.qs_id = qsid_in;
+    }
 }
