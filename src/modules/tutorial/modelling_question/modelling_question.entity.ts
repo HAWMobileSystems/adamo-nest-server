@@ -15,6 +15,10 @@ export class Modelling_QuestionEntity extends AbstractEntity<Modelling_QuestionD
 
     @ApiModelProperty()
     @Column()
+    public mod_qs_identifier: number
+
+    @ApiModelProperty()
+    @Column()
     public mod_qs_question_text: string;
 
     @ApiModelProperty()
