@@ -5,7 +5,7 @@ export class Abstract_Modell{
     private xml_de
     private xml_en
 
-    constructor(svg_de_input, svg_en_input, xml_de_input, xml_en_input) {
+    constructor(xml_de_input, xml_en_input,svg_de_input, svg_en_input){
         this.svg_de = svg_de_input
         this.svg_en = svg_en_input
         this.xml_de = xml_de_input
@@ -21,7 +21,7 @@ export class Abstract_Modell{
     getXML_EN(){
            return this.xml_de
        }
-   getXML_DE(){
+    getXML_DE(){
            return this.xml_en
        }
 }

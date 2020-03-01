@@ -4,7 +4,6 @@ import { CategoryDto } from './dto/CategoryDto'
 import { ApiModelProperty } from "@nestjs/swagger";
 import { Exclude } from "class-transformer";
 
-
 @Entity({name:'category'})
 export class CategoryEntity extends AbstractEntity<CategoryDto>{
 

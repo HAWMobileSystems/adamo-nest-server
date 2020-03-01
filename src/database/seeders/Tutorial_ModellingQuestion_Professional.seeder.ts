@@ -110,42 +110,42 @@ export default class SeedModellingQuestionProfessional implements Seeder {
                 {
                     //Level 3 Modell 3
                     modelling_rule_id: seedQsRule.identifiers[2].modelling_question_id,
-                    modelling_rule_text: Modell_3.getXML_EN,
-                    modelling_rule_text_de: Modell_3.getXML_DE,
-                    modelling_rule_svg: Modell_3.getSVG_EN,
-                    modelling_rule_svg_de: Modell_3.getSVG_DE 
+                    modelling_rule_text: Modell_3.getXML_EN(),
+                    modelling_rule_text_de: Modell_3.getXML_DE(),
+                    modelling_rule_svg: Modell_3.getSVG_EN(),
+                    modelling_rule_svg_de: Modell_3.getSVG_DE() 
                 },
                 {
                     //Level 3 Modell 4
                     modelling_rule_id: seedQsRule.identifiers[3].modelling_question_id,
-                    modelling_rule_text: Modell_4.getXML_EN,
-                    modelling_rule_text_de: Modell_4.getXML_DE,
-                    modelling_rule_svg: Modell_4.getSVG_EN,
-                    modelling_rule_svg_de: Modell_4.getSVG_DE
+                    modelling_rule_text: Modell_4.getXML_EN(),
+                    modelling_rule_text_de: Modell_4.getXML_DE(),
+                    modelling_rule_svg: Modell_4.getSVG_EN(),
+                    modelling_rule_svg_de: Modell_4.getSVG_DE()
                 },
                 {
                     //Level 3 Modell 5
                     modelling_rule_id: seedQsRule.identifiers[4].modelling_question_id,
-                    modelling_rule_text: Modell_5.getXML_EN,
-                    modelling_rule_text_de: Modell_5.getXML_DE,
-                    modelling_rule_svg: Modell_5.getSVG_EN,
-                    modelling_rule_svg_de: Modell_5.getSVG_DE
+                    modelling_rule_text: Modell_5.getXML_EN(),
+                    modelling_rule_text_de: Modell_5.getXML_DE(),
+                    modelling_rule_svg: Modell_5.getSVG_EN(),
+                    modelling_rule_svg_de: Modell_5.getSVG_DE()
                 },
                 {
                     //Level 3 Modell 6
                     modelling_rule_id: seedQsRule.identifiers[5].modelling_question_id,
-                    modelling_rule_text: Modell_6.getXML_EN,
-                    modelling_rule_text_de: Modell_6.getXML_DE,
-                    modelling_rule_svg: Modell_6.getSVG_EN,
-                    modelling_rule_svg_de: Modell_6.getSVG_DE
+                    modelling_rule_text: Modell_6.getXML_EN(),
+                    modelling_rule_text_de: Modell_6.getXML_DE(),
+                    modelling_rule_svg: Modell_6.getSVG_EN(),
+                    modelling_rule_svg_de: Modell_6.getSVG_DE()
                 },
                 {
                     //Level 3 Modell 7
                     modelling_rule_id: seedQsRule.identifiers[6].modelling_question_id,
-                    modelling_rule_text: Modell_7.getXML_EN,
-                    modelling_rule_text_de: Modell_7.getXML_DE,
-                    modelling_rule_svg: Modell_7.getSVG_EN,
-                    modelling_rule_svg_de: Modell_7.getSVG_DE
+                    modelling_rule_text: Modell_7.getXML_EN(),
+                    modelling_rule_text_de: Modell_7.getXML_DE(),
+                    modelling_rule_svg: Modell_7.getSVG_EN(),
+                    modelling_rule_svg_de: Modell_7.getSVG_DE()
                 },
             ])
             .execute();

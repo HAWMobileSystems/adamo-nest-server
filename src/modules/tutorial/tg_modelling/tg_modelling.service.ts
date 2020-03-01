@@ -9,6 +9,8 @@ import { Modelling_QuestionDto } from '../modelling_question/dto/Modelling_Quest
 import { Tg_ModellingModule } from './tg_modelling.module';
 import { TestEntity } from '../test/test.entity';
 import { Modelling_QuestionModule } from '../modelling_question/modelling_question.module';
+import { json } from 'body-parser';
+
 
 @Injectable()
 export class Tg_ModellingService {
@@ -130,85 +132,124 @@ export class Tg_ModellingService {
         let ret: ReturnSVGAndSCORE = new ReturnSVGAndSCORE(all_Answers.svg,score)
         //return Returnclass
         console.log(ret) 
-        
+        let asdf = this.validate("","");
         return ret
     }
-    validate(camunda_xml: String, bpmn_io_xml: string) {
-        // let camunda_xml = `<?xml version="1.0" encoding="UTF-8"?><definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="sid-38422fae-e03e-43a3-bef4-bd33b32041b2" targetNamespace="http://bpmn.io/bpmn" exporter="Camunda Modeler" exporterVersion="2.2.4"><process id="Process_1" isExecutable="false"><startEvent id="StartEvent_1y45yut" name="Customer request received"><outgoing>SequenceFlow_0h21x7r</outgoing></startEvent><task id="Task_1hcentk" name="Prepare order"><incoming>SequenceFlow_0h21x7r</incoming><outgoing>SequenceFlow_0wnb4ke</outgoing></task><sequenceFlow id="SequenceFlow_0h21x7r" sourceRef="StartEvent_1y45yut" targetRef="Task_1hcentk" /><sequenceFlow id="SequenceFlow_0wnb4ke" sourceRef="Task_1hcentk" targetRef="Task_0y9n49p" /><task id="Task_0y9n49p" name="Send order"><incoming>SequenceFlow_0wnb4ke</incoming><outgoing>SequenceFlow_0bgdiq2</outgoing></task><sequenceFlow id="SequenceFlow_0bgdiq2" sourceRef="Task_0y9n49p" targetRef="EndEvent_0j1jntq" /><endEvent id="EndEvent_0j1jntq" name="Customer request completed"><incoming>SequenceFlow_0bgdiq2</incoming></endEvent></process><bpmndi:BPMNDiagram id="BpmnDiagram_1"><bpmndi:BPMNPlane id="BpmnPlane_1" bpmnElement="Process_1"><bpmndi:BPMNShape id="StartEvent_1y45yut_di" bpmnElement="StartEvent_1y45yut"><omgdc:Bounds x="152" y="102" width="36" height="36" /><bpmndi:BPMNLabel><omgdc:Bounds x="128" y="145" width="89" height="27" /></bpmndi:BPMNLabel></bpmndi:BPMNShape><bpmndi:BPMNShape id="Task_1hcentk_di" bpmnElement="Task_1hcentk"><omgdc:Bounds x="320" y="80" width="100" height="80" /></bpmndi:BPMNShape><bpmndi:BPMNEdge id="SequenceFlow_0h21x7r_di" bpmnElement="SequenceFlow_0h21x7r"><omgdi:waypoint x="188" y="120" /><omgdi:waypoint x="320" y="120" /></bpmndi:BPMNEdge><bpmndi:BPMNEdge id="SequenceFlow_0wnb4ke_di" bpmnElement="SequenceFlow_0wnb4ke"><omgdi:waypoint x="420" y="120" /><omgdi:waypoint x="530" y="120" /></bpmndi:BPMNEdge><bpmndi:BPMNShape id="Task_0y9n49p_di" bpmnElement="Task_0y9n49p"><omgdc:Bounds x="530" y="80" width="100" height="80" /></bpmndi:BPMNShape><bpmndi:BPMNEdge id="SequenceFlow_0bgdiq2_di" bpmnElement="SequenceFlow_0bgdiq2"><omgdi:waypoint x="630" y="120" /><omgdi:waypoint x="772" y="120" /></bpmndi:BPMNEdge><bpmndi:BPMNShape id="EndEvent_0j1jntq_di" bpmnElement="EndEvent_0j1jntq"><omgdc:Bounds x="772" y="102" width="36" height="36" /><bpmndi:BPMNLabel><omgdc:Bounds x="746" y="145" width="89" height="27" /></bpmndi:BPMNLabel></bpmndi:BPMNShape></bpmndi:BPMNPlane></bpmndi:BPMNDiagram></definitions>`
-        // let bpmn_io_xml = `<?xml version="1.0" encoding="UTF-8"?>
-        // <bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="sample-diagram" targetNamespace="http://bpmn.io/schema/bpmn" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
-        //   <bpmn2:process id="Process_1" isExecutable="false">
-        //    <bpmn2:startEvent id="StartEvent_1" />
-        //     <bpmn2:startEvent id="StartEvent_168fjc8">
-        //       <bpmn2:outgoing>SequenceFlow_103an5m</bpmn2:outgoing>
-        //     </bpmn2:startEvent>
-        //     <bpmn2:exclusiveGateway id="ExclusiveGateway_0m60uyq">
-        //       <bpmn2:incoming>SequenceFlow_103an5m</bpmn2:incoming>
-        //       <bpmn2:outgoing>SequenceFlow_1hdttia</bpmn2:outgoing>
-        //       <bpmn2:outgoing>SequenceFlow_03fbyeh</bpmn2:outgoing>
-        //     </bpmn2:exclusiveGateway>
-        //     <bpmn2:sequenceFlow id="SequenceFlow_103an5m" sourceRef="StartEvent_168fjc8" targetRef="ExclusiveGateway_0m60uyq" />
-        //     <bpmn2:task id="Task_165vwhk" name="Do Something">
-        //       <bpmn2:incoming>SequenceFlow_1hdttia</bpmn2:incoming>
-        //       <bpmn2:outgoing>SequenceFlow_1trvev3</bpmn2:outgoing>
-        //     </bpmn2:task>
-        //     <bpmn2:sequenceFlow id="SequenceFlow_1hdttia" sourceRef="ExclusiveGateway_0m60uyq" targetRef="Task_165vwhk" />
-        //     <bpmn2:endEvent id="EndEvent_1wcyk1h">
-        //       <bpmn2:incoming>SequenceFlow_03fbyeh</bpmn2:incoming>
-        //     </bpmn2:endEvent>
-        //     <bpmn2:sequenceFlow id="SequenceFlow_03fbyeh" sourceRef="ExclusiveGateway_0m60uyq" targetRef="EndEvent_1wcyk1h" />
-        //     <bpmn2:endEvent id="EndEvent_1fty9vh">
-        //       <bpmn2:incoming>SequenceFlow_1trvev3</bpmn2:incoming>
-        //     </bpmn2:endEvent>
-        //     <bpmn2:sequenceFlow id="SequenceFlow_1trvev3" sourceRef="Task_165vwhk" targetRef="EndEvent_1fty9vh" />
-        //   </bpmn2:process>
-        //   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-        //     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
-        //       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
-        //         <dc:Bounds x="412" y="240" width="36" height="36" />
-        //       </bpmndi:BPMNShape>
-        //       <bpmndi:BPMNShape id="StartEvent_168fjc8_di" bpmnElement="StartEvent_168fjc8">
-        //         <dc:Bounds x="146" y="73" width="36" height="36" />
-        //       </bpmndi:BPMNShape>
-        //       <bpmndi:BPMNShape id="ExclusiveGateway_0m60uyq_di" bpmnElement="ExclusiveGateway_0m60uyq" isMarkerVisible="true">
-        //         <dc:Bounds x="261" y="34" width="50" height="50" />
-        //       </bpmndi:BPMNShape>
-        //       <bpmndi:BPMNEdge id="SequenceFlow_103an5m_di" bpmnElement="SequenceFlow_103an5m">
-        //         <di:waypoint x="182" y="91" />
-        //         <di:waypoint x="222" y="91" />
-        //         <di:waypoint x="222" y="59" />
-        //         <di:waypoint x="261" y="59" />
-        //       </bpmndi:BPMNEdge>
-        //       <bpmndi:BPMNShape id="Task_165vwhk_di" bpmnElement="Task_165vwhk">
-        //         <dc:Bounds x="390" y="19" width="100" height="80" />
-        //       </bpmndi:BPMNShape>
-        //       <bpmndi:BPMNEdge id="SequenceFlow_1hdttia_di" bpmnElement="SequenceFlow_1hdttia">
-        //         <di:waypoint x="311" y="59" />
-        //         <di:waypoint x="390" y="59" />
-        //       </bpmndi:BPMNEdge>
-        //       <bpmndi:BPMNShape id="EndEvent_1wcyk1h_di" bpmnElement="EndEvent_1wcyk1h">
-        //         <dc:Bounds x="276" y="115" width="36" height="36" />
-        //       </bpmndi:BPMNShape>
-        //       <bpmndi:BPMNEdge id="SequenceFlow_03fbyeh_di" bpmnElement="SequenceFlow_03fbyeh">
-        //         <di:waypoint x="286" y="84" />
-        //         <di:waypoint x="286" y="100" />
-        //         <di:waypoint x="294" y="100" />
-        //         <di:waypoint x="294" y="115" />
-        //       </bpmndi:BPMNEdge>
-        //       <bpmndi:BPMNShape id="EndEvent_1fty9vh_di" bpmnElement="EndEvent_1fty9vh">
-        //         <dc:Bounds x="412" y="115" width="36" height="36" />
-        //       </bpmndi:BPMNShape>
-        //       <bpmndi:BPMNEdge id="SequenceFlow_1trvev3_di" bpmnElement="SequenceFlow_1trvev3">
-        //         <di:waypoint x="440" y="19" />
-        //         <di:waypoint x="440" y="-1" />
-        //         <di:waypoint x="430" y="-1" />
-        //         <di:waypoint x="430" y="115" />
-        //       </bpmndi:BPMNEdge>
-        //     </bpmndi:BPMNPlane>
-        //   </bpmndi:BPMNDiagram>
-        // </bpmn2:definitions>`
+    validate(camunda_xml_1: String, bpmn_io_xml_1: string) {
+        let camunda_xml = `<?xml version="1.0" encoding="UTF-8"?><definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="sid-38422fae-e03e-43a3-bef4-bd33b32041b2" targetNamespace="http://bpmn.io/bpmn" exporter="Camunda Modeler" exporterVersion="2.2.4"><process id="Process_1" isExecutable="false"><startEvent id="StartEvent_1y45yut" name="Customer request received"><outgoing>SequenceFlow_0h21x7r</outgoing></startEvent><task id="Task_1hcentk" name="Prepare order"><incoming>SequenceFlow_0h21x7r</incoming><outgoing>SequenceFlow_0wnb4ke</outgoing></task><sequenceFlow id="SequenceFlow_0h21x7r" sourceRef="StartEvent_1y45yut" targetRef="Task_1hcentk" /><sequenceFlow id="SequenceFlow_0wnb4ke" sourceRef="Task_1hcentk" targetRef="Task_0y9n49p" /><task id="Task_0y9n49p" name="Send order"><incoming>SequenceFlow_0wnb4ke</incoming><outgoing>SequenceFlow_0bgdiq2</outgoing></task><sequenceFlow id="SequenceFlow_0bgdiq2" sourceRef="Task_0y9n49p" targetRef="EndEvent_0j1jntq" /><endEvent id="EndEvent_0j1jntq" name="Customer request completed"><incoming>SequenceFlow_0bgdiq2</incoming></endEvent></process><bpmndi:BPMNDiagram id="BpmnDiagram_1"><bpmndi:BPMNPlane id="BpmnPlane_1" bpmnElement="Process_1"><bpmndi:BPMNShape id="StartEvent_1y45yut_di" bpmnElement="StartEvent_1y45yut"><omgdc:Bounds x="152" y="102" width="36" height="36" /><bpmndi:BPMNLabel><omgdc:Bounds x="128" y="145" width="89" height="27" /></bpmndi:BPMNLabel></bpmndi:BPMNShape><bpmndi:BPMNShape id="Task_1hcentk_di" bpmnElement="Task_1hcentk"><omgdc:Bounds x="320" y="80" width="100" height="80" /></bpmndi:BPMNShape><bpmndi:BPMNEdge id="SequenceFlow_0h21x7r_di" bpmnElement="SequenceFlow_0h21x7r"><omgdi:waypoint x="188" y="120" /><omgdi:waypoint x="320" y="120" /></bpmndi:BPMNEdge><bpmndi:BPMNEdge id="SequenceFlow_0wnb4ke_di" bpmnElement="SequenceFlow_0wnb4ke"><omgdi:waypoint x="420" y="120" /><omgdi:waypoint x="530" y="120" /></bpmndi:BPMNEdge><bpmndi:BPMNShape id="Task_0y9n49p_di" bpmnElement="Task_0y9n49p"><omgdc:Bounds x="530" y="80" width="100" height="80" /></bpmndi:BPMNShape><bpmndi:BPMNEdge id="SequenceFlow_0bgdiq2_di" bpmnElement="SequenceFlow_0bgdiq2"><omgdi:waypoint x="630" y="120" /><omgdi:waypoint x="772" y="120" /></bpmndi:BPMNEdge><bpmndi:BPMNShape id="EndEvent_0j1jntq_di" bpmnElement="EndEvent_0j1jntq"><omgdc:Bounds x="772" y="102" width="36" height="36" /><bpmndi:BPMNLabel><omgdc:Bounds x="746" y="145" width="89" height="27" /></bpmndi:BPMNLabel></bpmndi:BPMNShape></bpmndi:BPMNPlane></bpmndi:BPMNDiagram></definitions>`
+        let bpmn_io_xml = `<?xml version="1.0" encoding="UTF-8"?>
+        <bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="sample-diagram" targetNamespace="http://bpmn.io/schema/bpmn" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+          <bpmn2:process id="Process_1" isExecutable="false">
+           <bpmn2:startEvent id="StartEvent_1" />
+            <bpmn2:startEvent id="StartEvent_168fjc8">
+              <bpmn2:outgoing>SequenceFlow_103an5m</bpmn2:outgoing>
+            </bpmn2:startEvent>
+            <bpmn2:exclusiveGateway id="ExclusiveGateway_0m60uyq">
+              <bpmn2:incoming>SequenceFlow_103an5m</bpmn2:incoming>
+              <bpmn2:outgoing>SequenceFlow_1hdttia</bpmn2:outgoing>
+              <bpmn2:outgoing>SequenceFlow_03fbyeh</bpmn2:outgoing>
+            </bpmn2:exclusiveGateway>
+            <bpmn2:sequenceFlow id="SequenceFlow_103an5m" sourceRef="StartEvent_168fjc8" targetRef="ExclusiveGateway_0m60uyq" />
+            <bpmn2:task id="Task_165vwhk" name="Do Something">
+              <bpmn2:incoming>SequenceFlow_1hdttia</bpmn2:incoming>
+              <bpmn2:outgoing>SequenceFlow_1trvev3</bpmn2:outgoing>
+            </bpmn2:task>
+            <bpmn2:sequenceFlow id="SequenceFlow_1hdttia" sourceRef="ExclusiveGateway_0m60uyq" targetRef="Task_165vwhk" />
+            <bpmn2:endEvent id="EndEvent_1wcyk1h">
+              <bpmn2:incoming>SequenceFlow_03fbyeh</bpmn2:incoming>
+            </bpmn2:endEvent>
+            <bpmn2:sequenceFlow id="SequenceFlow_03fbyeh" sourceRef="ExclusiveGateway_0m60uyq" targetRef="EndEvent_1wcyk1h" />
+            <bpmn2:endEvent id="EndEvent_1fty9vh">
+              <bpmn2:incoming>SequenceFlow_1trvev3</bpmn2:incoming>
+            </bpmn2:endEvent>
+            <bpmn2:sequenceFlow id="SequenceFlow_1trvev3" sourceRef="Task_165vwhk" targetRef="EndEvent_1fty9vh" />
+          </bpmn2:process>
+          <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+            <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
+              <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+                <dc:Bounds x="412" y="240" width="36" height="36" />
+              </bpmndi:BPMNShape>
+              <bpmndi:BPMNShape id="StartEvent_168fjc8_di" bpmnElement="StartEvent_168fjc8">
+                <dc:Bounds x="146" y="73" width="36" height="36" />
+              </bpmndi:BPMNShape>
+              <bpmndi:BPMNShape id="ExclusiveGateway_0m60uyq_di" bpmnElement="ExclusiveGateway_0m60uyq" isMarkerVisible="true">
+                <dc:Bounds x="261" y="34" width="50" height="50" />
+              </bpmndi:BPMNShape>
+              <bpmndi:BPMNEdge id="SequenceFlow_103an5m_di" bpmnElement="SequenceFlow_103an5m">
+                <di:waypoint x="182" y="91" />
+                <di:waypoint x="222" y="91" />
+                <di:waypoint x="222" y="59" />
+                <di:waypoint x="261" y="59" />
+              </bpmndi:BPMNEdge>
+              <bpmndi:BPMNShape id="Task_165vwhk_di" bpmnElement="Task_165vwhk">
+                <dc:Bounds x="390" y="19" width="100" height="80" />
+              </bpmndi:BPMNShape>
+              <bpmndi:BPMNEdge id="SequenceFlow_1hdttia_di" bpmnElement="SequenceFlow_1hdttia">
+                <di:waypoint x="311" y="59" />
+                <di:waypoint x="390" y="59" />
+              </bpmndi:BPMNEdge>
+              <bpmndi:BPMNShape id="EndEvent_1wcyk1h_di" bpmnElement="EndEvent_1wcyk1h">
+                <dc:Bounds x="276" y="115" width="36" height="36" />
+              </bpmndi:BPMNShape>
+              <bpmndi:BPMNEdge id="SequenceFlow_03fbyeh_di" bpmnElement="SequenceFlow_03fbyeh">
+                <di:waypoint x="286" y="84" />
+                <di:waypoint x="286" y="100" />
+                <di:waypoint x="294" y="100" />
+                <di:waypoint x="294" y="115" />
+              </bpmndi:BPMNEdge>
+              <bpmndi:BPMNShape id="EndEvent_1fty9vh_di" bpmnElement="EndEvent_1fty9vh">
+                <dc:Bounds x="412" y="115" width="36" height="36" />
+              </bpmndi:BPMNShape>
+              <bpmndi:BPMNEdge id="SequenceFlow_1trvev3_di" bpmnElement="SequenceFlow_1trvev3">
+                <di:waypoint x="440" y="19" />
+                <di:waypoint x="440" y="-1" />
+                <di:waypoint x="430" y="-1" />
+                <di:waypoint x="430" y="115" />
+              </bpmndi:BPMNEdge>
+            </bpmndi:BPMNPlane>
+          </bpmndi:BPMNDiagram>
+        </bpmn2:definitions>`
         let parse: Map<number,string> = new Map()
-     
+        var parser = require('fast-xml-parser');
+        var he = require('he');
+        
+        var options = {
+            attributeNamePrefix : "@_",
+            attrNodeName: "attr", //default is 'false'
+            textNodeName : "#text",
+            ignoreAttributes : true,
+            ignoreNameSpace : false,
+            allowBooleanAttributes : false,
+            parseNodeValue : true,
+            parseAttributeValue : false,
+            trimValues: true,
+            cdataTagName: "__cdata", //default is 'false'
+            cdataPositionChar: "\\c",
+            parseTrueNumberOnly: false,
+            arrayMode: false, //"strict"
+            attrValueProcessor: (val, attrName) => he.decode(val, {isAttributeValue: true}),//default is a=>a
+            tagValueProcessor : (val, tagName) => he.decode(val), //default is a=>a
+            stopNodes: ["parse-me-as-string"]
+        };
+        let opt ={
+
+        }
+        var result = parser.validate(bpmn_io_xml)
+        // var jsonObj = parser.convertToJson(camunda_xml);
+        var jsonObj2 = parser.convertToJson(bpmn_io_xml,opt);
+        console.log("''''''''''")
+        console.log("''''''''''")
+        console.log("''''''''''")
+        console.log("''''''''''")
+        console.log("''''''''''")
+        console.log("''''''''''")
+        console.log("''''''''''")
+        console.log("''''''''''")
+        console.log("''''''''''")
+
+        // console.log(jsonObj)
+        console.log(jsonObj2)
+        
         
         let returnscore: number = 70
         return returnscore
