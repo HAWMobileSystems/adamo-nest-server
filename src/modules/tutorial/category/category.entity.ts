@@ -13,7 +13,11 @@ export class CategoryEntity extends AbstractEntity<CategoryDto>{
 
     @ApiModelProperty()
     @Column()
-    public category_name: string    
+    public category_name: string  
+    
+    @ApiModelProperty()
+    @Column()
+    public category_identifier: number
     
     @Exclude()
     dtoClass = CategoryDto;  
