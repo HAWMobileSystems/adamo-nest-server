@@ -10,7 +10,11 @@ import { Tg_ModellingModule } from './tg_modelling.module';
 import { TestEntity } from '../test/test.entity';
 import { Modelling_QuestionModule } from '../modelling_question/modelling_question.module';
 import { json } from 'body-parser';
-
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
+import { parseStringPromise } from 'xml2js';
+import { ApiGatewayManagementApi } from 'aws-sdk';
+import { UtilsService } from 'providers/utils.service';
+import { List } from 'lodash';
 
 @Injectable()
 export class Tg_ModellingService {
@@ -105,7 +109,7 @@ export class Tg_ModellingService {
         //Validate Diagramm
         let score = 0
         
-        score = this.validate(all_Answers.xml,user_xml)
+        score = await this.validate(all_Answers.xml,user_xml)
         //Put solved xml,score and user to Database
         //Put Question in Database
         const seedTgMod = await getConnection()
@@ -132,163 +136,1432 @@ export class Tg_ModellingService {
         let ret: ReturnSVGAndSCORE = new ReturnSVGAndSCORE(all_Answers.svg,score)
         //return Returnclass
         console.log(ret) 
-        let asdf = this.validate("","");
+       
         return ret
     }
-    validate(camunda_xml_1: String, bpmn_io_xml_1: string) {
-        let camunda_xml = `<?xml version="1.0" encoding="UTF-8"?><definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="sid-38422fae-e03e-43a3-bef4-bd33b32041b2" targetNamespace="http://bpmn.io/bpmn" exporter="Camunda Modeler" exporterVersion="2.2.4"><process id="Process_1" isExecutable="false"><startEvent id="StartEvent_1y45yut" name="Customer request received"><outgoing>SequenceFlow_0h21x7r</outgoing></startEvent><task id="Task_1hcentk" name="Prepare order"><incoming>SequenceFlow_0h21x7r</incoming><outgoing>SequenceFlow_0wnb4ke</outgoing></task><sequenceFlow id="SequenceFlow_0h21x7r" sourceRef="StartEvent_1y45yut" targetRef="Task_1hcentk" /><sequenceFlow id="SequenceFlow_0wnb4ke" sourceRef="Task_1hcentk" targetRef="Task_0y9n49p" /><task id="Task_0y9n49p" name="Send order"><incoming>SequenceFlow_0wnb4ke</incoming><outgoing>SequenceFlow_0bgdiq2</outgoing></task><sequenceFlow id="SequenceFlow_0bgdiq2" sourceRef="Task_0y9n49p" targetRef="EndEvent_0j1jntq" /><endEvent id="EndEvent_0j1jntq" name="Customer request completed"><incoming>SequenceFlow_0bgdiq2</incoming></endEvent></process><bpmndi:BPMNDiagram id="BpmnDiagram_1"><bpmndi:BPMNPlane id="BpmnPlane_1" bpmnElement="Process_1"><bpmndi:BPMNShape id="StartEvent_1y45yut_di" bpmnElement="StartEvent_1y45yut"><omgdc:Bounds x="152" y="102" width="36" height="36" /><bpmndi:BPMNLabel><omgdc:Bounds x="128" y="145" width="89" height="27" /></bpmndi:BPMNLabel></bpmndi:BPMNShape><bpmndi:BPMNShape id="Task_1hcentk_di" bpmnElement="Task_1hcentk"><omgdc:Bounds x="320" y="80" width="100" height="80" /></bpmndi:BPMNShape><bpmndi:BPMNEdge id="SequenceFlow_0h21x7r_di" bpmnElement="SequenceFlow_0h21x7r"><omgdi:waypoint x="188" y="120" /><omgdi:waypoint x="320" y="120" /></bpmndi:BPMNEdge><bpmndi:BPMNEdge id="SequenceFlow_0wnb4ke_di" bpmnElement="SequenceFlow_0wnb4ke"><omgdi:waypoint x="420" y="120" /><omgdi:waypoint x="530" y="120" /></bpmndi:BPMNEdge><bpmndi:BPMNShape id="Task_0y9n49p_di" bpmnElement="Task_0y9n49p"><omgdc:Bounds x="530" y="80" width="100" height="80" /></bpmndi:BPMNShape><bpmndi:BPMNEdge id="SequenceFlow_0bgdiq2_di" bpmnElement="SequenceFlow_0bgdiq2"><omgdi:waypoint x="630" y="120" /><omgdi:waypoint x="772" y="120" /></bpmndi:BPMNEdge><bpmndi:BPMNShape id="EndEvent_0j1jntq_di" bpmnElement="EndEvent_0j1jntq"><omgdc:Bounds x="772" y="102" width="36" height="36" /><bpmndi:BPMNLabel><omgdc:Bounds x="746" y="145" width="89" height="27" /></bpmndi:BPMNLabel></bpmndi:BPMNShape></bpmndi:BPMNPlane></bpmndi:BPMNDiagram></definitions>`
-        let bpmn_io_xml = `<?xml version="1.0" encoding="UTF-8"?>
-        <bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="sample-diagram" targetNamespace="http://bpmn.io/schema/bpmn" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
-          <bpmn2:process id="Process_1" isExecutable="false">
-           <bpmn2:startEvent id="StartEvent_1" />
-            <bpmn2:startEvent id="StartEvent_168fjc8">
-              <bpmn2:outgoing>SequenceFlow_103an5m</bpmn2:outgoing>
-            </bpmn2:startEvent>
-            <bpmn2:exclusiveGateway id="ExclusiveGateway_0m60uyq">
-              <bpmn2:incoming>SequenceFlow_103an5m</bpmn2:incoming>
-              <bpmn2:outgoing>SequenceFlow_1hdttia</bpmn2:outgoing>
-              <bpmn2:outgoing>SequenceFlow_03fbyeh</bpmn2:outgoing>
-            </bpmn2:exclusiveGateway>
-            <bpmn2:sequenceFlow id="SequenceFlow_103an5m" sourceRef="StartEvent_168fjc8" targetRef="ExclusiveGateway_0m60uyq" />
-            <bpmn2:task id="Task_165vwhk" name="Do Something">
-              <bpmn2:incoming>SequenceFlow_1hdttia</bpmn2:incoming>
-              <bpmn2:outgoing>SequenceFlow_1trvev3</bpmn2:outgoing>
-            </bpmn2:task>
-            <bpmn2:sequenceFlow id="SequenceFlow_1hdttia" sourceRef="ExclusiveGateway_0m60uyq" targetRef="Task_165vwhk" />
-            <bpmn2:endEvent id="EndEvent_1wcyk1h">
-              <bpmn2:incoming>SequenceFlow_03fbyeh</bpmn2:incoming>
-            </bpmn2:endEvent>
-            <bpmn2:sequenceFlow id="SequenceFlow_03fbyeh" sourceRef="ExclusiveGateway_0m60uyq" targetRef="EndEvent_1wcyk1h" />
-            <bpmn2:endEvent id="EndEvent_1fty9vh">
-              <bpmn2:incoming>SequenceFlow_1trvev3</bpmn2:incoming>
-            </bpmn2:endEvent>
-            <bpmn2:sequenceFlow id="SequenceFlow_1trvev3" sourceRef="Task_165vwhk" targetRef="EndEvent_1fty9vh" />
-          </bpmn2:process>
-          <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-            <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">
-              <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
-                <dc:Bounds x="412" y="240" width="36" height="36" />
-              </bpmndi:BPMNShape>
-              <bpmndi:BPMNShape id="StartEvent_168fjc8_di" bpmnElement="StartEvent_168fjc8">
-                <dc:Bounds x="146" y="73" width="36" height="36" />
-              </bpmndi:BPMNShape>
-              <bpmndi:BPMNShape id="ExclusiveGateway_0m60uyq_di" bpmnElement="ExclusiveGateway_0m60uyq" isMarkerVisible="true">
-                <dc:Bounds x="261" y="34" width="50" height="50" />
-              </bpmndi:BPMNShape>
-              <bpmndi:BPMNEdge id="SequenceFlow_103an5m_di" bpmnElement="SequenceFlow_103an5m">
-                <di:waypoint x="182" y="91" />
-                <di:waypoint x="222" y="91" />
-                <di:waypoint x="222" y="59" />
-                <di:waypoint x="261" y="59" />
-              </bpmndi:BPMNEdge>
-              <bpmndi:BPMNShape id="Task_165vwhk_di" bpmnElement="Task_165vwhk">
-                <dc:Bounds x="390" y="19" width="100" height="80" />
-              </bpmndi:BPMNShape>
-              <bpmndi:BPMNEdge id="SequenceFlow_1hdttia_di" bpmnElement="SequenceFlow_1hdttia">
-                <di:waypoint x="311" y="59" />
-                <di:waypoint x="390" y="59" />
-              </bpmndi:BPMNEdge>
-              <bpmndi:BPMNShape id="EndEvent_1wcyk1h_di" bpmnElement="EndEvent_1wcyk1h">
-                <dc:Bounds x="276" y="115" width="36" height="36" />
-              </bpmndi:BPMNShape>
-              <bpmndi:BPMNEdge id="SequenceFlow_03fbyeh_di" bpmnElement="SequenceFlow_03fbyeh">
-                <di:waypoint x="286" y="84" />
-                <di:waypoint x="286" y="100" />
-                <di:waypoint x="294" y="100" />
-                <di:waypoint x="294" y="115" />
-              </bpmndi:BPMNEdge>
-              <bpmndi:BPMNShape id="EndEvent_1fty9vh_di" bpmnElement="EndEvent_1fty9vh">
-                <dc:Bounds x="412" y="115" width="36" height="36" />
-              </bpmndi:BPMNShape>
-              <bpmndi:BPMNEdge id="SequenceFlow_1trvev3_di" bpmnElement="SequenceFlow_1trvev3">
-                <di:waypoint x="440" y="19" />
-                <di:waypoint x="440" y="-1" />
-                <di:waypoint x="430" y="-1" />
-                <di:waypoint x="430" y="115" />
-              </bpmndi:BPMNEdge>
-            </bpmndi:BPMNPlane>
-          </bpmndi:BPMNDiagram>
-        </bpmn2:definitions>`
-        let parse: Map<number,string> = new Map()
-        var parser = require('fast-xml-parser');
-        var he = require('he');
+    /**
+     * Method to validate two XML FILes
+     */
+    async validate(camunda_xml_from_database: String, bpmn_io_xml_from_user: string) {
+        //Parse USER XML
+        let bpmn_from_user = await parseStringPromise(bpmn_io_xml_from_user);
+        bpmn_from_user = (JSON.parse(JSON.stringify(bpmn_from_user)));
+        //Go to relevant process
+        let bpmn_from_user_lvl1 = bpmn_from_user['bpmn2:definitions']
+        let bpmn_from_user_lvl2 = bpmn_from_user_lvl1['bpmn2:process']
+        //Parse DB XML
+        let bpmn_from_db = await parseStringPromise(camunda_xml_from_database);
+        bpmn_from_db = (JSON.parse(JSON.stringify(bpmn_from_db)));
+        //Go to relevant process
+        let bpmn_from_db_lvl1 = bpmn_from_db['bpmn:definitions']
+        let bpmn_from_db_lvl2
+        let map_from_database 
+        console.log("BPMN")
+        console.log(bpmn_from_db)
         
-        var options = {
-            attributeNamePrefix : "@_",
-            attrNodeName: "attr", //default is 'false'
-            textNodeName : "#text",
-            ignoreAttributes : true,
-            ignoreNameSpace : false,
-            allowBooleanAttributes : false,
-            parseNodeValue : true,
-            parseAttributeValue : false,
-            trimValues: true,
-            cdataTagName: "__cdata", //default is 'false'
-            cdataPositionChar: "\\c",
-            parseTrueNumberOnly: false,
-            arrayMode: false, //"strict"
-            attrValueProcessor: (val, attrName) => he.decode(val, {isAttributeValue: true}),//default is a=>a
-            tagValueProcessor : (val, tagName) => he.decode(val), //default is a=>a
-            stopNodes: ["parse-me-as-string"]
-        };
-        let opt ={
-
+        if(bpmn_from_db_lvl1 == undefined){
+            bpmn_from_db_lvl1 = bpmn_from_db['definitions']
+            bpmn_from_db_lvl2 = bpmn_from_db_lvl1['process']
+            map_from_database = this.createComparisonMapForCAMUNDAV2(bpmn_from_db_lvl2)
+            console.log(bpmn_from_db_lvl2)
+        }else{
+            
+            bpmn_from_db_lvl2 = bpmn_from_db_lvl1['bpmn:process']
+            map_from_database = this.createComparisonMapForCAMUNDA(bpmn_from_db_lvl2)
         }
-        var result = parser.validate(bpmn_io_xml)
-        // var jsonObj = parser.convertToJson(camunda_xml);
-        var jsonObj2 = parser.convertToJson(bpmn_io_xml,opt);
-        console.log("''''''''''")
-        console.log("''''''''''")
-        console.log("''''''''''")
-        console.log("''''''''''")
-        console.log("''''''''''")
-        console.log("''''''''''")
-        console.log("''''''''''")
-        console.log("''''''''''")
-        console.log("''''''''''")
-
-        // console.log(jsonObj)
-        console.log(jsonObj2)
+        //Get Maps from XML FIles
+        let map_for_user = this.createComparisonMapForBPMNIO(bpmn_from_user_lvl2)
         
+        //Compare Maps, get Score
+        let returnscore = this.compareMaps(map_for_user,map_from_database)
+        //return score
         
-        let returnscore: number = 70
         return returnscore
     }
-    normalize(xmlDoc: Document) {
-        let x = xmlDoc.documentElement.childNodes;
-        for (let i = 0; i < x.length ;i++) {
-            let txt = x[i].nodeName + ": " + x[i].childNodes[0].nodeValue + "<br>"
-            console.log(txt)
-        }
-        // var start = bpmn_io_xml
-         let left = xmlDoc
-        //let right = left.replace('</bpmn2:','</')
-        console.log(left)
-        return left
-    }
-    
+    /**
+     * Methode to compare two Maps 
+     */
+    compareMaps(map_for_user: Map<string, Map<string, any>>, map_from_database: Map<string, Map<string, any>>) {
+        //Map to display the results.
+        //EVERY entry in the number colum represents a bonus for the USER
+        let resultMap: Map<string,number> = new Map()
+        //Create USER success MAP
+        map_for_user.forEach((value_user,key_user)=>{
+            map_from_database.forEach((value_db,key_db)=>{
+               if(key_user == key_db){
+                   console.log("Name Hit")
+                   resultMap.set(key_db,20)
+                   if(value_user.get("name") != undefined){
+                    console.log("Name HIT")
+                    resultMap.set(key_db+"name",5)
+                   }
+                   if(value_user.get("incoming") == value_db.get("incoming")&& value_db.get('incoming') != undefined){
+                    console.log("INC HIT")
+                    resultMap.set(key_db+"incoming",10)
+                   }
+                   if(value_user.get("outgoing") == value_db.get("outgoing")&& value_db.get('outgoing') != undefined){
+                    console.log("OUTG HIT")
+                    resultMap.set(key_db+"outgoing",10)
+                   }
+               }
+            })
+        })
+        //Create Possible MAP
+        let bestPossibility: Map<string,number> = new Map()
+        map_from_database.forEach((value_db,key_db)=>{
+                bestPossibility.set(key_db,20)
+                if(value_db.get("name") != undefined){
+                    console.log("Name HIT")
+                    bestPossibility.set(key_db+"name",5)
+                }
+                if(value_db.get("incoming")!= undefined){
+                    console.log("INC HIT")
+                    bestPossibility.set(key_db+"incoming",10)
+                }
+                if(value_db.get("outgoing")!= undefined){
+                    console.log("OUTG HIT")
+                    bestPossibility.set(key_db+"outgoing",10)
+                }
+            }
+        )
+        //Count result of possible MAP
+        let bestPossible = 0
+        bestPossibility.forEach((value,key)=>{
+            bestPossible = bestPossible+value
+        })
+        let userResult = 0
+        resultMap.forEach((value,key)=>{
+            userResult = userResult+value
+        })
+        console.log("Map DB")
+        console.log(bestPossibility)
+        console.log(bestPossible)
+        console.log("Map User")
+        console.log(resultMap)
+        console.log(userResult)
 
-    async find(): Promise<Tg_ModellingEntity[]> {
-        return await this.repository.find();
+        let ret = (userResult/bestPossible)*100
+        ret = Math.floor(ret)
+        return ret
     }
 
-    async create(intro: Tg_ModellingEntity) {
-        return await this.repository.save(intro);
-    }
-
-    async update(intro: Tg_ModellingEntity): Promise<UpdateResult> {
-        return await this.repository.update(intro.id, intro);
-    }
-
-    async delete(id: string) {
-        return await this.repository.delete(id);
-    }
-   
     createQueryBuilder(alias: string = 'tg_modelling', queryRunner?: QueryRunner): SelectQueryBuilder<Tg_ModellingEntity> {
         return this.repository.createQueryBuilder(alias, queryRunner);
     }
+    /**
+     * Parse BPMNIO XMl file to Comparison Map
+     * @param bpmn_from_user_lvl2 
+     */
+    createComparisonMapForBPMNIO(bpmn_from_user_lvl2){
+        console.log("START PARSING IO")
+        let parse: Map<string,Map<string,any>> = new Map()
+        bpmn_from_user_lvl2.forEach(e=>{
+            console.log("BPMN")
+            console.log(e)
+            if(e['bpmn2:startEvent'] != undefined){
+                let i = 0
+                e['bpmn2:startEvent'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    console.log(e['bpmn2:startEvent'])
+                    let name = e['bpmn2:startEvent'][0]['$']['name']
+                    let eventName = 'Startevent'+i
+                    let outgoing = e['bpmn2:startEvent'][0]['bpmn2:outgoing'].length
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    parse.set(eventName,res)
+                    i++
+                })
+                
+            }
+            if(e['bpmn2:endEvent'] != undefined){
+                let i = 0
+                e['bpmn2:endEvent'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let name = e['bpmn2:endEvent'][0]['$']['name']
+                    let eventName = 'Endevent'+i
+                    let incoming = e['bpmn2:endEvent'][0]['bpmn2:incoming'].length
+                    console.log(name)
+                    console.log(eventName)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn2:exclusiveGateway'] != undefined){
+                let i = 0
+                e['bpmn2:exclusiveGateway'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let name = e['bpmn2:exclusiveGateway'][0]['$']['name']
+                    let eventName = 'ExclusiveGateway'+i
+                    let incoming = e['bpmn2:exclusiveGateway'][0]['bpmn2:incoming'].length
+                    let outgoing = e['bpmn2:exclusiveGateway'][0]['bpmn2:outgoing'].length
+                    console.log(name)
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn2:participant'] != undefined){
+                let i = 0
+                e['bpmn2:participant'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let name = e['bpmn2:participant'][0]['$']['name']
+                    let eventName = 'Participant'+i
+                    console.log(name)
+                    console.log(eventName)
+                    res.set("name",name)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn2:lane'] != undefined){
+                let i = 0
+                e['bpmn2:lane'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let name = e['bpmn2:lane'][0]['$']['name']
+                    let eventName = 'Lane'+i
+                    console.log(name)
+                    console.log(eventName)
+                    res.set("name",name)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn2:flowNodeRef'] != undefined){
+                let i = 0
+                e['bpmn2:flowNodeRef'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'FlowNodeRef'+i
+                    console.log(eventName)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn2:sequenceFlow'] != undefined){
+                let i = 0
+                e['bpmn2:sequenceFlow'].forEach(ele=>{
+                    console.log()
+                    let res: Map<string,any> = new Map()
+                    let name = e['bpmn2:sequenceFlow'][0]['$']['name']
+                    let eventName = 'SequenceFlow'+i
+                    res.set("name",name)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn2:subProcess'] != undefined){
+                let i = 0
+                e['bpmn2:subProcess'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let name = e['bpmn2:subProcess'][0]['$']['name']
+                    let eventName = 'subProcess'+i
+                    res.set("name",name)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn2:parallelGateway'] != undefined){
+                let i = 0
+                e['bpmn2:parallelGateway'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'ParallelGateway'+i
+                    let incoming = e['bpmn2:parallelGateway'][0]['bpmn2:incoming'].length
+                    let outgoing = e['bpmn2:parallelGateway'][0]['bpmn2:outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn2:exclusiveGateway'] != undefined){
+                let i = 0
+                e['bpmn2:exclusiveGateway'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'ExclusiveGateway'+i
+                    let name = e['bpmn2:exclusiveGateway'][0]['$']['name']
+                    let incoming = e['bpmn2:exclusiveGateway'][0]['bpmn2:incoming'].length
+                    let outgoing = e['bpmn2:exclusiveGateway'][0]['bpmn2:outgoing'].length
+                    console.log(name)
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn2:complexGateway'] != undefined){
+                let i = 0
+                e['bpmn2:complexGateway'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'ComplexGateway'+i
+                    let incoming = e['bpmn2:complexGateway'][0]['bpmn2:incoming'].length
+                    let outgoing = e['bpmn2:complexGateway'][0]['bpmn2:outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn2:inclusiveGateway'] != undefined){
+                let i = 0
+                e['bpmn2:inclusiveGateway'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'InclusiveGateway'+i
+                    let incoming = e['bpmn2:inclusiveGateway'][0]['bpmn2:incoming'].length
+                    let outgoing = e['bpmn2:inclusiveGateway'][0]['bpmn2:outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn2:eventBasedGateway'] != undefined){
+                let i = 0
+                e['bpmn2:eventBasedGateway'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'EventBasedGateway'+i
+                    let incoming = e['bpmn2:eventBasedGateway'][0]['bpmn2:incoming'].length
+                    let outgoing = e['bpmn2:eventBasedGateway'][0]['bpmn2:outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn2:intermediateCatchEvent'] != undefined){
+                let i = 0
+                e['bpmn2:intermediateCatchEvent'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'IntermediateCatchEvent'+i
+                    let name = e['bpmn2:intermediateCatchEvent'][0]['$']['name']
+                    let incoming = e['bpmn2:intermediateCatchEvent'][0]['bpmn2:incoming'].length
+                    let outgoing = e['bpmn2:intermediateCatchEvent'][0]['bpmn2:outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn2:intermediateThrowEvent'] != undefined){
+                let i = 0
+                e['bpmn2:intermediateThrowEvent'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'IntermediateThrowEvent'+i
+                    let name = e['bpmn2:intermediateThrowEvent'][0]['$']['name']
+                    let incoming = e['bpmn2:intermediateThrowEvent'][0]['bpmn2:incoming'].length
+                    let outgoing = e['bpmn2:intermediateThrowEvent'][0]['bpmn2:outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn2:boundaryEvent'] != undefined){
+                let i = 0
+                e['bpmn2:boundaryEvent'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'BoundaryEvent'+i
+                    let name = e['bpmn2:boundaryEvent'][0]['$']['name']
+                    let incoming = e['bpmn2:boundaryEvent'][0]['bpmn2:incoming'].length
+                    let outgoing = e['bpmn2:boundaryEvent'][0]['bpmn2:outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn2:task'] != undefined){
+                let i = 0;
+                e['bpmn2:task'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'Task'+i
+                    let name = e['bpmn2:task'][0]['$']['name']
+                    let incoming = e['bpmn2:task'][0]['bpmn2:incoming'].length
+                    let outgoing = e['bpmn2:task'][0]['bpmn2:outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+                
+            }
+            if(e['bpmn2:manualTask'] != undefined){
+                let i = 0;
+                e['bpmn2:manualTask'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'ManualTask'+i
+                    let name = e['bpmn2:manualTask'][0]['$']['name']
+                    let incoming = e['bpmn2:manualTask'][0]['bpmn2:incoming'].length
+                    let outgoing = e['bpmn2:manualTask'][0]['bpmn2:outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn2:sendTask'] != undefined){
+                let i = 0;
+                e['bpmn2:sendTask'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'SendTask'+i
+                    let name = e['bpmn2:sendTask'][0]['$']['name']
+                    let incoming = e['bpmn2:sendTask'][0]['bpmn2:incoming'].length
+                    let outgoing = e['bpmn2:sendTask'][0]['bpmn2:outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn2:receiveTask'] != undefined){
+                let i = 0;
+                e['bpmn2:receiveTask'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'ReceiveTask'+i
+                    let name = e['bpmn2:receiveTask'][0]['$']['name']
+                    let incoming = e['bpmn2:receiveTask'][0]['bpmn2:incoming'].length
+                    let outgoing = e['bpmn2:receiveTask'][0]['bpmn2:outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn2:scriptTask'] != undefined){
+                let i = 0;
+                e['bpmn2:scriptTask'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'ScriptTask'+i
+                    let name = e['bpmn2:scriptTask'][0]['$']['name']
+                    let incoming = e['bpmn2:scriptTask'][0]['bpmn2:incoming'].length
+                    let outgoing = e['bpmn2:scriptTask'][0]['bpmn2:outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn2:userTask'] != undefined){
+                let i = 0;
+                e['bpmn2:userTask'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'UserTask'+i
+                    let name = e['bpmn2:userTask'][0]['$']['name']
+                    let incoming = e['bpmn2:userTask'][0]['bpmn2:incoming'].length
+                    let outgoing = e['bpmn2:userTask'][0]['bpmn2:outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn2:businessRuleTask'] != undefined){
+                let i = 0;
+                e['bpmn2:businessRuleTask'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'BusinessRuleTask'+i
+                    let name = e['bpmn2:businessRuleTask'][0]['$']['name']
+                    let incoming = e['bpmn2:businessRuleTask'][0]['bpmn2:incoming'].length
+                    let outgoing = e['bpmn2:businessRuleTask'][0]['bpmn2:outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn2:serviceTask'] != undefined){
+                let i = 0;
+                e['bpmn2:serviceTask'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'ServiceTask'+i
+                    let name = e['bpmn2:serviceTask'][0]['$']['name']
+                    let incoming = e['bpmn2:serviceTask'][0]['bpmn2:incoming'].length
+                    let outgoing = e['bpmn2:serviceTask'][0]['bpmn2:outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn2:dataObject'] != undefined){
+                let i = 0;
+                e['bpmn2:dataObject'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'DataObject'+i
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn2:dataObjectReference'] != undefined){
+                let i = 0;
+                e['bpmn2:dataObjectReference'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    console.log(e['bpmn2:dataObjectReference'])
+                    let name = e['bpmn2:dataObjectReference'][0]['$']['name']
+                    let eventName = 'DataObjectReference'+i
+                    res.set("name",name)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn2:dataStoreReference'] != undefined){
+                let i = 0;
+                e['bpmn2:dataStoreReference'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let name = e['bpmn2:dataStoreReference'][0]['$']['name']
+                    let eventName = 'DataStoreReference'+i
+                    res.set("name",name)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
 
 
+        })
+        return parse
+    }
+    /**
+     * Parse Camunda XML file to Comparison Map
+     * @param bpmn_from_user_lvl2 
+     */
+    createComparisonMapForCAMUNDA(bpmn_from_user_lvl2){
+        console.log("START PARSING Camunda")
+        let parse: Map<string,Map<string,any>> = new Map()
+        bpmn_from_user_lvl2.forEach(e=>{
+            console.log("BPMN")
+            console.log(e)
+            if(e['bpmn:startEvent'] != undefined){
+                let i = 0
+                e['bpmn:startEvent'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    console.log(e['bpmn:startEvent'])
+                    let name = e['bpmn:startEvent'][0]['$']['name']
+                    let eventName = 'Startevent'+i
+                    let outgoing = e['bpmn:startEvent'][0]['bpmn:outgoing'].length
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    parse.set(eventName,res)
+                    i++
+                })
+                
+            }
+            if(e['bpmn:endEvent'] != undefined){
+                let i = 0
+                e['bpmn:endEvent'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let name = e['bpmn:endEvent'][0]['$']['name']
+                    let eventName = 'Endevent'+i
+                    let incoming = e['bpmn:endEvent'][0]['bpmn:incoming'].length
+                    console.log(name)
+                    console.log(eventName)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn:exclusiveGateway'] != undefined){
+                let i = 0
+                e['bpmn:exclusiveGateway'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let name = e['bpmn:exclusiveGateway'][0]['$']['name']
+                    let eventName = 'ExclusiveGateway'+i
+                    let incoming = e['bpmn:exclusiveGateway'][0]['bpmn:incoming'].length
+                    let outgoing = e['bpmn:exclusiveGateway'][0]['bpmn:outgoing'].length
+                    console.log(name)
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn:participant'] != undefined){
+                let i = 0
+                e['bpmn:participant'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let name = e['bpmn:participant'][0]['$']['name']
+                    let eventName = 'Participant'+i
+                    console.log(name)
+                    console.log(eventName)
+                    res.set("name",name)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn:lane'] != undefined){
+                let i = 0
+                e['bpmn:lane'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let name = e['bpmn:lane'][0]['$']['name']
+                    let eventName = 'Lane'+i
+                    console.log(name)
+                    console.log(eventName)
+                    res.set("name",name)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn:flowNodeRef'] != undefined){
+                let i = 0
+                e['bpmn:flowNodeRef'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'FlowNodeRef'+i
+                    console.log(eventName)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn:sequenceFlow'] != undefined){
+                let i = 0
+                e['bpmn:sequenceFlow'].forEach(ele=>{
+                    console.log()
+                    let res: Map<string,any> = new Map()
+                    let name = e['bpmn:sequenceFlow'][0]['$']['name']
+                    let eventName = 'SequenceFlow'+i
+                    res.set("name",name)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn:subProcess'] != undefined){
+                let i = 0
+                e['bpmn:subProcess'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let name = e['bpmn:subProcess'][0]['$']['name']
+                    let eventName = 'subProcess'+i
+                    res.set("name",name)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn:parallelGateway'] != undefined){
+                let i = 0
+                e['bpmn:parallelGateway'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'ParallelGateway'+i
+                    let incoming = e['bpmn:parallelGateway'][0]['bpmn:incoming'].length
+                    let outgoing = e['bpmn:parallelGateway'][0]['bpmn:outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn:exclusiveGateway'] != undefined){
+                let i = 0
+                e['bpmn:exclusiveGateway'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'ExclusiveGateway'+i
+                    let name = e['bpmn:exclusiveGateway'][0]['$']['name']
+                    let incoming = e['bpmn:exclusiveGateway'][0]['bpmn:incoming'].length
+                    let outgoing = e['bpmn:exclusiveGateway'][0]['bpmn:outgoing'].length
+                    console.log(name)
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn:complexGateway'] != undefined){
+                let i = 0
+                e['bpmn:complexGateway'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'ComplexGateway'+i
+                    let incoming = e['bpmn:complexGateway'][0]['bpmn:incoming'].length
+                    let outgoing = e['bpmn:complexGateway'][0]['bpmn:outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn:inclusiveGateway'] != undefined){
+                let i = 0
+                e['bpmn:inclusiveGateway'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'InclusiveGateway'+i
+                    let incoming = e['bpmn:inclusiveGateway'][0]['bpmn:incoming'].length
+                    let outgoing = e['bpmn:inclusiveGateway'][0]['bpmn:outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn:eventBasedGateway'] != undefined){
+                let i = 0
+                e['bpmn:eventBasedGateway'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'EventBasedGateway'+i
+                    let incoming = e['bpmn:eventBasedGateway'][0]['bpmn:incoming'].length
+                    let outgoing = e['bpmn:eventBasedGateway'][0]['bpmn:outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn:intermediateCatchEvent'] != undefined){
+                let i = 0
+                e['bpmn:intermediateCatchEvent'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'IntermediateCatchEvent'+i
+                    let name = e['bpmn:intermediateCatchEvent'][0]['$']['name']
+                    let incoming = e['bpmn:intermediateCatchEvent'][0]['bpmn:incoming'].length
+                    let outgoing = e['bpmn:intermediateCatchEvent'][0]['bpmn:outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn:intermediateThrowEvent'] != undefined){
+                let i = 0
+                e['bpmn:intermediateThrowEvent'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'IntermediateThrowEvent'+i
+                    let name = e['bpmn:intermediateThrowEvent'][0]['$']['name']
+                    let incoming = e['bpmn:intermediateThrowEvent'][0]['bpmn:incoming'].length
+                    let outgoing = e['bpmn:intermediateThrowEvent'][0]['bpmn:outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn:boundaryEvent'] != undefined){
+                let i = 0
+                e['bpmn:boundaryEvent'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'BoundaryEvent'+i
+                    let name = e['bpmn:boundaryEvent'][0]['$']['name']
+                    let incoming = e['bpmn:boundaryEvent'][0]['bpmn:incoming'].length
+                    let outgoing = e['bpmn:boundaryEvent'][0]['bpmn:outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn:task'] != undefined){
+                let i = 0;
+                e['bpmn:task'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'Task'+i
+                    let name = e['bpmn:task'][0]['$']['name']
+                    let incoming = e['bpmn:task'][0]['bpmn:incoming'].length
+                    let outgoing = e['bpmn:task'][0]['bpmn:outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+                
+            }
+            if(e['bpmn:manualTask'] != undefined){
+                let i = 0;
+                e['bpmn:manualTask'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'ManualTask'+i
+                    let name = e['bpmn:manualTask'][0]['$']['name']
+                    let incoming = e['bpmn:manualTask'][0]['bpmn:incoming'].length
+                    let outgoing = e['bpmn:manualTask'][0]['bpmn:outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn:sendTask'] != undefined){
+                let i = 0;
+                e['bpmn:sendTask'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'SendTask'+i
+                    let name = e['bpmn:sendTask'][0]['$']['name']
+                    let incoming = e['bpmn:sendTask'][0]['bpmn:incoming'].length
+                    let outgoing = e['bpmn:sendTask'][0]['bpmn:outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn:receiveTask'] != undefined){
+                let i = 0;
+                e['bpmn:receiveTask'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'ReceiveTask'+i
+                    let name = e['bpmn:receiveTask'][0]['$']['name']
+                    let incoming = e['bpmn:receiveTask'][0]['bpmn:incoming'].length
+                    let outgoing = e['bpmn:receiveTask'][0]['bpmn:outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn:scriptTask'] != undefined){
+                let i = 0;
+                e['bpmn:scriptTask'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'ScriptTask'+i
+                    let name = e['bpmn:scriptTask'][0]['$']['name']
+                    let incoming = e['bpmn:scriptTask'][0]['bpmn:incoming'].length
+                    let outgoing = e['bpmn:scriptTask'][0]['bpmn:outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn:userTask'] != undefined){
+                let i = 0;
+                e['bpmn:userTask'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'UserTask'+i
+                    let name = e['bpmn:userTask'][0]['$']['name']
+                    let incoming = e['bpmn:userTask'][0]['bpmn:incoming'].length
+                    let outgoing = e['bpmn:userTask'][0]['bpmn:outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn:businessRuleTask'] != undefined){
+                let i = 0;
+                e['bpmn:businessRuleTask'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'BusinessRuleTask'+i
+                    let name = e['bpmn:businessRuleTask'][0]['$']['name']
+                    let incoming = e['bpmn:businessRuleTask'][0]['bpmn:incoming'].length
+                    let outgoing = e['bpmn:businessRuleTask'][0]['bpmn:outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn:serviceTask'] != undefined){
+                let i = 0;
+                e['bpmn:serviceTask'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'ServiceTask'+i
+                    let name = e['bpmn:serviceTask'][0]['$']['name']
+                    let incoming = e['bpmn:serviceTask'][0]['bpmn:incoming'].length
+                    let outgoing = e['bpmn:serviceTask'][0]['bpmn:outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn:dataObject'] != undefined){
+                let i = 0;
+                e['bpmn:dataObject'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'DataObject'+i
+                    res.set("name",name)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn:dataObjectReference'] != undefined){
+                let i = 0;
+                e['bpmn:dataObjectReference'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let name = e['bpmn:dataObjectReference'][0]['$']['name']
+                    let eventName = 'DataObjectReference'+i
+                    res.set("name",name)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn:dataStoreReference'] != undefined){
+                let i = 0;
+                e['bpmn:dataStoreReference'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let name = e['bpmn:dataStoreReference'][0]['$']['name']
+                    let eventName = 'DataStoreReference'+i
+                    res.set("name",name)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+
+
+        })
+        return parse
+    }
+    /**
+     * Parse Camunda XML file to Comparison Map
+     * @param bpmn_from_user_lvl2 
+     */
+    createComparisonMapForCAMUNDAV2(bpmn_from_user_lvl2){
+        console.log("START PARSING Camunda")
+        let parse: Map<string,Map<string,any>> = new Map()
+        bpmn_from_user_lvl2.forEach(e=>{
+            console.log("BPMN")
+            console.log(e)
+            if(e['startEvent'] != undefined){
+                let i = 0
+                e['startEvent'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    console.log(e['startEvent'])
+                    let name = e['startEvent'][0]['$']['name']
+                    let eventName = 'Startevent'+i
+                    let outgoing = e['startEvent'][0]['outgoing'].length
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    parse.set(eventName,res)
+                    i++
+                })
+                
+            }
+            if(e['endEvent'] != undefined){
+                let i = 0
+                e['endEvent'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let name = e['endEvent'][0]['$']['name']
+                    let eventName = 'Endevent'+i
+                    let incoming = e['endEvent'][0]['incoming'].length
+                    console.log(name)
+                    console.log(eventName)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['exclusiveGateway'] != undefined){
+                let i = 0
+                e['exclusiveGateway'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let name = e['exclusiveGateway'][0]['$']['name']
+                    let eventName = 'ExclusiveGateway'+i
+                    let incoming = e['exclusiveGateway'][0]['incoming'].length
+                    let outgoing = e['exclusiveGateway'][0]['outgoing'].length
+                    console.log(name)
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn:participant'] != undefined){
+                let i = 0
+                e['participant'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let name = e['participant'][0]['$']['name']
+                    let eventName = 'Participant'+i
+                    console.log(name)
+                    console.log(eventName)
+                    res.set("name",name)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['lane'] != undefined){
+                let i = 0
+                e['lane'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let name = e['lane'][0]['$']['name']
+                    let eventName = 'Lane'+i
+                    console.log(name)
+                    console.log(eventName)
+                    res.set("name",name)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['flowNodeRef'] != undefined){
+                let i = 0
+                e['flowNodeRef'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'FlowNodeRef'+i
+                    console.log(eventName)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['sequenceFlow'] != undefined){
+                let i = 0
+                e['sequenceFlow'].forEach(ele=>{
+                    console.log()
+                    let res: Map<string,any> = new Map()
+                    let name = e['sequenceFlow'][0]['$']['name']
+                    let eventName = 'SequenceFlow'+i
+                    res.set("name",name)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['subProcess'] != undefined){
+                let i = 0
+                e['subProcess'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let name = e['subProcess'][0]['$']['name']
+                    let eventName = 'subProcess'+i
+                    res.set("name",name)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['parallelGateway'] != undefined){
+                let i = 0
+                e['parallelGateway'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'ParallelGateway'+i
+                    let incoming = e['parallelGateway'][0]['incoming'].length
+                    let outgoing = e['parallelGateway'][0]['outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['exclusiveGateway'] != undefined){
+                let i = 0
+                e['exclusiveGateway'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'ExclusiveGateway'+i
+                    let name = e['exclusiveGateway'][0]['$']['name']
+                    let incoming = e['exclusiveGateway'][0]['incoming'].length
+                    let outgoing = e['exclusiveGateway'][0]['outgoing'].length
+                    console.log(name)
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['complexGateway'] != undefined){
+                let i = 0
+                e['complexGateway'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'ComplexGateway'+i
+                    let incoming = e['complexGateway'][0]['incoming'].length
+                    let outgoing = e['complexGateway'][0]['outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['inclusiveGateway'] != undefined){
+                let i = 0
+                e['inclusiveGateway'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'InclusiveGateway'+i
+                    let incoming = e['inclusiveGateway'][0]['incoming'].length
+                    let outgoing = e['inclusiveGateway'][0]['outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn:eventBasedGateway'] != undefined){
+                let i = 0
+                e['eventBasedGateway'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'EventBasedGateway'+i
+                    let incoming = e['eventBasedGateway'][0]['incoming'].length
+                    let outgoing = e['eventBasedGateway'][0]['outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['bpmn:intermediateCatchEvent'] != undefined){
+                let i = 0
+                e['intermediateCatchEvent'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'IntermediateCatchEvent'+i
+                    let name = e['intermediateCatchEvent'][0]['$']['name']
+                    let incoming = e['intermediateCatchEvent'][0]['incoming'].length
+                    let outgoing = e['intermediateCatchEvent'][0]['outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['intermediateThrowEvent'] != undefined){
+                let i = 0
+                e['intermediateThrowEvent'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'IntermediateThrowEvent'+i
+                    let name = e['intermediateThrowEvent'][0]['$']['name']
+                    let incoming = e['intermediateThrowEvent'][0]['incoming'].length
+                    let outgoing = e['intermediateThrowEvent'][0]['outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['boundaryEvent'] != undefined){
+                let i = 0
+                e['boundaryEvent'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'BoundaryEvent'+i
+                    let name = e['boundaryEvent'][0]['$']['name']
+                    let incoming = e['boundaryEvent'][0]['bincoming'].length
+                    let outgoing = e['boundaryEvent'][0]['outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['task'] != undefined){
+                let i = 0;
+                e['task'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'Task'+i
+                    let name = e['task'][0]['$']['name']
+                    let incoming = e['task'][0]['incoming'].length
+                    let outgoing = e['task'][0]['outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+                
+            }
+            if(e['manualTask'] != undefined){
+                let i = 0;
+                e['manualTask'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'ManualTask'+i
+                    let name = e['manualTask'][0]['$']['name']
+                    let incoming = e['manualTask'][0]['incoming'].length
+                    let outgoing = e['manualTask'][0]['outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['sendTask'] != undefined){
+                let i = 0;
+                e['sendTask'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'SendTask'+i
+                    let name = e['sendTask'][0]['$']['name']
+                    let incoming = e['sendTask'][0]['incoming'].length
+                    let outgoing = e['sendTask'][0]['outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['receiveTask'] != undefined){
+                let i = 0;
+                e['receiveTask'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'ReceiveTask'+i
+                    let name = e['receiveTask'][0]['$']['name']
+                    let incoming = e['receiveTask'][0]['incoming'].length
+                    let outgoing = e['receiveTask'][0]['outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['scriptTask'] != undefined){
+                let i = 0;
+                e['scriptTask'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'ScriptTask'+i
+                    let name = e['scriptTask'][0]['$']['name']
+                    let incoming = e['scriptTask'][0]['incoming'].length
+                    let outgoing = e['scriptTask'][0]['outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['userTask'] != undefined){
+                let i = 0;
+                e['userTask'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'UserTask'+i
+                    let name = e['userTask'][0]['$']['name']
+                    let incoming = e['userTask'][0]['incoming'].length
+                    let outgoing = e['userTask'][0]['outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['businessRuleTask'] != undefined){
+                let i = 0;
+                e['businessRuleTask'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'BusinessRuleTask'+i
+                    let name = e['businessRuleTask'][0]['$']['name']
+                    let incoming = e['businessRuleTask'][0]['incoming'].length
+                    let outgoing = e['businessRuleTask'][0]['outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['serviceTask'] != undefined){
+                let i = 0;
+                e['serviceTask'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'ServiceTask'+i
+                    let name = e['serviceTask'][0]['$']['name']
+                    let incoming = e['serviceTask'][0]['incoming'].length
+                    let outgoing = e['serviceTask'][0]['outgoing'].length
+                    console.log(eventName)
+                    console.log(outgoing)
+                    console.log(incoming)
+                    res.set("name",name)
+                    res.set("outgoing",outgoing)
+                    res.set("incoming",incoming)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['dataObject'] != undefined){
+                let i = 0;
+                e['dataObject'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let eventName = 'DataObject'+i
+                    res.set("name",name)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['dataObjectReference'] != undefined){
+                let i = 0;
+                e['dataObjectReference'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let name = e['dataObjectReference'][0]['$']['name']
+                    let eventName = 'DataObjectReference'+i
+                    res.set("name",name)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+            if(e['dataStoreReference'] != undefined){
+                let i = 0;
+                e['dataStoreReference'].forEach(ele=>{
+                    let res: Map<string,any> = new Map()
+                    let name = e['dataStoreReference'][0]['$']['name']
+                    let eventName = 'DataStoreReference'+i
+                    res.set("name",name)
+                    parse.set(eventName,res)
+                    i++
+                })
+            }
+
+
+        })
+        return parse
+    }
 }
 class ReturnSVGAndSCORE{
     svg:string
