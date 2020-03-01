@@ -19,9 +19,9 @@ export class Abstract_Modell{
            return this.svg_de
        }
     getXML_EN(){
-           return this.xml_de
+           return this.xml_en
        }
     getXML_DE(){
-           return this.xml_en
+           return this.xml_de
        }
 }
