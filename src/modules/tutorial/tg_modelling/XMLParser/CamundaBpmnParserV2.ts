@@ -85,7 +85,7 @@ export class CamundaBpmnParserV2{
                 e['participant'].forEach(ele=>{
                     let res: Map<string,any> = new Map()
                     let name 
-                    let eventName = 'Participant'+i
+                    let eventName = 'participant'+i
                     if(e['participant'][0]['$']['name']){
                         name = e['participant'][0]['$']['name']
                     }

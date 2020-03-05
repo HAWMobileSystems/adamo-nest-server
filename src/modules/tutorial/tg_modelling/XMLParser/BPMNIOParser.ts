@@ -74,7 +74,7 @@ export class BPMNIOParser{
                     if(e['bpmn2:participant'][0]['$']['name']){
                         name = e['bpmn2:participant'][0]['$']['name']
                     }
-                    let eventName = 'Participant'+i
+                    let eventName = 'participant'+i
                     res.set("name",name)
                     parse.set(eventName,res)
                     i++
