@@ -68,6 +68,7 @@
         "rimraf": "^2.6.2",
         "rxjs": "^6.2.2",
         "showdown": "^1.9.1",
+        "string-similarity": "^4.0.1",
         "swagger-ui-express": "^4.0.2",
         "typeorm": "^0.2.13",
         "typeorm-seeding": "^1.0.0-rc.3",
