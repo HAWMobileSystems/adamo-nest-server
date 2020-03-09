@@ -6,7 +6,7 @@ import { ApiBearerAuth, ApiUseTags } from '@nestjs/swagger';
 import { Roles } from '../../decorators/roles.decorator';
 import { RoleType } from '../../constants/role-type';
 import { AuthUser } from '../../decorators/auth-user.decorator';
-import { AuthGuard } from '../../guards/auth.guard';
+import { AuthenticatedGuard } from '../../guards/auth.guard';
 import { RolesGuard } from '../../guards/roles.guard';
 import { AuthUserInterceptor } from '../../interceptors/auth-user-interceptor.service';
 import { PermissionEntity } from './permission.entity';
@@ -14,7 +14,7 @@ import { PermissionService } from './permission.service';
 
 @Controller('permission')
 @ApiUseTags('permission')
-@UseGuards(AuthGuard, RolesGuard)
+@UseGuards(AuthenticatedGuard, RolesGuard)
 @UseInterceptors(AuthUserInterceptor)
 @ApiBearerAuth()
 export class PermissionController {

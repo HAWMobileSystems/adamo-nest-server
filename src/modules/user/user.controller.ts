@@ -6,7 +6,7 @@ import { ApiBearerAuth, ApiUseTags } from '@nestjs/swagger';
 import { Roles } from '../../decorators/roles.decorator';
 import { RoleType } from '../../constants/role-type';
 import { AuthUser } from '../../decorators/auth-user.decorator';
-import { AuthGuard } from '../../guards/auth.guard';
+import { AuthenticatedGuard } from '../../guards/auth.guard';
 import { RolesGuard } from '../../guards/roles.guard';
 import { AuthUserInterceptor } from '../../interceptors/auth-user-interceptor.service';
 import { UserEntity } from './user.entity';
