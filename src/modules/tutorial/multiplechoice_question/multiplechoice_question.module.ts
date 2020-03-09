@@ -1,6 +1,5 @@
 import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
 import { Multiplechoice_QuestionService } from './multiplechoice_question.service';
 import { Multiplechoice_QuestionController } from './multiplechoice_question.controller';
 import { Multiplechoice_QuestionRepository } from './multiplechoice_question.repository';

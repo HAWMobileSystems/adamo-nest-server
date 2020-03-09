@@ -2,17 +2,12 @@
 
 import {
     Get,
-    HttpCode,
-    HttpStatus,
     Controller,
     Post,
     Body,
-    Delete,
     Param,
-    Put,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiUseTags } from '@nestjs/swagger';
-import { Tg_ModellingEntity } from './tg_modelling.entity';
 import { Tg_ModellingService } from './tg_modelling.service';
 
 @Controller('tg_modelling')
@@ -21,42 +16,40 @@ import { Tg_ModellingService } from './tg_modelling.service';
 export class Tg_ModellingController {_
     constructor(private readonly tg_modellingService: Tg_ModellingService) {}
     /**
-     * 
-     
-    @Get()
-    listRoles() {
-        return this.tg_modellingService.find();
+     * GETs the Modelling_Qs_Entity with the ID:
+     * @param qs_id and the Langauge:
+     * @param lang 
+     */
+    @Get('question/:id/:lang')
+    getSpecificModellingQuestion(@Param('id') id,@Param('lang') lang){
+        return this.tg_modellingService.getSpecificQs(id,lang)
     }
-
-     /**
-     * We use this also for password?
-     * 
-     * @param id 
-     * @param userData 
-     
-    @Put(':id/update')
-    async update(@Param('id') id, @Body() testData: Tg_ModellingEntity): Promise<any> {
-        // userData.id = Number(id);
-        // Set the roleData.id because it is missing in Data from Client?!
-        testData.id = id;
-        console.log('Update #' + testData.id)
-
-        return this.tg_modellingService.update(testData);
-    }  
-
     /**
-     * 
-     * @param entity 
-     
-    @Post()
-    create(@Body() entity: Tg_ModellingEntity) {
-        this.tg_modellingService.create(entity);
+     * PUTs the solved Question in the Database for the User:
+     * @param user_id and the Question:
+     * @param qs_id 
+     */
+    @Post('solve/:lang')
+    solveSpecificModellingQuestion(@Param('lang') lang, @Body() data:any){
+        let answer:ReturnFromModQs = new ReturnFromModQs(data.xml,data.userid,data.qs_id,data.duration)
+        return this.tg_modellingService.solveQuestion(answer.user_id,answer.qs_id,answer.xml,lang,answer.duration)
     }
 
-    @Delete(':id/delete')
-    async delete(@Param('id') id): Promise<any> {
-      return this.tg_modellingService.delete(id);
-      // Maybe deleting all role entries in Permissions with this role and set them back to Default ist an valid option? TODO
-    }  
-**/
+    @Get('modellingQsWithRuleTest')
+    getModQS(){
+        return this.tg_modellingService.getModQS()
+    }
+
+}
+class ReturnFromModQs{
+    xml: string
+    user_id: string
+    qs_id: string
+    duration: number
+    constructor(xml_in,uid_in,qsid_in,dur){
+        this.xml = xml_in;
+        this.user_id = uid_in;
+        this.duration = dur;
+        this.qs_id = qsid_in;
+    }
 }

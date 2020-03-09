@@ -2,7 +2,7 @@ import { Entity, Column,PrimaryGeneratedColumn } from "typeorm";
 import { AbstractEntity } from '../../../common/abstract.entity';
 import { CategoryDto } from './dto/CategoryDto'
 import { ApiModelProperty } from "@nestjs/swagger";
-
+import { Exclude } from "class-transformer";
 
 @Entity({name:'category'})
 export class CategoryEntity extends AbstractEntity<CategoryDto>{
@@ -12,7 +12,12 @@ export class CategoryEntity extends AbstractEntity<CategoryDto>{
 
     @ApiModelProperty()
     @Column()
-    public category_name: string    
+    public category_name: string  
     
+    @ApiModelProperty()
+    @Column()
+    public category_identifier: number
+    
+    @Exclude()
     dtoClass = CategoryDto;  
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { FindConditions, QueryRunner, SelectQueryBuilder, Repository, UpdateResult } from 'typeorm';
+import { QueryRunner, SelectQueryBuilder, UpdateResult } from 'typeorm';
 import { Tg_Multiplechoice_AnsweredRepository } from "./tg_multiplechoice_answered.repository";
 import { Tg_Multiplechoice_AnsweredEntity } from "./tg_multiplechoice_answered.entity";
 

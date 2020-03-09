@@ -1,7 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { FindConditions, QueryRunner, SelectQueryBuilder, Repository, UpdateResult } from 'typeorm';
+import { FindConditions, QueryRunner, SelectQueryBuilder, Repository, UpdateResult, getRepository } from 'typeorm';
 import { CategoryEntity } from './category.entity';
 import { CategoryRepository } from './category.repository';
+import e = require('express');
+import { TestEntity } from '../test/test.entity';
+import { Tg_ModellingEntity } from '../tg_modelling/tg_modelling.entity';
+import { Modelling_QuestionEntity } from '../modelling_question/modelling_question.entity';
+import { Tg_MultiplechoiceEntity } from '../tg_multiplechoice/tg_multiplechoice.entity';
+import { Tg_Multiplechoice_AnsweredEntity } from '../tg_multiplechoice_answered/tg_multiplechoice_answered.entity';
+import { Multiplechoice_Question_AnswerEntity } from '../multiplechoice_question_answer/multiplechoice_question_answer.entity';
 
 @Injectable()
 export class CategoryService {

@@ -1,7 +1,7 @@
 import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from '../../auth/auth.module';
-import {CategoryModule} from '../category/category.module';
+import { CategoryModule } from '../category/category.module';
 import { Tg_ModellingService } from './tg_modelling.service';
 import { Tg_ModellingRepository } from './tg_modelling.repository';
 import { Tg_ModellingController } from './tg_modelling.controller';

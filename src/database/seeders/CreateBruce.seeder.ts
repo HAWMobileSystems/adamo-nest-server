@@ -37,7 +37,7 @@ export class CreateBruce implements Seeder {
             .values([
                 {
                     email: 'demo@demo.de',
-                    password: '12345678',
+                    password: '123456789',
                },
             ])
             .execute();

@@ -77,3 +77,7 @@ mongo
 db-data
 
 documentation/
+
+src/database/seeders/seedFiles/01_StartActivityEndSequence\.svg
+
+loader\.d\.ts
