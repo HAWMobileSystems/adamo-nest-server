@@ -116,6 +116,7 @@ export default class SeedIntroBeginner implements Seeder {
                 // --- 1. Start Event DE ---
                 intro_text_de: `
                 <div>
+
                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <style>
                 table, th, td {
@@ -190,10 +191,12 @@ export default class SeedIntroBeginner implements Seeder {
                     </tr>
                 </tbody>
                 </table>
+
                 </div>`,
                 intro_categories: catBeginer,
                 intro_identifier:'1',
            },
+
            
             //--- 2.End Event --- EN ---
             {
@@ -1354,7 +1357,7 @@ export default class SeedIntroBeginner implements Seeder {
         intro_identifier:'12',
         },
 
-            
+    
         ])
         .execute();
 
