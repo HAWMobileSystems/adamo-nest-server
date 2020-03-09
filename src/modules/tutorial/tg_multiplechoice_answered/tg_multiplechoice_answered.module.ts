@@ -1,9 +1,7 @@
 import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
 import { AuthModule } from '../../auth/auth.module';
-import {CategoryModule} from '../category/category.module';
-
+import { CategoryModule } from '../category/category.module';
 import { Tg_Multiplechoice_AnsweredController } from './tg_multiplechoice_answered.controller';
 import { Tg_Multiplechoice_AnsweredRepository } from './tg_multiplechoice_answered.repository';
 import { Tg_Multiplechoice_AnsweredService } from './tg_multiplechoice_answered.service';

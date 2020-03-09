@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { FindConditions, QueryRunner, SelectQueryBuilder, Repository, UpdateResult } from 'typeorm';
+import { QueryRunner, SelectQueryBuilder, UpdateResult } from 'typeorm';
 import { Multiplechoice_Question_AnswerRepository } from './multiplechoice_question_answer.repository';
 import { Multiplechoice_Question_AnswerEntity } from './multiplechoice_question_answer.entity';
 
@@ -11,7 +11,6 @@ export class Multiplechoice_Question_AnswerService {
         private readonly repository: Multiplechoice_Question_AnswerRepository
     ) {
     }
-
 
     async find(): Promise<Multiplechoice_Question_AnswerEntity[]> {
         return await this.repository.find();

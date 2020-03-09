@@ -26,7 +26,6 @@ module.exports = {
     synchronise:true,
     entities: [
         'src/modules/**/*.entity{.ts,.js}',
-       
     ],
     migrations: [
         'src/migrations/*{.ts,.js}',

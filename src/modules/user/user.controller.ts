@@ -23,7 +23,7 @@ export class UserController {
     @Get()
     @HttpCode(HttpStatus.OK)
     async list() {
-        this.userService.list();
+        return await this.userService.list();
     }
 
     // @Get()

@@ -5,8 +5,8 @@ import { RoleService } from './role.service';
 import { RoleController } from './role.controller';
 import { AuthModule } from '../auth/auth.module';
 import { RoleRepository } from './role.repository';
-import { PermissionModule } from 'modules/permission/permission.module';
-import { ModelModule } from 'modules/model/model.module';
+import { PermissionModule } from '../permission/permission.module';
+import { ModelModule } from '../model/model.module';
 
 @Module({
     imports: [

@@ -26,9 +26,9 @@ export class PermissionController {
         return this.permissionService.list();
     }
 
-    @Get('/:user/:model')
-    getPermissionByUserAndMode(user, model) {
-        // this.permissionService.get
+    @Get('/:userID/:modelID')
+    async getPermissionByUserAndModel(@Param("userID") userID: string, @Param("modelID") modelID: string) {
+        return await this.permissionService.getPermissionByUserAndModel(userID, modelID);
 
     }
 

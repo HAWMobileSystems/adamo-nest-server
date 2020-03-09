@@ -2,25 +2,35 @@ version: "3"
 services:
   app:
     env_file:
-      - .development.env
-    container_name: awesome_nest_boilerplate
+      - docker.env
+    container_name: adamo-nest-server
     restart: always
     build: .
     ports:
-      - "$PORT:$PORT"
+      - $PORT:$PORT
+    depends_on:
+      - postgres
     links:
       - postgres
   postgres:
-    image: postgres
+    image: postgres:alpine
     restart: always
     environment:
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: $POSTGRES_DATABASE
+      POSTGRES_USER: $POSTGRES_USERNAME
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
     ports:
-      - "5433:5432"
+      - 5433:5432
     volumes:
       - ./db-data:/var/lib/postgresql/data
+      # - ./db/initdb.d:/docker-entrypoint-initdb.ds
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   adminer:
     image: adminer
     restart: always
     ports:
-      - 8080:8080
+      - 8089:8080

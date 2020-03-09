@@ -13,50 +13,34 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiUseTags } from '@nestjs/swagger';
 import { Tg_MultiplechoiceService } from './tg_multiplechoice.service';
-import { Tg_MultiplechoiceEntity } from './tg_multiplechoice.entity';
 
 @Controller('tg_multiplechoice')
 @ApiUseTags('tg_multiplechoice')
 @ApiBearerAuth()
 export class Tg_MultiplechoiceController {_
     constructor(private readonly tg_multiplechoiceService: Tg_MultiplechoiceService) {}
-    /**
-     * 
-     
-    @Get()
-    listRoles() {
-        return this.tg_multiplechoiceService.find();
+    
+    @Get('getMultiplechoice/:user_id/:cat/:lang')
+    getMultiplechoiceQs(@Param('user_id')id,@Param('cat') cat,@Param('lang') lang){
+        return this.tg_multiplechoiceService.getMultiplechoiceQs(id,cat,lang)
     }
-
-     /**
-     * We use this also for password?
-     * 
-     * @param id 
-     * @param userData 
-     
-    @Put(':id/update')
-    async update(@Param('id') id, @Body() testData: Tg_MultiplechoiceEntity): Promise<any> {
-        // userData.id = Number(id);
-        // Set the roleData.id because it is missing in Data from Client?!
-        testData.id = id;
-        console.log('Update #' + testData.id)
-
-        return this.tg_multiplechoiceService.update(testData);
-    }  
-
-    /**
-     * 
-     * @param entity 
-     
-    @Post()
-    create(@Body() entity: Tg_MultiplechoiceEntity) {
-        this.tg_multiplechoiceService.create(entity);
+    
+    @Post('solve/')
+    solveMultipleChoice(@Body() data:any){
+        console.log(data)
+        // console.log(data.user_choice)
+        let user_id 
+        let qs_id
+        let answers: Map<string,string> = new Map<string,string>()
+        data.user_choice.forEach(element => {
+            if(element.key == 'userid'){
+                user_id = element.value
+            }else if(element.key == 'questionid'){
+                qs_id = element.value
+            }else {
+                answers.set(element.key,element.value)
+            }
+        });
+        return this.tg_multiplechoiceService.solveMultiplechoice(user_id,qs_id,answers)
     }
-
-    @Delete(':id/delete')
-    async delete(@Param('id') id): Promise<any> {
-      return this.tg_multiplechoiceService.delete(id);
-      // Maybe deleting all role entries in Permissions with this role and set them back to Default ist an valid option? TODO
-    }  
-*/
 }

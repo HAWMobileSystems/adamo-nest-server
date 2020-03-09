@@ -1,9 +1,12 @@
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, OneToMany } from 'typeorm';
 
 import { AbstractEntity } from '../../common/abstract.entity';
 import { UserDto } from './dto/UserDto';
 import { RoleType } from '../../constants/role-type';
 import { PasswordTransformer } from './password.transformer';
+import { PermissionEntity } from '../permission/permission.entity';
+// import { PermissionEntity } from '../permission/permission.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity({ name: 'users' })
 export class UserEntity extends AbstractEntity<UserDto> {
@@ -25,6 +28,8 @@ export class UserEntity extends AbstractEntity<UserDto> {
     @Column({ nullable: true, transformer: new PasswordTransformer() })
     password: string;
 
+    @OneToMany(type => PermissionEntity, permission => permission.id)
+    photos: PermissionEntity[];
     // @Column({ nullable: true })
     // avatar: string;
 
@@ -58,5 +63,6 @@ export class UserEntity extends AbstractEntity<UserDto> {
     // @Column({ nullable: true })
     // zipCode: string;
 
+    @Exclude()
     dtoClass = UserDto;
 }

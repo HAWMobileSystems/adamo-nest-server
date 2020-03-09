@@ -63,6 +63,17 @@ export class ModelController {
         return await this.modelService.list();
     }
 
+    @Get('all/:id')
+    @ApiResponse({
+        status: 200,
+        description: 'The record has been successfully created.',
+    })
+    @ApiResponse({ status: 403, description: 'Forbidden.' })
+    @ApiResponse({ status: 401, description: 'Unauthorized. Mostly because user is not logged in' })
+    async listModelsByUser(@Param('id') id: string) {
+        return await this.modelService.findModelbyUserPermission(id);
+    }
+
     // @Get()
     // async getModel(@))
 
@@ -72,7 +83,7 @@ export class ModelController {
     }
 
     @Post('create')
-    @ApiOperation({ title: 'Create cat' })
+    @ApiOperation({ title: 'Create a new default Model' })
     @ApiResponse({
         status: 201,
         description: 'The record has been successfully created.',
