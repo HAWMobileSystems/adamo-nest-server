@@ -42,7 +42,7 @@
         "@nestjs/swagger": "^3.0.1",
         "@nestjs/typeorm": "^6.0.0",
         "aws-sdk": "^2.405.0",
-        "axios": "^0.18.0",
+        "axios": "^0.18.1",
         "bcrypt": "^3.0.4",
         "class-transformer": "^0.2.0",
         "class-validator": "^0.9.1",
