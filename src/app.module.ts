@@ -23,18 +23,25 @@ import { Tg_ModellingModule } from 'modules/tutorial/tg_modelling/tg_modelling.m
 import { Tg_MultiplechoiceModule } from 'modules/tutorial/tg_multiplechoice/tg_multiplechoice.module';
 //mport { Tg_Multiplechoice_AnsweredModule } from 'modules/tutorial/tg_multiplechoice_answered/tg_multiplechoice_answered.module';
 import { TestModule } from 'modules/tutorial/test/test.module';
+import { RoleModule } from 'modules/role/role.module';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
     imports: [
         AuthModule,
-        UserModule,
-        MathModule,
-        PermissionModule, 
-        ModelModule, 
-        RoleModule, 
+        CategoryModule,
         IntroModule,
+        MathModule,
+        ModelModule, 
+        Modelling_QuestionModule,
         Multiplechoice_Question_AnswerModule,
         Multiplechoice_QuestionModule,
+        PassportModule.register({
+            defaultStrategy: 'local',
+            session: true,
+        }),
+        PermissionModule, 
+        RoleModule, 
         Modelling_QuestionModule,
         CategoryModule,
         Tg_ModellingModule,
@@ -47,7 +54,14 @@ import { TestModule } from 'modules/tutorial/test/test.module';
             useFactory: (configService: ConfigService) => configService.typeOrmConfig,
             inject: [ConfigService],
         }),
+        UserModule,
     ],
+    providers: [ 
+        // AuthService
+        // LocalStrategy, // simply by importing them will register them to passport (under the hood it calls `passport.use(...)`)
+        // LocalSerializer, 
+        // LocalAuthGuard,
+    ]
 })
 export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer): MiddlewareConsumer | void {

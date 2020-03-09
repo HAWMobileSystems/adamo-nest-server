@@ -83,7 +83,7 @@ export class ModelController {
     }
 
     @Post('create')
-    @ApiOperation({ title: 'Create cat' })
+    @ApiOperation({ title: 'Create a new default Model' })
     @ApiResponse({
         status: 201,
         description: 'The record has been successfully created.',

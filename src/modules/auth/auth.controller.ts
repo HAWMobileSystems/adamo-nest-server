@@ -28,10 +28,11 @@ import { UserDto } from '../user/dto/UserDto';
 import { LoginPayloadDto } from './dto/LoginPayloadDto';
 import { AuthUser } from '../../decorators/auth-user.decorator';
 import { UserEntity } from '../user/user.entity';
-import { AuthGuard } from '../../guards/auth.guard';
+import { AuthenticatedGuard } from '../../guards/auth.guard';
 import { AuthUserInterceptor } from '../../interceptors/auth-user-interceptor.service';
 import { IFile } from '../../interfaces/IFile';
 import { request } from 'http';
+import { LoginGuard } from 'guards/login.guard';
 
 
 /**
@@ -71,6 +72,7 @@ export class AuthController {
  *                      'User not found in the database'
  * */
     @Post('login')
+    @UseGuards(LoginGuard)
     @HttpCode(HttpStatus.OK)
     @ApiOkResponse({
         type: LoginPayloadDto,
@@ -78,13 +80,13 @@ export class AuthController {
     })
     async userLogin(
         @Body() userLoginDto: UserLoginDto,
-    ): Promise<LoginPayloadDto> {
-        const userEntity = await this.authService.validateUser(userLoginDto);
-        const [user, token] = await Promise.all([
-            userEntity.toDto(),
-            this.authService.createToken(userEntity),
-        ]);
-        return new LoginPayloadDto(user, token);
+    ) {
+        // const userEntity = await this.authService.validateUser(userLoginDto);
+        // const [user, token] = await Promise.all([
+        //     userEntity.toDto(),
+        //     this.authService.createToken(userEntity),
+        // ]);
+        // return new LoginPayloadDto(user, token);
     }
 
     @Post('register')

@@ -59,7 +59,7 @@ export class ModelService {
     ) {}
 
     async create(model: ModelEntity): Promise<ModelEntity> {
-        Logger.log(`ModelService create ${model.toString()}`);
+        Logger.log(`ModelService create ${ JSON.stringify(model)}`);
         return await this.repository.save(model);
     }
 

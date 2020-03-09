@@ -2,6 +2,9 @@ import * as morgan from 'morgan';
 import * as helmet from 'helmet';
 import * as compression from 'compression';
 import * as RateLimit from 'express-rate-limit';
+import * as session from 'express-session';
+import * as cookieParser from 'cookie-parser';
+import * as passport from 'passport';
 import { Transport } from '@nestjs/microservices';
 import { NestFactory, Reflector } from '@nestjs/core';
 import {
@@ -40,6 +43,18 @@ async function bootstrap() {
     );
     app.enable('trust proxy'); // only if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
     app.use(helmet());
+
+    
+//   add 'express-session' (npm install express-session)
+    app.use(session({
+    secret: 'aNuLtImAtEsEcReTfOrAdAmOaTIpIm',
+    }));
+
+    // app.use(cookieParser());
+
+    // init 'passport' (npm install passport)
+    app.use(passport.initialize());
+    app.use(passport.session());
 
     app.use(
         new RateLimit({
