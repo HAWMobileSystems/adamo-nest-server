@@ -46,7 +46,7 @@
         "aws-sdk": "^2.405.0",
         "axios": "^0.18.1",
         "bcrypt": "^3.0.4",
-        "class-transformer": "^0.2.3",
+        "class-transformer": "^0.3.1",
         "class-validator": "^0.9.1",
         "compression": "^1.7.3",
         "cookie-parser": "^1.4.4",
