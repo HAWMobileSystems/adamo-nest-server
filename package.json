@@ -55,7 +55,7 @@
         "express-rate-limit": "~3.3.0",
         "express-session": "^1.17.0",
         "fast-xml-parser": "^3.16.0",
-        "file-type": "^10.8.0",
+        "file-type": "^16.5.4",
         "helmet": "^3.16.0",
         "jsonwebtoken": "^8.4.0",
         "lodash": "^4.17.11",
