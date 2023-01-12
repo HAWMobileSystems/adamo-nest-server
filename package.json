@@ -47,7 +47,7 @@
         "axios": "^0.18.1",
         "bcrypt": "^3.0.4",
         "class-transformer": "^0.2.3",
-        "class-validator": "^0.9.1",
+        "class-validator": "^0.14.0",
         "compression": "^1.7.3",
         "cookie-parser": "^1.4.4",
         "dotenv": "^6.2.0",
